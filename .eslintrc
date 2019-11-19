@@ -1,0 +1,113 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "ecmaVersion": 2018,
+      "jsx": true,
+      "modules": true
+    },
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react",
+    "jest"
+  ],
+  "rules": {
+    "indent": [
+      "error",
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "react/no-unused-prop-types": [
+      "error"
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "never"
+    ],
+    "max-lines": [
+      "error",
+      120
+    ],
+    "max-depth": [
+      "error",
+      3
+    ],
+    "max-params": [
+      "error",
+      3
+    ],
+    "no-unused-vars": [
+      "error",
+      {
+        "varsIgnorePattern": "PropTypes",
+        "args": "none"
+      }
+    ],
+    "max-len": [
+      "error",
+      {
+        "code": 120,
+        "tabWidth": 2,
+        "comments": 120
+      }
+    ],
+    "jest/no-large-snapshots": [
+      "warn"
+    ],
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "ignore"
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "*.test.js",
+        "*.spec.js"
+      ],
+      "rules": {
+        "max-lines": [
+          "error",
+          300
+        ]
+      }
+    },
+    {
+      "files": [
+        "*.form.js"
+      ],
+      "rules": {
+        "max-lines": [
+          "error",
+          500
+        ]
+      }
+    }
+  ]
+}
