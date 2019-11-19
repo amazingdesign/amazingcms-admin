@@ -38,14 +38,25 @@ const App = () => {
 
   const isUserLoggedIn = useSelector((state) => state.auth.isUserLoggedIn)
   const userAvatarSrc = useSelector((state) => state.auth && state.auth.userData && state.auth.userData.avatar)
-  const routeFromDb = useSelector((state) => state.routeFromDb.get.data)
+
+  const collectionsRoutes = useSelector((state) => (
+    state.collections.find.data &&
+    state.collections.find.data.rows &&
+    state.collections.find.data.rows.map(collectionData => ({
+      name: collectionData.displayName || collectionData.name,
+      path: '/collections/:collectionName',
+      pathWithParams: `/collections/${collectionData.name}`,
+      component: React.lazy(() => import('./pages/collection')),
+      icon: 'data',
+    }))
+  ))
 
   useEffect(() => {
     dispatch(checkIfLoggedInAsyncAction())
     // eslint-disable-next-line
   }, [])
   useEffect(() => {
-    if(isUserLoggedIn) dispatch(restServices.actions.routeFromDb.get())
+    dispatch(restServices.actions.collections.find())
     // eslint-disable-next-line
   }, [isUserLoggedIn])
 
@@ -54,36 +65,9 @@ const App = () => {
     { code: 'en', name: t('English') },
   ]
 
-  const routes = [
-    {
-      name: t('Home'),
-      path: ['/', '/dashboard'],
-      component: React.lazy(() => import('./pages/dashboard')),
-      icon: 'dashboard',
-    },
-    {
-      name: t('Profile'),
-      path: '/profile',
-      component: React.lazy(() => import('./pages/profile')),
-      icon: 'people',
-      separator: { below: true },
-    },
-    {
-      name: t('Google'),
-      link: 'https://google.com',
-      icon: 'search',
-      separator: { below: true },
-    },
-  ].concat(routeFromDb || [])
+  const routes = collectionsRoutes || []
 
   const profileMenuRoutes = [
-    {
-      name: t('Profile'),
-      path: '/profile',
-      component: React.lazy(() => import('./pages/profile')),
-      icon: 'people',
-      separator: { below: true },
-    },
     {
       name: t('Logout'),
       icon: 'logout',

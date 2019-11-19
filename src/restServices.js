@@ -5,8 +5,8 @@ import axios from './axios'
 export const restServices = makeRestServices(
   [
     {
-      name: 'routeFromDb',
-      url: 'https://react-redux-mui-sarter.firebaseio.com/routes/routeFromDb.json',
+      name: 'collections',
+      url: `${window._env_.REACT_APP_COLLECTIONS_URL}/:id`,
       actionsDeclarations: crudActionsDeclarations,
     },
   ],
