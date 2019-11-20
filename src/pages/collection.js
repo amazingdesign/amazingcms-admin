@@ -1,36 +1,30 @@
-import React, { useEffect } from 'react'
-
-import { useSelector } from 'react-redux'
+import React from 'react'
 
 import { useParams } from 'react-router'
-import { useTranslation } from 'react-i18next'
 
-import { useService } from '../bits/redux-rest-services/useService'
+import CollectionTable from '../pieces/CollectionTable'
 
 const styles = {
   root: {
     position: 'relative',
     minHeight: 400,
   },
+  content: {
+    padding: '2rem',
+  },
 }
 
 const CollectionPage = (props) => {
-  const { t } = useTranslation()
-  const { collectionName } = useParams()
-  const { Loader, ErrorMessage, find } = useService('actions')
-  const data = useSelector(state => state.actions.find.data)
 
-  useEffect(() => {
-    find({ collectionName: collectionName })
-  }, [find])
+  const { collectionName } = useParams()
 
   return (
     <div style={styles.root}>
-      <ErrorMessage message={t('Error occurred!')}>
-        <Loader>
-          ala
-        </Loader>
-      </ErrorMessage>
+      <div style={styles.content}>
+        <CollectionTable
+          collectionName={collectionName}
+        />
+      </div>
     </div>
   )
 }

@@ -8,6 +8,7 @@ export const restServices = makeRestServices(
       name: 'collections',
       url: `${window._env_.REACT_APP_API_URL}/collections/:id`,
       actionsDeclarations: crudActionsDeclarations,
+      transformer: data => data && data.rows,
     },
     {
       name: 'actions',

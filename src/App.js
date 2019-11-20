@@ -39,11 +39,7 @@ const App = () => {
   const isUserLoggedIn = useSelector((state) => state.auth.isUserLoggedIn)
   const userAvatarSrc = useSelector((state) => state.auth && state.auth.userData && state.auth.userData.avatar)
 
-  const collectionsRows = useSelector((state) => (
-    state.collections.find.data &&
-    state.collections.find.data.rows &&
-    state.collections.find.data.rows
-  ))
+  const collectionsRows = useSelector((state) => state.collections.find.data)
 
   const collectionsRoutes = useMemo(() => (
     collectionsRows &&
