@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { useSelector } from 'react-redux'
 
-import DefaultErrorMessage from './ErrorMessage'
+import DefaultErrorMessage from '../ErrorMessage'
 
 const RestServicesErrorMessage = ({ component, serviceName, children, ...otherProps }) => {
   const ErrorMessage = component || DefaultErrorMessage

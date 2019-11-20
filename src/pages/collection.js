@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 import { useTranslation } from 'react-i18next'
 
-import { useService } from '../bits/useService'
+import { useService } from '../bits/redux-rest-services/useService'
 
 const styles = {
   root: {
