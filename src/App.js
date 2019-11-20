@@ -46,9 +46,9 @@ const App = () => {
     collectionsRows.map &&
     collectionsRows.map(collectionData => ({
       name: collectionData.displayName || collectionData.name,
-      path: '/collections/:collectionName',
+      path: ['/collections/:collectionName'],
       pathWithParams: `/collections/${collectionData.name}`,
-      component: React.lazy(() => import('./pages/collection')),
+      component: React.lazy(() => import('./pages/collections/:collectionName')),
       icon: 'data',
     }))
   ), [collectionsRows])
@@ -68,6 +68,11 @@ const App = () => {
   ]
 
   const routes = collectionsRoutes || []
+  const routerRoutes = routes.concat({
+    name: 'Collection edit',
+    path: ['/collections/:collectionName/:id'],
+    component: React.lazy(() => import('./pages/collections/:collectionName/:id')),
+  })
 
   const profileMenuRoutes = [
     {
@@ -89,7 +94,7 @@ const App = () => {
         history={history}
         profileMenuRoutes={profileMenuRoutes}
         mainMenuRoutes={routes}
-        routerRoutes={routes}
+        routerRoutes={routerRoutes}
 
         userAvatarSrc={userAvatarSrc}
         appTitle={'react-redux-mui-starter'}

@@ -24,6 +24,9 @@ const CollectionTableStateless = ({ collectionData, data, options, ...otherProps
           search: false,
           ...options,
         }}
+        localization={{
+          header: { actions: '' },
+        }}
         {...otherProps}
       />
     </div>

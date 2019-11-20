@@ -1,33 +1,27 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-import { useSelector } from 'react-redux'
 
 import { useTranslation } from 'react-i18next'
 
 import { useQsParams } from '../../bits/useQsParams'
-import { useService } from '../../bits/redux-rest-services/useService'
+import { useCollectionData } from '../../bits/useCollectionData'
+import { useCollectionItems } from '../../bits/useCollectionItems'
+
 
 import CollectionTableStateless from './CollectionTableStateless'
 
-const CollectionTable = ({ collectionName, startPage, startPageSize }) => {
+const CollectionTable = ({ collectionName, startPage, startPageSize, ...otherProps }) => {
   const { t } = useTranslation()
 
   const [params, setParams] = useQsParams({ page: startPage, pageSize: startPageSize })
   const onChangePage = (page) => setParams({ ...params, page: page + 1 })
   const onChangeRowsPerPage = (pageSize) => setParams({ ...params, pageSize })
 
-  // COLLECTION DATA
-  const collectionsData = useSelector(state => state.collections.find.data)
-  const collectionData = useMemo(() => (
-    collectionsData &&
-    collectionsData.find(collectionData => collectionData.name === collectionName)
-  ), [collectionsData])
+  const collectionData = useCollectionData(collectionName)
 
-  // COLLECTION ITEMS
-  const { ErrorMessage, find } = useService('actions')
-  const isLoading = useSelector(state => state.actions.find.isLoading)
-  const data = useSelector(state => state.actions.find.data && state.actions.find.data)
+  const { ErrorMessage, find, data, isLoading }  = useCollectionItems(collectionName)
+
   const rows = data && data.rows
   const totalCount = data && data.total
   const dataPromise = (query) => (
@@ -54,6 +48,7 @@ const CollectionTable = ({ collectionName, startPage, startPageSize }) => {
         onChangePage={onChangePage}
         onChangeRowsPerPage={onChangeRowsPerPage}
         options={{ pageSize: Number(params.pageSize) }}
+        {...otherProps}
       />
     </ErrorMessage>
   )
