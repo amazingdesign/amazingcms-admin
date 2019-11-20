@@ -6,7 +6,12 @@ export const restServices = makeRestServices(
   [
     {
       name: 'collections',
-      url: `${window._env_.REACT_APP_COLLECTIONS_URL}/:id`,
+      url: `${window._env_.REACT_APP_API_URL}/collections/:id`,
+      actionsDeclarations: crudActionsDeclarations,
+    },
+    {
+      name: 'actions',
+      url: `${window._env_.REACT_APP_API_URL}/actions/:collectionName/:id`,
       actionsDeclarations: crudActionsDeclarations,
     },
   ],
