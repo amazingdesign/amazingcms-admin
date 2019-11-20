@@ -6,6 +6,8 @@ import { useTranslation } from 'react-i18next'
 import { useCollectionData } from '../../../../bits/useCollectionData'
 import { useCollectionItems } from '../../../../bits/useCollectionItems'
 
+import Uniform from '../../../../bits/uniforms/Uniform'
+
 const styles = {
   root: {
     position: 'relative',
@@ -21,16 +23,20 @@ const EditCollectionPage = (props) => {
 
   const { collectionName, id } = useParams()
   const collectionData = useCollectionData(collectionName)
-  const {ErrorMessage, Loader, data} = useCollectionItems(collectionName, id)
+  const { ErrorMessage, Loader, data } = useCollectionItems(collectionName, id)
+
+  const schema = collectionData && collectionData.validator
 
   return (
     <div style={styles.root}>
       <ErrorMessage message={t('Error occurred!')}>
         <Loader>
           <div style={styles.content}>
-            {JSON.stringify(collectionData)}
-            ----
-            {JSON.stringify(data)}
+            <Uniform
+              schema={schema}
+              model={data}
+              onSubmit={console.log}
+            />
           </div>
         </Loader>
       </ErrorMessage>
