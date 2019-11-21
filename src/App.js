@@ -3,7 +3,6 @@ import React, { useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { history } from './store'
 import {
-  logOutAsyncAction,
   logInAsyncAction,
   checkIfLoggedInAsyncAction,
   sendForgotPasswordEmailAsyncAction,
@@ -18,16 +17,9 @@ import Kit from '@bit/amazingdesign.react-redux-mui-starter.kit'
 import CopyrightFooter from './pieces/CopyrightFooter'
 import LoginImage from './pieces/LoginImage'
 
-const theme = {
-  palette: {
-    primary: {
-      main: '#323330',
-    },
-    secondary: {
-      main: '#F0DB4F',
-    },
-  },
-}
+import { makeRoutes } from './routes'
+import { theme } from './theme'
+
 
 const App = () => {
   const dispatch = useDispatch()
@@ -42,28 +34,18 @@ const App = () => {
   const collectionsData = useSelector((state) => state.collections.find.data)
   const systemCollectionsData = useSelector((state) => state['system-collections'].find.data)
 
-  const collectionsRoutes = useMemo(() => (
-    collectionsData &&
-    collectionsData.map &&
-    collectionsData.map(collectionData => ({
-      name: collectionData.displayName || collectionData.name,
-      path: ['/collections/:collectionName'],
-      pathWithParams: `/collections/${collectionData.name}`,
-      component: React.lazy(() => import('./pages/collections/:collectionName')),
-      icon: collectionData.icon || 'data_usage',
-    }))
-  ), [collectionsData])
-  const systemCollectionsRoutes = useMemo(() => (
-    systemCollectionsData &&
-    systemCollectionsData.map &&
-    systemCollectionsData.map(collectionData => ({
-      name: collectionData.displayName || collectionData.name,
-      path: ['/system-collections/:collectionName'],
-      pathWithParams: `/system-collections/${collectionData.name}`,
-      component: React.lazy(() => import('./pages/system-collections/:collectionName')),
-      icon: collectionData.icon || 'settings_input_svideo',
-    }))
-  ), [systemCollectionsData])
+  const {
+    mainMenuRoutes,
+    routerRoutes,
+    profileMenuRoutes,
+  } = useMemo(() => {
+    return makeRoutes(collectionsData, systemCollectionsData, dispatch, t)
+  }, [collectionsData, systemCollectionsData])
+
+  const languages = [
+    { code: 'pl', name: t('Polish') },
+    { code: 'en', name: t('English') },
+  ]
 
   useEffect(() => {
     dispatch(checkIfLoggedInAsyncAction())
@@ -77,48 +59,6 @@ const App = () => {
     // eslint-disable-next-line
   }, [isUserLoggedIn])
 
-  const languages = [
-    { code: 'pl', name: t('Polish') },
-    { code: 'en', name: t('English') },
-  ]
-
-  const routes = (
-    systemCollectionsRoutes &&
-    collectionsRoutes &&
-    systemCollectionsRoutes.concat(collectionsRoutes)
-  ) || []
-
-  const routerRoutes = routes.concat([
-    {
-      name: 'Collection add',
-      path: ['/collections/:collectionName/new'],
-      component: React.lazy(() => import('./pages/collections/:collectionName/new')),
-    },
-    {
-      name: 'Collection edit',
-      path: ['/collections/:collectionName/:id'],
-      component: React.lazy(() => import('./pages/collections/:collectionName/:id')),
-    },
-    {
-      name: 'System collection add',
-      path: ['/system-collections/:collectionName/new'],
-      component: React.lazy(() => import('./pages/system-collections/:collectionName/new')),
-    },
-    {
-      name: 'System collection edit',
-      path: ['/system-collections/:collectionName/:id'],
-      component: React.lazy(() => import('./pages/system-collections/:collectionName/:id')),
-    },
-  ])
-
-  const profileMenuRoutes = [
-    {
-      name: t('Logout'),
-      icon: 'logout',
-      onClick: () => dispatch(logOutAsyncAction()),
-    },
-  ]
-
   return (
     <>
       <Kit
@@ -130,7 +70,7 @@ const App = () => {
 
         history={history}
         profileMenuRoutes={profileMenuRoutes}
-        mainMenuRoutes={routes}
+        mainMenuRoutes={mainMenuRoutes}
         routerRoutes={routerRoutes}
 
         userAvatarSrc={userAvatarSrc}
