@@ -8,15 +8,14 @@ const useStyles = makeStyles((theme) => ({
   root: {
     position: 'relative',
     minHeight: 400,
-  },
-  content: {
     padding: '2rem',
   },
+  content: {},
   paper: {
     padding: '2rem',
   },
   [theme.breakpoints.down('sm')]: {
-    content: {
+    root: {
       padding: '2rem 0.5rem',
     },
     paper: {
@@ -30,6 +29,7 @@ const Page = (props) => {
 
   return (
     <div className={classes.root}>
+      {props.childrenAbove}
       <div className={classes.content}>
         {
           props.usePaper ?
@@ -43,6 +43,7 @@ const Page = (props) => {
             props.children
         }
       </div>
+      {props.childrenBelow}
     </div>
   )
 }
@@ -51,6 +52,8 @@ Page.propTypes = {
   paperProps: PropTypes.object,
   usePaper: PropTypes.bool,
   children: PropTypes.node,
+  childrenAbove: PropTypes.node,
+  childrenBelow: PropTypes.node,
 }
 
 export default Page

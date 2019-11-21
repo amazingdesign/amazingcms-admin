@@ -1,6 +1,9 @@
 import React from 'react'
 
 import { useParams } from 'react-router'
+import { useDispatch } from 'react-redux'
+import { push } from 'connected-react-router'
+
 import { useTranslation } from 'react-i18next'
 
 import { Typography } from '@material-ui/core'
@@ -10,9 +13,11 @@ import { useCollectionData } from '../../../../bits/useCollectionData'
 import { useCollectionItems } from '../../../../bits/useCollectionItems'
 
 import Page from '../../../../pieces/Page'
+import Button from '../../../../pieces/Button'
 
 const EditCollectionPage = (props) => {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
 
   const { collectionName, id } = useParams()
   const collectionData = useCollectionData(collectionName)
@@ -20,8 +25,19 @@ const EditCollectionPage = (props) => {
 
   const schema = collectionData && collectionData.validator
 
+  const goBack = () => dispatch(push(`/collections/${collectionName}`))
+
+  const onSubmit = (data) => update({}, { data }).then(goBack)
+
   return (
-    <Page usePaper={true}>
+    <Page
+      usePaper={true}
+      childrenAbove={
+        <Button onClick={goBack}>
+          {t('Go back!')}
+        </Button>
+      }
+    >
       <ErrorMessage message={t('Error occurred!')}>
         <Loader>
           <Typography variant={'h5'}>
@@ -30,7 +46,7 @@ const EditCollectionPage = (props) => {
           <Uniform
             schema={schema}
             model={data}
-            onSubmit={(data) => update({}, { data })}
+            onSubmit={onSubmit}
           />
         </Loader>
       </ErrorMessage>

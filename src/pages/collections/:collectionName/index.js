@@ -6,10 +6,9 @@ import { push } from 'connected-react-router'
 
 import { useTranslation } from 'react-i18next'
 
-import { Button } from '@material-ui/core'
-
 import CollectionTable from '../../../pieces/CollectionTable'
 import Page from '../../../pieces/Page'
+import Button from '../../../pieces/Button'
 
 const CollectionPage = (props) => {
   const { t } = useTranslation()
@@ -22,16 +21,9 @@ const CollectionPage = (props) => {
 
   return (
     <Page>
-      <Button
-        onClick={onAdd}
-        variant={'contained'}
-        color={'primary'}
-        fullWidth={true}
-      >
+      <Button onClick={onAdd}>
         {t('Add new!')}
       </Button>
-      <br />
-      <br />
       <CollectionTable
         collectionName={collectionName}
       />

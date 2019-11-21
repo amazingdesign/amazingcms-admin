@@ -4,11 +4,12 @@ import PropTypes from 'prop-types'
 
 import { JSONSchemaBridge } from 'uniforms-bridge-json-schema'
 import { AutoForm } from 'uniforms-material'
+import DefaultSubmitField from '@bit/amazingdesign.react-redux-mui-starter.default-submit-field'
 
 import { mapJSONSchemaToUniformsSchema } from '../mapJSONSchemaToUniformsSchema'
 import { createValidator as defaultCreateValidator } from './defaultCreateValidator'
 
-const Uniform = ({ schema, createValidator, ...otherProps }) => {
+const Uniform = ({ schema, createValidator, label, ...otherProps }) => {
   if (!schema) return null
 
   const schemaMapped = mapJSONSchemaToUniformsSchema(schema)
@@ -21,6 +22,7 @@ const Uniform = ({ schema, createValidator, ...otherProps }) => {
       schema={bridge}
       showInlineError={true}
       errorsField={() => null}
+      submitField={() => <DefaultSubmitField label={label} />}
       {...otherProps}
     />
   )
@@ -32,6 +34,7 @@ Uniform.defaultProps = {
 
 Uniform.propTypes = {
   createValidator: PropTypes.func.isRequired,
+  label: PropTypes.string,
   schema: PropTypes.object,
 }
 
