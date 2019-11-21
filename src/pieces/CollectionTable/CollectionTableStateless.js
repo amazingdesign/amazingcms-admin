@@ -2,33 +2,8 @@ import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 
 import MaterialTable from 'material-table'
-import { Avatar, Chip } from '@material-ui/core'
 
-const renderField = (field) => {
-  if (field.columnRenderType === 'avatar') {
-    // eslint-disable-next-line react/display-name
-    return (rowData) => <Avatar src={rowData[field.name]} />
-  }
-
-  if (field.columnRenderType === 'chips') {
-    // eslint-disable-next-line react/display-name
-    return (rowData) => {
-      const value = rowData[field.name]
-      return (
-        <>
-          {
-            Array.isArray(value) ?
-              value.map((val) => <Chip style={{margin: '0.5rem'}} key={val} label={val} />)
-              :
-              <Chip style={{margin: '0.25rem'}} label={value} />
-          }
-        </>
-      )
-    }
-  }
-
-  return undefined
-}
+import { renderField } from './renderField'
 
 const CollectionTableStateless = ({ collectionData, data, options, ...otherProps }) => {
   const columns = useMemo(() => (
@@ -37,7 +12,8 @@ const CollectionTableStateless = ({ collectionData, data, options, ...otherProps
       .map((field) => ({
         title: field.label || field.name,
         field: field.name,
-        render: renderField(field)
+        render: renderField(field),
+        lookup: field.lookup,
       }))
   ), [collectionData.fields])
 

@@ -32,8 +32,6 @@ const CollectionTable = ({
 
   const collectionData = useDataItemFromStore(collectionsServiceName, { query: { name: collectionName } })
   
-  console.log(collectionsServiceName, collectionName, collectionData)
-
   const { ErrorMessage, find, delete: remove, data, isLoading } = useServiceLoaded(serviceName, { collectionName })
 
   const rows = data && data.rows
