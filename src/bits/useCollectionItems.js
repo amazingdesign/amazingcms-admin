@@ -7,7 +7,7 @@ import { useService } from './redux-rest-services/useService'
 export const useCollectionItems = (collectionName, id, params, fetchOptions) => {
   const method = id ? 'get' : 'find'
 
-  const service = useService('actions')
+  const service = useService('actions', { collectionName, id })
   const data = useSelector(state => state.actions[method].data)
   const isLoading = useSelector(state => state.actions.isLoading)
   const isError = useSelector(state => state.actions.isError)
@@ -15,9 +15,9 @@ export const useCollectionItems = (collectionName, id, params, fetchOptions) => 
 
   useEffect(() => {
     if (id) {
-      service.get({ collectionName, id, ...params }, fetchOptions)
+      service.get(params, fetchOptions)
     } else {
-      service.find({ collectionName, ...params }, fetchOptions)
+      service.find(params, fetchOptions)
     }
   }, [collectionName, id])
 

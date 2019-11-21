@@ -5,12 +5,18 @@ import { useSelector } from 'react-redux'
 
 import DefaultErrorMessage from '../ErrorMessage'
 
-const RestServicesErrorMessage = ({ component, serviceName, children, ...otherProps }) => {
+const RestServicesErrorMessage = ({ component, serviceName, actionName, children, ...otherProps }) => {
   const ErrorMessage = component || DefaultErrorMessage
   const isError = useSelector(state => (
-    state &&
-    state[serviceName] &&
-    state[serviceName].isError
+    actionName ?
+      state &&
+      state[serviceName] &&
+      state[serviceName][actionName] &&
+      state[serviceName][actionName].isError
+      :
+      state &&
+      state[serviceName] &&
+      state[serviceName].isError
   ))
 
   return (
@@ -24,6 +30,7 @@ const RestServicesErrorMessage = ({ component, serviceName, children, ...otherPr
 RestServicesErrorMessage.propTypes = {
   children: PropTypes.node,
   component: PropTypes.func,
+  actionName: PropTypes.string,
   serviceName: PropTypes.string.isRequired,
 }
 

@@ -68,11 +68,18 @@ const App = () => {
   ]
 
   const routes = collectionsRoutes || []
-  const routerRoutes = routes.concat({
-    name: 'Collection edit',
-    path: ['/collections/:collectionName/:id'],
-    component: React.lazy(() => import('./pages/collections/:collectionName/:id')),
-  })
+  const routerRoutes = routes.concat([
+    {
+      name: 'Collection add',
+      path: ['/collections/:collectionName/new'],
+      component: React.lazy(() => import('./pages/collections/:collectionName/new')),
+    },
+    {
+      name: 'Collection edit',
+      path: ['/collections/:collectionName/:id'],
+      component: React.lazy(() => import('./pages/collections/:collectionName/:id')),
+    },
+  ])
 
   const profileMenuRoutes = [
     {

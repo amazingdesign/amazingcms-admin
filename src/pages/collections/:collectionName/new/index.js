@@ -7,33 +7,28 @@ import { Typography } from '@material-ui/core'
 
 import { Uniform } from '../../../../bits/uniforms/Uniform'
 import { useCollectionData } from '../../../../bits/useCollectionData'
-import { useCollectionItems } from '../../../../bits/useCollectionItems'
+import { useService } from '../../../../bits/redux-rest-services/useService'
 
 import Page from '../../../../pieces/Page'
 
 const EditCollectionPage = (props) => {
   const { t } = useTranslation()
 
-  const { collectionName, id } = useParams()
+  const { collectionName } = useParams()
   const collectionData = useCollectionData(collectionName)
-  const { ErrorMessage, Loader, update, data } = useCollectionItems(collectionName, id)
+  const { create } = useService('actions', { collectionName })
 
   const schema = collectionData && collectionData.validator
 
   return (
     <Page usePaper={true}>
-      <ErrorMessage message={t('Error occurred!')}>
-        <Loader>
-          <Typography variant={'h5'}>
-            {t('Edit item')}
-          </Typography>
-          <Uniform
-            schema={schema}
-            model={data}
-            onSubmit={(data) => update({}, { data })}
-          />
-        </Loader>
-      </ErrorMessage>
+      <Typography variant={'h5'}>
+        {t('Add new item')}
+      </Typography>
+      <Uniform
+        schema={schema}
+        onSubmit={(data) => create({}, { data })}
+      />
     </Page>
   )
 }

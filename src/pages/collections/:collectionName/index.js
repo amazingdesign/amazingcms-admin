@@ -1,44 +1,41 @@
 import React from 'react'
 
 import { useParams } from 'react-router'
-import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import { push } from 'connected-react-router'
 
-import CollectionTable from '../../../pieces/CollectionTable'
+import { useTranslation } from 'react-i18next'
 
-const styles = {
-  root: {
-    position: 'relative',
-    minHeight: 400,
-  },
-  content: {
-    padding: '2rem',
-  },
-}
+import { Button } from '@material-ui/core'
+
+import CollectionTable from '../../../pieces/CollectionTable'
+import Page from '../../../pieces/Page'
 
 const CollectionPage = (props) => {
   const { t } = useTranslation()
+
   const dispatch = useDispatch()
 
   const { collectionName } = useParams()
 
-  const onEdit = (event, rowData) => dispatch(push(`/collections/${collectionName}/${rowData._id}`))
+  const onAdd = (event, rowData) => dispatch(push(`/collections/${collectionName}/new`))
+
   return (
-    <div style={styles.root}>
-      <div style={styles.content}>
-        <CollectionTable
-          collectionName={collectionName}
-          actions={[
-            {
-              icon: 'edit',
-              tooltip: t('Edit'),
-              onClick: onEdit,
-            },
-          ]}
-        />
-      </div>
-    </div>
+    <Page>
+      <Button
+        onClick={onAdd}
+        variant={'contained'}
+        color={'primary'}
+        fullWidth={true}
+      >
+        {t('Add new!')}
+      </Button>
+      <br />
+      <br />
+      <CollectionTable
+        collectionName={collectionName}
+      />
+    </Page>
   )
 }
 

@@ -8,7 +8,7 @@ import { instances } from 'redux-rest-services'
 import RestServicesLoader from './RestServicesLoader'
 import RestServicesErrorMessage from './RestServicesErrorMessage'
 
-export const useService = (serviceName, options) => {
+export const useService = (serviceName, globalParams, globalFetchOptions) => {
   if (!serviceName) throw Error('you must specify service name!')
 
   const instance = instances[0]
@@ -21,7 +21,9 @@ export const useService = (serviceName, options) => {
 
   const boundActions = useMemo(() => mapValues(
     service.actions,
-    (action) => (...all) => dispatch(action(...all))
+    (action) => (params, fetchOptions) => dispatch(
+      action({ ...globalParams, ...params }, { ...globalFetchOptions, ...fetchOptions })
+    )
   ), [service.actions])
 
   const Loader = (props) => <RestServicesLoader serviceName={serviceName} {...props} />
