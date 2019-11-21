@@ -8,7 +8,7 @@ const CollectionTableStateless = ({ collectionData, data, options, ...otherProps
     collectionData.fields
       .filter((field) => field.displayAsTableColumn)
       .map((field) => ({
-        title: field.label,
+        title: field.label || field.name,
         field: field.name,
       }))
   ), [collectionData.fields])

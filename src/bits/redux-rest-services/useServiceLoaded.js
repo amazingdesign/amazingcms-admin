@@ -9,10 +9,10 @@ export const useServiceLoaded = (name, globalParams, globalFetchOptions) => {
   const method = id ? 'get' : 'find'
 
   const service = useService(name, globalParams, globalFetchOptions)
-  const data = useSelector(state => state.actions[method].data)
-  const isLoading = useSelector(state => state.actions.isLoading)
-  const isError = useSelector(state => state.actions.isError)
-  const touched = useSelector(state => state.actions.touched)
+  const data = useSelector(state => state[name][method].data)
+  const isLoading = useSelector(state => state[name].isLoading)
+  const isError = useSelector(state => state[name].isError)
+  const touched = useSelector(state => state[name].touched)
 
   useEffect(() => {
     if (id) {

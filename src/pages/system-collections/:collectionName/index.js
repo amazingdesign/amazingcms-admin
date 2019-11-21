@@ -26,6 +26,8 @@ const SystemCollectionPage = (props) => {
       </Button>
       <CollectionTable
         collectionName={collectionName}
+        collectionsServiceName={'system-collections'}
+        serviceName={collectionName}
       />
     </Page>
   )

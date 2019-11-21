@@ -20,8 +20,15 @@ export const restServices = makeRestServices(
       url: `${window._env_.REACT_APP_API_URL}/actions/:collectionName/:id`,
       actionsDeclarations: crudActionsDeclarations,
     },
+    {
+      name: 'users',
+      url: `${window._env_.REACT_APP_API_URL}/users/:id`,
+      actionsDeclarations: crudActionsDeclarations,
+    },
   ],
   (...all) => axios(...all).then(response => response.data)
 )
+
+console.log(restServices)
 
 export default restServices

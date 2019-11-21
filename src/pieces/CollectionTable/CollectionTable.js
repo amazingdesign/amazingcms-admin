@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import withConfirm from 'material-ui-confirm'
@@ -14,7 +14,15 @@ import { useServiceLoaded } from '../../bits/redux-rest-services/useServiceLoade
 
 import CollectionTableStateless from './CollectionTableStateless'
 
-const CollectionTable = ({ collectionName, startPage, startPageSize, confirm, ...otherProps }) => {
+const CollectionTable = ({
+  collectionsServiceName,
+  serviceName,
+  collectionName,
+  startPage,
+  startPageSize,
+  confirm,
+  ...otherProps
+}) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
@@ -22,9 +30,11 @@ const CollectionTable = ({ collectionName, startPage, startPageSize, confirm, ..
   const onChangePage = (page) => setParams({ ...params, page: page + 1 })
   const onChangeRowsPerPage = (pageSize) => setParams({ ...params, pageSize })
 
-  const collectionData = useDataItemFromStore('collections', { query: { name: collectionName } })
+  const collectionData = useDataItemFromStore(collectionsServiceName, { query: { name: collectionName } })
+  
+  console.log(collectionsServiceName, collectionName, collectionData)
 
-  const { ErrorMessage, find, delete: remove, data, isLoading } = useServiceLoaded('actions', { collectionName })
+  const { ErrorMessage, find, delete: remove, data, isLoading } = useServiceLoaded(serviceName, { collectionName })
 
   const rows = data && data.rows
   const totalCount = data && data.total
@@ -38,7 +48,9 @@ const CollectionTable = ({ collectionName, startPage, startPageSize, confirm, ..
     })
   )
 
-  const onEdit = (event, rowData) => dispatch(push(`/collections/${collectionName}/${rowData._id}`))
+  console.log(rows)
+
+  const onEdit = (event, rowData) => dispatch(push(`/${collectionsServiceName}/${collectionName}/${rowData._id}`))
   const onDelete = (event, rowData) => {
     confirm(
       () => (
@@ -85,6 +97,8 @@ const CollectionTable = ({ collectionName, startPage, startPageSize, confirm, ..
 CollectionTable.defaultProps = {
   startPage: 1,
   startPageSize: 10,
+  collectionsServiceName: 'collections',
+  serviceName: 'actions',
 }
 
 CollectionTable.propTypes = {
@@ -92,6 +106,8 @@ CollectionTable.propTypes = {
   startPage: PropTypes.number.isRequired,
   startPageSize: PropTypes.number.isRequired,
   collectionName: PropTypes.string.isRequired,
+  collectionsServiceName: PropTypes.string.isRequired,
+  serviceName: PropTypes.string.isRequired,
 }
 
 export default withConfirm(CollectionTable)

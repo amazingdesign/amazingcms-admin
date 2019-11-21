@@ -56,12 +56,12 @@ const App = () => {
   const systemCollectionsRoutes = useMemo(() => (
     systemCollectionsData &&
     systemCollectionsData.map &&
-    systemCollectionsData.map(systemCollectionData => ({
-      name: systemCollectionData.displayName || systemCollectionData.name,
-      path: ['/system-collections/:systemCollectionName'],
-      pathWithParams: `/system-collections/${systemCollectionData.name}`,
-      component: React.lazy(() => import('./pages/system-collections/:systemCollectionName')),
-      icon: systemCollectionData.icon || 'settings_input_svideo',
+    systemCollectionsData.map(collectionData => ({
+      name: collectionData.displayName || collectionData.name,
+      path: ['/system-collections/:collectionName'],
+      pathWithParams: `/system-collections/${collectionData.name}`,
+      component: React.lazy(() => import('./pages/system-collections/:collectionName')),
+      icon: collectionData.icon || 'settings_input_svideo',
     }))
   ), [systemCollectionsData])
 

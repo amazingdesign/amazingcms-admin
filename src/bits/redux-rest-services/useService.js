@@ -14,13 +14,13 @@ export const useService = (serviceName, globalParams, globalFetchOptions) => {
   const instance = instances[0]
   if (!instance) throw Error('redux-rest-services main instance not found!')
 
-  const service = instance[serviceName]
-  if (!service) throw Error(`service "${serviceName}" not found!`)
+  const serviceActions = instance.actions[serviceName]
+  if (!serviceActions) throw Error(`service "${serviceName}" not found!`)
 
   const dispatch = useDispatch()
 
   const boundActions = useMemo(() => mapValues(
-    service.actions,
+    serviceActions,
     (action) => (params, fetchOptions) => dispatch(
       action({ ...globalParams, ...params }, { ...globalFetchOptions, ...fetchOptions })
     )
