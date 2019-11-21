@@ -23,7 +23,7 @@ const EditCollectionPage = (props) => {
   const collectionData = useCollectionData(collectionName)
   const { ErrorMessage, Loader, update, data } = useCollectionItems(collectionName, id)
 
-  const schema = collectionData && collectionData.validator
+  const schema = collectionData && collectionData.schema
 
   const goBack = () => dispatch(push(`/collections/${collectionName}`))
 
