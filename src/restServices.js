@@ -5,6 +5,11 @@ import axios from './axios'
 export const restServices = makeRestServices(
   [
     {
+      name: 'system-collections',
+      url: `${window._env_.REACT_APP_API_URL}/system-collections`,
+      actionsDeclarations: [{ name: 'find', method: 'GET' }],
+    },
+    {
       name: 'collections',
       url: `${window._env_.REACT_APP_API_URL}/collections/:id`,
       actionsDeclarations: crudActionsDeclarations,

@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { Typography } from '@material-ui/core'
 
 import { Uniform } from '../../../../bits/uniforms/Uniform'
-import { useCollectionData } from '../../../../bits/useCollectionData'
+import { useDataItemFromStore } from '../../../../bits/redux-rest-services/useDataItemFromStore'
 import { useService } from '../../../../bits/redux-rest-services/useService'
 
 import Page from '../../../../pieces/Page'
@@ -20,7 +20,7 @@ const EditCollectionPage = (props) => {
   const dispatch = useDispatch()
 
   const { collectionName } = useParams()
-  const collectionData = useCollectionData(collectionName)
+  const collectionData = useDataItemFromStore('collections', { query: { name: collectionName } })
   const { create } = useService('actions', { collectionName })
 
   const schema = collectionData && collectionData.schema

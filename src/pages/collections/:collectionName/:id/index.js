@@ -9,8 +9,8 @@ import { useTranslation } from 'react-i18next'
 import { Typography } from '@material-ui/core'
 
 import { Uniform } from '../../../../bits/uniforms/Uniform'
-import { useCollectionData } from '../../../../bits/useCollectionData'
-import { useCollectionItems } from '../../../../bits/useCollectionItems'
+import { useDataItemFromStore } from '../../../../bits/redux-rest-services/useDataItemFromStore'
+import { useServiceLoaded } from '../../../../bits/redux-rest-services/useServiceLoaded'
 
 import Page from '../../../../pieces/Page'
 import Button from '../../../../pieces/Button'
@@ -20,8 +20,8 @@ const EditCollectionPage = (props) => {
   const dispatch = useDispatch()
 
   const { collectionName, id } = useParams()
-  const collectionData = useCollectionData(collectionName)
-  const { ErrorMessage, Loader, update, data } = useCollectionItems(collectionName, id)
+  const collectionData = useDataItemFromStore('collections', { query: { name: collectionName } })
+  const { ErrorMessage, Loader, update, data } = useServiceLoaded('actions', { collectionName, id })
 
   const schema = collectionData && collectionData.schema
 

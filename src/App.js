@@ -39,26 +39,41 @@ const App = () => {
   const isUserLoggedIn = useSelector((state) => state.auth.isUserLoggedIn)
   const userAvatarSrc = useSelector((state) => state.auth && state.auth.userData && state.auth.userData.avatar)
 
-  const collectionsRows = useSelector((state) => state.collections.find.data)
+  const collectionsData = useSelector((state) => state.collections.find.data)
+  const systemCollectionsData = useSelector((state) => state['system-collections'].find.data)
 
   const collectionsRoutes = useMemo(() => (
-    collectionsRows &&
-    collectionsRows.map &&
-    collectionsRows.map(collectionData => ({
+    collectionsData &&
+    collectionsData.map &&
+    collectionsData.map(collectionData => ({
       name: collectionData.displayName || collectionData.name,
       path: ['/collections/:collectionName'],
       pathWithParams: `/collections/${collectionData.name}`,
       component: React.lazy(() => import('./pages/collections/:collectionName')),
-      icon: 'data',
+      icon: collectionData.icon || 'data_usage',
     }))
-  ), [collectionsRows])
+  ), [collectionsData])
+  const systemCollectionsRoutes = useMemo(() => (
+    systemCollectionsData &&
+    systemCollectionsData.map &&
+    systemCollectionsData.map(systemCollectionData => ({
+      name: systemCollectionData.displayName || systemCollectionData.name,
+      path: ['/system-collections/:systemCollectionName'],
+      pathWithParams: `/system-collections/${systemCollectionData.name}`,
+      component: React.lazy(() => import('./pages/system-collections/:systemCollectionName')),
+      icon: systemCollectionData.icon || 'settings_input_svideo',
+    }))
+  ), [systemCollectionsData])
 
   useEffect(() => {
     dispatch(checkIfLoggedInAsyncAction())
     // eslint-disable-next-line
   }, [])
   useEffect(() => {
-    if (isUserLoggedIn) dispatch(restServices.actions.collections.find())
+    if (isUserLoggedIn) {
+      dispatch(restServices.actions.collections.find())
+      dispatch(restServices.actions['system-collections'].find())
+    }
     // eslint-disable-next-line
   }, [isUserLoggedIn])
 
@@ -67,7 +82,12 @@ const App = () => {
     { code: 'en', name: t('English') },
   ]
 
-  const routes = collectionsRoutes || []
+  const routes = (
+    systemCollectionsRoutes &&
+    collectionsRoutes &&
+    systemCollectionsRoutes.concat(collectionsRoutes)
+  ) || []
+
   const routerRoutes = routes.concat([
     {
       name: 'Collection add',

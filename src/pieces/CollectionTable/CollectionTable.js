@@ -9,8 +9,8 @@ import { push } from 'connected-react-router'
 import { useTranslation } from 'react-i18next'
 
 import { useQsParams } from '../../bits/useQsParams'
-import { useCollectionData } from '../../bits/useCollectionData'
-import { useCollectionItems } from '../../bits/useCollectionItems'
+import { useDataItemFromStore } from '../../bits/redux-rest-services/useDataItemFromStore'
+import { useServiceLoaded } from '../../bits/redux-rest-services/useServiceLoaded'
 
 import CollectionTableStateless from './CollectionTableStateless'
 
@@ -22,9 +22,9 @@ const CollectionTable = ({ collectionName, startPage, startPageSize, confirm, ..
   const onChangePage = (page) => setParams({ ...params, page: page + 1 })
   const onChangeRowsPerPage = (pageSize) => setParams({ ...params, pageSize })
 
-  const collectionData = useCollectionData(collectionName)
+  const collectionData = useDataItemFromStore('collections', { query: { name: collectionName } })
 
-  const { ErrorMessage, find, delete: remove, data, isLoading } = useCollectionItems(collectionName)
+  const { ErrorMessage, find, delete: remove, data, isLoading } = useServiceLoaded('actions', { collectionName })
 
   const rows = data && data.rows
   const totalCount = data && data.total
@@ -37,11 +37,6 @@ const CollectionTable = ({ collectionName, startPage, startPageSize, confirm, ..
       })
     })
   )
-
-  useEffect(() => {
-    find({ collectionName, page: params.page, pageSize: params.pageSize })
-  }, [find, collectionName, params.page, params.pageSize])
-
 
   const onEdit = (event, rowData) => dispatch(push(`/collections/${collectionName}/${rowData._id}`))
   const onDelete = (event, rowData) => {

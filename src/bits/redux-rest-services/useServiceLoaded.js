@@ -1,13 +1,14 @@
 import { useEffect } from 'react'
 
 import { useSelector } from 'react-redux'
-import { useService } from './redux-rest-services/useService'
+import { useService } from './useService'
 
 // eslint-disable-next-line max-params
-export const useCollectionItems = (collectionName, id, params, fetchOptions) => {
+export const useServiceLoaded = (name, globalParams, globalFetchOptions) => {
+  const { id } = globalParams
   const method = id ? 'get' : 'find'
 
-  const service = useService('actions', { collectionName, id })
+  const service = useService(name, globalParams, globalFetchOptions)
   const data = useSelector(state => state.actions[method].data)
   const isLoading = useSelector(state => state.actions.isLoading)
   const isError = useSelector(state => state.actions.isError)
@@ -15,11 +16,11 @@ export const useCollectionItems = (collectionName, id, params, fetchOptions) => 
 
   useEffect(() => {
     if (id) {
-      service.get(params, fetchOptions)
+      service.get()
     } else {
-      service.find(params, fetchOptions)
+      service.find()
     }
-  }, [collectionName, id])
+  }, [name, JSON.stringify(globalParams), JSON.stringify(globalFetchOptions)])
 
   return {
     ...service,
@@ -30,4 +31,4 @@ export const useCollectionItems = (collectionName, id, params, fetchOptions) => 
   }
 }
 
-export default useCollectionItems
+export default useServiceLoaded

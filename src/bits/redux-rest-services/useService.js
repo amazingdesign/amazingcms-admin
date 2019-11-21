@@ -24,7 +24,7 @@ export const useService = (serviceName, globalParams, globalFetchOptions) => {
     (action) => (params, fetchOptions) => dispatch(
       action({ ...globalParams, ...params }, { ...globalFetchOptions, ...fetchOptions })
     )
-  ), [service.actions])
+  ), [serviceName, JSON.stringify(globalParams), JSON.stringify(globalFetchOptions)])
 
   const Loader = (props) => <RestServicesLoader serviceName={serviceName} {...props} />
   const ErrorMessage = (props) => <RestServicesErrorMessage serviceName={serviceName} {...props} />
