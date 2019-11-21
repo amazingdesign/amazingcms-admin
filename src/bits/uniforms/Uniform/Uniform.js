@@ -5,10 +5,10 @@ import PropTypes from 'prop-types'
 import { JSONSchemaBridge } from 'uniforms-bridge-json-schema'
 import { AutoForm } from 'uniforms-material'
 
-import { mapJSONSchemaToUniformsSchema } from './mapJSONSchemaToUniformsSchema'
-import { createValidator } from '../../validator'
+import { mapJSONSchemaToUniformsSchema } from '../mapJSONSchemaToUniformsSchema'
+import { createValidator as defaultCreateValidator } from './defaultCreateValidator'
 
-const Uniform = ({ schema, ...otherProps }) => {
+const Uniform = ({ schema, createValidator, ...otherProps }) => {
   if (!schema) return null
 
   const schemaMapped = mapJSONSchemaToUniformsSchema(schema)
@@ -26,7 +26,12 @@ const Uniform = ({ schema, ...otherProps }) => {
   )
 }
 
+Uniform.defaultProps = {
+  createValidator: defaultCreateValidator,
+}
+
 Uniform.propTypes = {
+  createValidator: PropTypes.func.isRequired,
   schema: PropTypes.object,
 }
 

@@ -49,5 +49,91 @@
         "origin": "AUTHORED",
         "exported": true
     },
+    "amazingdesign.uniforms/list-field-reorder@0.0.1": {
+        "files": [
+            {
+                "relativePath": "src/bits/uniforms/ListFieldReorder/ListAddField.js",
+                "test": false,
+                "name": "ListAddField.js"
+            },
+            {
+                "relativePath": "src/bits/uniforms/ListFieldReorder/ListFieldReorder.js",
+                "test": false,
+                "name": "ListFieldReorder.js"
+            },
+            {
+                "relativePath": "src/bits/uniforms/ListFieldReorder/ListItemField.js",
+                "test": false,
+                "name": "ListItemField.js"
+            },
+            {
+                "relativePath": "src/bits/uniforms/ListFieldReorder/index.js",
+                "test": false,
+                "name": "index.js"
+            }
+        ],
+        "mainFile": "src/bits/uniforms/ListFieldReorder/index.js",
+        "trackDir": "src/bits/uniforms/ListFieldReorder",
+        "origin": "AUTHORED",
+        "exported": true
+    },
+    "amazingdesign.uniforms/map-json-schema-to-uniforms-schema@0.0.1": {
+        "files": [
+            {
+                "relativePath": "src/bits/uniforms/mapJSONSchemaToUniformsSchema.js",
+                "test": false,
+                "name": "mapJSONSchemaToUniformsSchema.js"
+            }
+        ],
+        "mainFile": "src/bits/uniforms/mapJSONSchemaToUniformsSchema.js",
+        "origin": "AUTHORED",
+        "exported": true
+    },
+    "amazingdesign.uniforms/uniform@0.0.1": {
+        "files": [
+            {
+                "relativePath": "src/bits/uniforms/Uniform/Uniform.js",
+                "test": false,
+                "name": "Uniform.js"
+            },
+            {
+                "relativePath": "src/bits/uniforms/Uniform/defaultCreateValidator.js",
+                "test": false,
+                "name": "defaultCreateValidator.js"
+            },
+            {
+                "relativePath": "src/bits/uniforms/Uniform/index.js",
+                "test": false,
+                "name": "index.js"
+            }
+        ],
+        "mainFile": "src/bits/uniforms/Uniform/index.js",
+        "trackDir": "src/bits/uniforms/Uniform",
+        "origin": "AUTHORED",
+        "exported": true
+    },
+    "amazingdesign.utils/move-array-element@0.0.1": {
+        "files": [
+            {
+                "relativePath": "src/bits/utils/moveArrayElement/index.js",
+                "test": false,
+                "name": "index.js"
+            },
+            {
+                "relativePath": "src/bits/utils/moveArrayElement/moveArrayElement.js",
+                "test": false,
+                "name": "moveArrayElement.js"
+            },
+            {
+                "relativePath": "src/bits/utils/moveArrayElement/moveArrayElement.test.js",
+                "test": false,
+                "name": "moveArrayElement.test.js"
+            }
+        ],
+        "mainFile": "src/bits/utils/moveArrayElement/index.js",
+        "trackDir": "src/bits/utils/moveArrayElement",
+        "origin": "AUTHORED",
+        "exported": true
+    },
     "version": "14.4.3"
 }

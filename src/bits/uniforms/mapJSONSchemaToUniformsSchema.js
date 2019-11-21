@@ -18,10 +18,14 @@ import {
   ErrorFields,
 } from 'uniforms-material'
 
+import ListFieldReorder from './ListFieldReorder'
+
 import { mapValues } from 'lodash'
 
 export const mapFieldNameToField = (fieldName) => {
   switch (fieldName) {
+    case 'ListFieldReorder':
+      return ListFieldReorder
     case 'RadioField':
       return RadioField
     case 'SelectField':
