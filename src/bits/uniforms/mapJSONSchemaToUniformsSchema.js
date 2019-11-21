@@ -19,6 +19,7 @@ import {
 } from 'uniforms-material'
 
 import ListFieldReorder from './ListFieldReorder'
+import Base64ImageField from './Base64ImageField'
 
 import { mapValues } from 'lodash'
 
@@ -58,6 +59,8 @@ export const mapFieldNameToField = (fieldName) => {
       return ErrorField
     case 'ErrorFields':
       return ErrorFields
+    case 'Base64ImageField':
+      return Base64ImageField
     default:
       return AutoField
   }
