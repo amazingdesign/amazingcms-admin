@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@bit/amazingdesign.react-redux-mui-starter.connected-link": "0.0.1",
     "@bit/amazingdesign.react-redux-mui-starter.default-submit-field": "^1.0.0",
     "@bit/amazingdesign.react-redux-mui-starter.display-flash-toasts": "0.0.4",
     "@bit/amazingdesign.react-redux-mui-starter.i18n": "0.0.1",

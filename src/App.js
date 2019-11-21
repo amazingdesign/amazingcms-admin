@@ -99,6 +99,16 @@ const App = () => {
       path: ['/collections/:collectionName/:id'],
       component: React.lazy(() => import('./pages/collections/:collectionName/:id')),
     },
+    {
+      name: 'System collection add',
+      path: ['/system-collections/:collectionName/new'],
+      component: React.lazy(() => import('./pages/system-collections/:collectionName/new')),
+    },
+    {
+      name: 'System collection edit',
+      path: ['/system-collections/:collectionName/:id'],
+      component: React.lazy(() => import('./pages/system-collections/:collectionName/:id')),
+    },
   ])
 
   const profileMenuRoutes = [

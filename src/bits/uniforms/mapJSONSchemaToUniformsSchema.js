@@ -64,6 +64,8 @@ export const mapFieldNameToField = (fieldName) => {
 }
 
 export const modifyUniformsProperty = (object) => {
+  if(!object.component) return object
+  
   return {
     ...object,
     component: mapFieldNameToField(object.component),

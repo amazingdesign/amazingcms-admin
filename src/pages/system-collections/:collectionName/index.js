@@ -17,7 +17,7 @@ const SystemCollectionPage = (props) => {
 
   const { collectionName } = useParams()
 
-  const onAdd = (event, rowData) => dispatch(push(`/collections/${collectionName}/new`))
+  const onAdd = (event, rowData) => dispatch(push(`/system-collections/${collectionName}/new`))
 
   return (
     <Page>
