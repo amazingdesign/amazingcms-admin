@@ -25,6 +25,16 @@ export const restServices = makeRestServices(
       url: `${window._env_.REACT_APP_API_URL}/users/:id`,
       actionsDeclarations: crudActionsDeclarations,
     },
+    {
+      name: 'groups',
+      url: `${window._env_.REACT_APP_API_URL}/groups/:id`,
+      actionsDeclarations: crudActionsDeclarations,
+    },
+    {
+      name: 'privileges',
+      url: `${window._env_.REACT_APP_API_URL}/privileges/:id`,
+      actionsDeclarations: crudActionsDeclarations,
+    },
   ],
   (...all) => axios(...all).then(response => response.data)
 )
