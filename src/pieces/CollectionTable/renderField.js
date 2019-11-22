@@ -3,6 +3,14 @@ import React from 'react'
 
 import { Avatar, Chip } from '@material-ui/core'
 
+import { formattedDate, formattedDateTime, timeFromNow } from '../../dateTime'
+
+const renderDate = (field) => (rowData) => formattedDate(rowData[field.name])
+const renderDateTime = (field) => (rowData) => formattedDateTime(rowData[field.name])
+const renderTimeFromNow = (field) => (rowData) => timeFromNow(rowData[field.name])
+
+const renderCurrency = (field) => (rowData) => String(rowData[field.name].toFixed(2))
+
 const renderAvatar = (field) => (rowData) => <Avatar src={rowData[field.name]} />
 
 const renderChips = (field) => (rowData) => {
@@ -43,6 +51,10 @@ const mapFieldToFunc = {
   'avatar': renderAvatar,
   'chips': renderChips,
   'chips-lookup': renderChipsLookup,
+  'date': renderDate,
+  'date-time': renderDateTime,
+  'time-from-now': renderTimeFromNow,
+  'currency': renderCurrency,
 }
 
 export const renderField = (field) => {

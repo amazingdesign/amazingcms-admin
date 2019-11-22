@@ -35,6 +35,16 @@ export const restServices = makeRestServices(
       url: `${window._env_.REACT_APP_API_URL}/privileges/:id`,
       actionsDeclarations: crudActionsDeclarations,
     },
+    {
+      name: 'orders',
+      url: `${window._env_.REACT_APP_API_URL}/orders/:id`,
+      actionsDeclarations: crudActionsDeclarations,
+    },
+    {
+      name: 'payments',
+      url: `${window._env_.REACT_APP_API_URL}/payments/:id`,
+      actionsDeclarations: crudActionsDeclarations,
+    },
   ],
   (...all) => axios(...all).then(response => response.data)
 )
