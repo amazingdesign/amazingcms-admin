@@ -31,8 +31,14 @@ const CollectionTable = ({
   const onChangeRowsPerPage = (pageSize) => setParams({ ...params, pageSize })
 
   const collectionData = useDataItemFromStore(collectionsServiceName, { query: { name: collectionName } })
-  
-  const { ErrorMessage, find, delete: remove, data, isLoading } = useServiceLoaded(serviceName, { collectionName })
+
+  const {
+    ErrorMessage,
+    find,
+    delete: remove,
+    data,
+    isLoading,
+  } = useServiceLoaded(serviceName, { collectionName, ...params })
 
   const rows = data && data.rows
   const totalCount = data && data.total
@@ -45,8 +51,6 @@ const CollectionTable = ({
       })
     })
   )
-
-  console.log(rows)
 
   const onEdit = (event, rowData) => dispatch(push(`/${collectionsServiceName}/${collectionName}/${rowData._id}`))
   const onDelete = (event, rowData) => {

@@ -45,6 +45,21 @@ export const restServices = makeRestServices(
       url: `${window._env_.REACT_APP_API_URL}/payments/:id`,
       actionsDeclarations: crudActionsDeclarations,
     },
+    {
+      name: 'events',
+      url: `${window._env_.REACT_APP_API_URL}/events/:id`,
+      actionsDeclarations: crudActionsDeclarations,
+    },
+    {
+      name: 'events-log',
+      url: `${window._env_.REACT_APP_API_URL}/events-log/:id`,
+      actionsDeclarations: crudActionsDeclarations,
+    },
+    {
+      name: 'languages',
+      url: `${window._env_.REACT_APP_API_URL}/languages/:id`,
+      actionsDeclarations: crudActionsDeclarations,
+    },
   ],
   (...all) => axios(...all).then(response => response.data)
 )
