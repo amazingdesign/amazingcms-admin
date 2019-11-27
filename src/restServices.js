@@ -1,4 +1,4 @@
-import makeRestServices, { crudActionsDeclarations } from 'redux-rest-services'
+import makeRestServices, { crudActionsDeclarations, instances } from 'redux-rest-services'
 
 import axios from './axios'
 
@@ -64,6 +64,13 @@ export const restServices = makeRestServices(
       name: 'system-collection-collections',
       url: `${window._env_.REACT_APP_API_URL}/collections/:id`,
       actionsDeclarations: crudActionsDeclarations,
+      onReceivesData: ({ method, name }, dispatch) => {
+        if (['update', 'create'].includes(name)) {
+          // need to reload all collections after change
+          const currentInstance = instances[0]
+          dispatch(currentInstance.actions.collections.find())
+        }
+      },
     },
   ],
   (...all) => axios(...all).then(response => response.data)

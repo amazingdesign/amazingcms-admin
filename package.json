@@ -27,7 +27,7 @@
     "react-scripts": "3.2.0",
     "redux": "^4.0.4",
     "redux-flash": "^2.0.2",
-    "redux-rest-services": "^0.1.2",
+    "redux-rest-services": "^0.2.0",
     "redux-thunk": "^2.3.0"
   },
   "scripts": {

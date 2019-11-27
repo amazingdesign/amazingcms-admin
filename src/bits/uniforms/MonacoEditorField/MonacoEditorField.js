@@ -29,7 +29,7 @@ const MonacoEditorField = ({
         language={'javascript'}
         theme={'vs-dark'}
         options={{ minimap: { enabled: false } }}
-        value={stringify ? JSON.stringify(value) : value}
+        value={stringify ? JSON.stringify(value, null, 2) : value}
         name={name}
         onChange={(e, value) => onChange(stringify ? JSON.parse(value) : value)}
         {...filterDOMProps(otherProps)}
