@@ -7,15 +7,15 @@ import { renderField } from './renderField'
 
 const CollectionTableStateless = ({ collectionData, data, options, ...otherProps }) => {
   const columns = useMemo(() => (
-    collectionData.fields
-      .filter((field) => field.displayAsTableColumn)
+    collectionData.tableFields
+      // .filter((field) => field.displayAsTableColumn)
       .map((field) => ({
         title: field.label || field.name,
         field: field.name,
         render: renderField(field),
         lookup: field.lookup,
       }))
-  ), [collectionData.fields])
+  ), [collectionData.tableFields])
 
   return (
     <div style={{ maxWidth: '100%' }}>

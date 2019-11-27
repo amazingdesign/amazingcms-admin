@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import { ControlledEditor } from '@monaco-editor/react'
 import { connectField, filterDOMProps } from 'uniforms'
+import { FormLabel } from '@material-ui/core'
 
 const styles = {
   root: {
@@ -17,17 +18,20 @@ const MonacoEditorField = ({
   value,
   ...otherProps
 }) => {
+  const stringify = typeof value === 'object'
+
   return (
     <div style={styles.root}>
+      <FormLabel>{label}</FormLabel>
       <ControlledEditor
         width={'100%'}
         height={'400px'}
         language={'javascript'}
         theme={'vs-dark'}
         options={{ minimap: { enabled: false } }}
-        value={value}
+        value={stringify ? JSON.stringify(value) : value}
         name={name}
-        onChange={(e, value) => onChange(value)}
+        onChange={(e, value) => onChange(stringify ? JSON.parse(value) : value)}
         {...filterDOMProps(otherProps)}
       />
     </div>
