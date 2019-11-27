@@ -64,6 +64,4 @@ export const restServices = makeRestServices(
   (...all) => axios(...all).then(response => response.data)
 )
 
-console.log(restServices)
-
 export default restServices

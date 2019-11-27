@@ -12,6 +12,7 @@
     "@bit/amazingdesign.react-redux-mui-starter.make-auth-requests": "0.0.1",
     "@bit/amazingdesign.react-redux-mui-starter.make-redux-auth": "0.0.1",
     "@bit/amazingdesign.react-redux-mui-starter.nav-list": "0.0.5",
+    "@monaco-editor/react": "^2.3.0",
     "axios": "^0.19.0",
     "axios-auth-refresh": "^1.0.7",
     "connected-react-router": "^6.6.0",

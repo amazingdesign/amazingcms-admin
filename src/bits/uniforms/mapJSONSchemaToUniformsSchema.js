@@ -20,11 +20,14 @@ import {
 
 import ListFieldReorder from './ListFieldReorder'
 import Base64ImageField from './Base64ImageField'
+import MonacoEditorField from './MonacoEditorField'
 
 import { mapValues } from 'lodash'
 
 export const mapFieldNameToField = (fieldName) => {
   switch (fieldName) {
+    case 'MonacoEditorField':
+      return MonacoEditorField
     case 'ListFieldReorder':
       return ListFieldReorder
     case 'RadioField':
@@ -67,8 +70,8 @@ export const mapFieldNameToField = (fieldName) => {
 }
 
 export const modifyUniformsProperty = (object) => {
-  if(!object.component) return object
-  
+  if (!object.component) return object
+
   return {
     ...object,
     component: mapFieldNameToField(object.component),
