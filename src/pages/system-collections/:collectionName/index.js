@@ -25,6 +25,7 @@ const SystemCollectionPage = (props) => {
         {t('Add new!')}
       </Button>
       <CollectionTable
+        isSystemCollection={true}
         collectionName={collectionName}
         collectionsServiceName={'system-collections'}
         serviceName={collectionName}

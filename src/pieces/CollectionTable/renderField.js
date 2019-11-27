@@ -5,6 +5,8 @@ import { Avatar, Chip } from '@material-ui/core'
 
 import { formattedDate, formattedDateTime, timeFromNow } from '../../dateTime'
 
+const renderStringified = (field) => (rowData) => JSON.stringify(rowData[field.name])
+
 const renderDate = (field) => (rowData) => formattedDate(rowData[field.name])
 const renderDateTime = (field) => (rowData) => formattedDateTime(rowData[field.name])
 const renderTimeFromNow = (field) => (rowData) => timeFromNow(rowData[field.name])
@@ -55,6 +57,7 @@ const mapFieldToFunc = {
   'date-time': renderDateTime,
   'time-from-now': renderTimeFromNow,
   'currency': renderCurrency,
+  'stringify': renderStringified,
 }
 
 export const renderField = (field) => {

@@ -21,7 +21,7 @@ const EditSystemCollectionPage = (props) => {
 
   const { collectionName } = useParams()
   const collectionData = useDataItemFromStore('system-collections', { query: { name: collectionName } })
-  const { create } = useService(collectionName)
+  const { create } = useService('system-collection-' + collectionName)
 
   const schema = collectionData && collectionData.schema
 

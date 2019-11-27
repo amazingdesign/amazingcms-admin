@@ -25,6 +25,7 @@ const CollectionPage = (props) => {
         {t('Add new!')}
       </Button>
       <CollectionTable
+        isSystemCollection={false}
         collectionName={collectionName}
       />
     </Page>

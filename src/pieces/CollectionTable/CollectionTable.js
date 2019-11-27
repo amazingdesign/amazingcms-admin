@@ -21,6 +21,7 @@ const CollectionTable = ({
   startPage,
   startPageSize,
   confirm,
+  isSystemCollection,
   ...otherProps
 }) => {
   const { t } = useTranslation()
@@ -38,7 +39,10 @@ const CollectionTable = ({
     delete: remove,
     data,
     isLoading,
-  } = useServiceLoaded(serviceName, { collectionName, ...params })
+  } = useServiceLoaded(
+    (isSystemCollection ? 'system-collection-' : '') + serviceName,
+    isSystemCollection ? params : { collectionName, ...params }
+  )
 
   const rows = data && data.rows
   const totalCount = data && data.total
@@ -101,6 +105,7 @@ CollectionTable.defaultProps = {
   startPageSize: 10,
   collectionsServiceName: 'collections',
   serviceName: 'actions',
+  isSystemCollection: false,
 }
 
 CollectionTable.propTypes = {
@@ -110,6 +115,7 @@ CollectionTable.propTypes = {
   collectionName: PropTypes.string.isRequired,
   collectionsServiceName: PropTypes.string.isRequired,
   serviceName: PropTypes.string.isRequired,
+  isSystemCollection: PropTypes.bool.isRequired,
 }
 
 export default withConfirm(CollectionTable)
