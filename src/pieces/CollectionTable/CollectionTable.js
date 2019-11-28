@@ -57,6 +57,7 @@ const CollectionTable = ({
   )
 
   const onEdit = (event, rowData) => dispatch(push(`/${collectionsServiceName}/${collectionName}/${rowData._id}`))
+  const onDuplicate = (event, rowData) => dispatch(push(`/${collectionsServiceName}/${collectionName}/duplicate/${rowData._id}`))
   const onDelete = (event, rowData) => {
     confirm(
       () => (
@@ -87,6 +88,11 @@ const CollectionTable = ({
             icon: 'edit',
             tooltip: t('Edit'),
             onClick: onEdit,
+          },
+          {
+            icon: 'file_copy',
+            tooltip: t('Duplicate'),
+            onClick: onDuplicate,
           },
           {
             icon: 'delete',

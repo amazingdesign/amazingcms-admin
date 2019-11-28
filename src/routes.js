@@ -64,6 +64,11 @@ export const makeRoutes = (collectionsData, systemCollectionsData, dispatch, t) 
       component: React.lazy(() => import('./pages/collections/:collectionName/:id')),
     },
     {
+      name: 'Collection duplicate',
+      path: ['/collections/:collectionName/duplicate/:id'],
+      component: React.lazy(() => import('./pages/collections/:collectionName/duplicate/:id')),
+    },
+    {
       name: 'System collection add',
       path: ['/system-collections/:collectionName/new'],
       component: React.lazy(() => import('./pages/system-collections/:collectionName/new')),
@@ -72,6 +77,11 @@ export const makeRoutes = (collectionsData, systemCollectionsData, dispatch, t) 
       name: 'System collection edit',
       path: ['/system-collections/:collectionName/:id'],
       component: React.lazy(() => import('./pages/system-collections/:collectionName/:id')),
+    },
+    {
+      name: 'System collection duplicate',
+      path: ['/system-collections/:collectionName/duplicate/:id'],
+      component: React.lazy(() => import('./pages/system-collections/:collectionName/duplicate/:id')),
     },
   ])
 

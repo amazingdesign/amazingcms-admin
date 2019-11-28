@@ -65,7 +65,7 @@ export const restServices = makeRestServices(
       url: `${window._env_.REACT_APP_API_URL}/collections/:id`,
       actionsDeclarations: crudActionsDeclarations,
       onReceivesData: ({ method, name }, dispatch) => {
-        if (['update', 'create'].includes(name)) {
+        if (['update', 'create', 'delete'].includes(name)) {
           // need to reload all collections after change
           const currentInstance = instances[0]
           dispatch(currentInstance.actions.collections.find())
