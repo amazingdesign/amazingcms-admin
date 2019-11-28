@@ -2,6 +2,14 @@ import makeRestServices, { crudActionsDeclarations, instances } from 'redux-rest
 
 import axios from './axios'
 
+const updateSystemCollectionsOnRecordModify = ({ method, name }, dispatch) => {
+  if (['update', 'create', 'delete'].includes(name)) {
+    // need to reload all collections after change
+    const currentInstance = instances[0]
+    dispatch(currentInstance.actions['system-collections'].find())
+  }
+}
+
 export const restServices = makeRestServices(
   [
     {
@@ -24,41 +32,49 @@ export const restServices = makeRestServices(
       name: 'system-collection-users',
       url: `${window._env_.REACT_APP_API_URL}/users/:id`,
       actionsDeclarations: crudActionsDeclarations,
+      onReceivesData: updateSystemCollectionsOnRecordModify,
     },
     {
       name: 'system-collection-groups',
       url: `${window._env_.REACT_APP_API_URL}/groups/:id`,
       actionsDeclarations: crudActionsDeclarations,
+      onReceivesData: updateSystemCollectionsOnRecordModify,
     },
     {
       name: 'system-collection-privileges',
       url: `${window._env_.REACT_APP_API_URL}/privileges/:id`,
       actionsDeclarations: crudActionsDeclarations,
+      onReceivesData: updateSystemCollectionsOnRecordModify,
     },
     {
       name: 'system-collection-orders',
       url: `${window._env_.REACT_APP_API_URL}/orders/:id`,
       actionsDeclarations: crudActionsDeclarations,
+      onReceivesData: updateSystemCollectionsOnRecordModify,
     },
     {
       name: 'system-collection-payments',
       url: `${window._env_.REACT_APP_API_URL}/payments/:id`,
       actionsDeclarations: crudActionsDeclarations,
+      onReceivesData: updateSystemCollectionsOnRecordModify,
     },
     {
       name: 'system-collection-events',
       url: `${window._env_.REACT_APP_API_URL}/events/:id`,
       actionsDeclarations: crudActionsDeclarations,
+      onReceivesData: updateSystemCollectionsOnRecordModify,
     },
     {
       name: 'system-collection-events-log',
       url: `${window._env_.REACT_APP_API_URL}/events-log/:id`,
       actionsDeclarations: crudActionsDeclarations,
+      onReceivesData: updateSystemCollectionsOnRecordModify,
     },
     {
       name: 'system-collection-languages',
       url: `${window._env_.REACT_APP_API_URL}/languages/:id`,
       actionsDeclarations: crudActionsDeclarations,
+      onReceivesData: updateSystemCollectionsOnRecordModify,
     },
     {
       name: 'system-collection-collections',

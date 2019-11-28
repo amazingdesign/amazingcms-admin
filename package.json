@@ -7,7 +7,7 @@
     "@bit/amazingdesign.react-redux-mui-starter.default-submit-field": "^1.0.0",
     "@bit/amazingdesign.react-redux-mui-starter.display-flash-toasts": "0.0.4",
     "@bit/amazingdesign.react-redux-mui-starter.i18n": "0.0.1",
-    "@bit/amazingdesign.react-redux-mui-starter.kit": "0.0.6",
+    "@bit/amazingdesign.react-redux-mui-starter.kit": "0.0.9",
     "@bit/amazingdesign.react-redux-mui-starter.loading-indictor": "0.0.3",
     "@bit/amazingdesign.react-redux-mui-starter.make-auth-requests": "0.0.1",
     "@bit/amazingdesign.react-redux-mui-starter.make-redux-auth": "0.0.1",
