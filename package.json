@@ -57,7 +57,7 @@
   },
   "bit": {
     "env": {
-      "compiler": "bit.envs/compilers/react@1.0.4"
+      "compiler": "bit.envs/compilers/react@1.0.5"
     },
     "componentsDefaultDirectory": "components/{name}",
     "packageManager": "npm"
