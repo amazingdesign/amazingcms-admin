@@ -4,11 +4,10 @@ import { useDispatch } from 'react-redux'
 import { push } from 'connected-react-router'
 
 import qs from 'qs'
-import { useLocation } from 'react-router'
 
 export const useQsParams = (defaultParams) => {
   const dispatch = useDispatch()
-  const { search } = useLocation()
+  const { search } = window.location
 
   const qsParams = qs.parse(search, { ignoreQueryPrefix: true })
   const initialParams = { ...defaultParams, ...qsParams }
