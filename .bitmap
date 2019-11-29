@@ -13,6 +13,18 @@
         "origin": "AUTHORED",
         "exported": true
     },
+    "amazingdesign.react-redux-mui-starter/use-debounce@0.0.1": {
+        "files": [
+            {
+                "relativePath": "src/bits/useDebounce.js",
+                "test": false,
+                "name": "useDebounce.js"
+            }
+        ],
+        "mainFile": "src/bits/useDebounce.js",
+        "origin": "AUTHORED",
+        "exported": true
+    },
     "amazingdesign.react-redux-mui-starter/use-qs-params@0.0.2": {
         "files": [
             {
@@ -101,7 +113,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "amazingdesign.uniforms/map-json-schema-to-uniforms-schema@0.0.2": {
+    "amazingdesign.uniforms/map-json-schema-to-uniforms-schema@0.0.3": {
         "files": [
             {
                 "relativePath": "src/bits/uniforms/mapJSONSchemaToUniformsSchema.js",
@@ -110,6 +122,89 @@
             }
         ],
         "mainFile": "src/bits/uniforms/mapJSONSchemaToUniformsSchema.js",
+        "origin": "AUTHORED",
+        "exported": true
+    },
+    "amazingdesign.uniforms/mdx-editor-field@0.0.1": {
+        "files": [
+            {
+                "relativePath": "src/bits/uniforms/MDXEditorField/BackgroundFieldWrapper.js",
+                "test": false,
+                "name": "BackgroundFieldWrapper.js"
+            },
+            {
+                "relativePath": "src/bits/uniforms/MDXEditorField/ErrorMessage.js",
+                "test": false,
+                "name": "ErrorMessage.js"
+            },
+            {
+                "relativePath": "src/bits/uniforms/MDXEditorField/FullScreenButton.js",
+                "test": false,
+                "name": "FullScreenButton.js"
+            },
+            {
+                "relativePath": "src/bits/uniforms/MDXEditorField/Input/Input.js",
+                "test": false,
+                "name": "Input.js"
+            },
+            {
+                "relativePath": "src/bits/uniforms/MDXEditorField/Input/ReactMDEEditor.css",
+                "test": false,
+                "name": "ReactMDEEditor.css"
+            },
+            {
+                "relativePath": "src/bits/uniforms/MDXEditorField/Input/ReactMDEEditor.js",
+                "test": false,
+                "name": "ReactMDEEditor.js"
+            },
+            {
+                "relativePath": "src/bits/uniforms/MDXEditorField/Input/SimpleMDEEditor.js",
+                "test": false,
+                "name": "SimpleMDEEditor.js"
+            },
+            {
+                "relativePath": "src/bits/uniforms/MDXEditorField/Input/index.js",
+                "test": false,
+                "name": "index.js"
+            },
+            {
+                "relativePath": "src/bits/uniforms/MDXEditorField/LoadingIndicator.js",
+                "test": false,
+                "name": "LoadingIndicator.js"
+            },
+            {
+                "relativePath": "src/bits/uniforms/MDXEditorField/MDXEditor.js",
+                "test": false,
+                "name": "MDXEditor.js"
+            },
+            {
+                "relativePath": "src/bits/uniforms/MDXEditorField/Preview.js",
+                "test": false,
+                "name": "Preview.js"
+            },
+            {
+                "relativePath": "src/bits/uniforms/MDXEditorField/PreviewVisibleButton.js",
+                "test": false,
+                "name": "PreviewVisibleButton.js"
+            },
+            {
+                "relativePath": "src/bits/uniforms/MDXEditorField/ToggleEditorButton.js",
+                "test": false,
+                "name": "ToggleEditorButton.js"
+            },
+            {
+                "relativePath": "src/bits/uniforms/MDXEditorField/index.js",
+                "test": false,
+                "name": "index.js"
+            },
+            {
+                "relativePath": "src/bits/uniforms/MDXEditorField/mdxPreview.js",
+                "test": false,
+                "name": "mdxPreview.js"
+            }
+        ],
+        "mainFile": "src/bits/uniforms/MDXEditorField/index.js",
+        "trackDir": "src/bits/uniforms/MDXEditorField",
         "origin": "AUTHORED",
         "exported": true
     },
@@ -131,7 +226,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "amazingdesign.uniforms/uniform@0.0.2": {
+    "amazingdesign.uniforms/uniform@0.0.3": {
         "files": [
             {
                 "relativePath": "src/bits/uniforms/Uniform/Uniform.js",

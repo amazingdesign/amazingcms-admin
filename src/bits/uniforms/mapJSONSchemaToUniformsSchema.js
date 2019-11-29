@@ -21,11 +21,14 @@ import {
 import ListFieldReorder from './ListFieldReorder'
 import Base64ImageField from './Base64ImageField'
 import MonacoEditorField from './MonacoEditorField'
+import MDXEditorField from './MDXEditorField'
 
 import { mapValues } from 'lodash'
 
 export const mapFieldNameToField = (fieldName) => {
   switch (fieldName) {
+    case 'MDXEditorField':
+      return MDXEditorField
     case 'MonacoEditorField':
       return MonacoEditorField
     case 'ListFieldReorder':
