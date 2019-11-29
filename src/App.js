@@ -74,7 +74,7 @@ const App = () => {
         routerRoutes={routerRoutes}
 
         userAvatarSrc={userAvatarSrc}
-        appTitle={'react-redux-mui-starter'}
+        appTitle={'Amazing CMS'}
         footer={<CopyrightFooter />}
         loginAside={<LoginImage />}
       />
