@@ -11,7 +11,10 @@ const renderDate = (field) => (rowData) => formattedDate(rowData[field.name])
 const renderDateTime = (field) => (rowData) => formattedDateTime(rowData[field.name])
 const renderTimeFromNow = (field) => (rowData) => timeFromNow(rowData[field.name])
 
-const renderCurrency = (field) => (rowData) => String(rowData[field.name].toFixed(2))
+const renderCurrency = (field) => (rowData) => {
+  const value = rowData[field.name] || 0
+  return String(value.toFixed(2))
+}
 
 const renderAvatar = (field) => (rowData) => <Avatar src={rowData[field.name]} />
 
