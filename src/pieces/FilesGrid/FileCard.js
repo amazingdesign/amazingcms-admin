@@ -20,7 +20,7 @@ const useStyles = makeStyles({
   },
 })
 
-const FileCard = ({ src, title, name, desc, children }) => {
+const FileCard = ({ src, title, name, desc, mediaContent, children }) => {
   const classes = useStyles()
 
   return (
@@ -30,7 +30,9 @@ const FileCard = ({ src, title, name, desc, children }) => {
           className={classes.media}
           image={src}
           title={title}
-        />
+        >
+          {mediaContent}
+        </CardMedia>
         {
           (name || desc) &&
           <CardContent>
@@ -64,6 +66,7 @@ FileCard.propTypes = {
   title: PropTypes.string,
   name: PropTypes.node,
   desc: PropTypes.node,
+  mediaContent: PropTypes.node,
   children: PropTypes.node,
 }
 

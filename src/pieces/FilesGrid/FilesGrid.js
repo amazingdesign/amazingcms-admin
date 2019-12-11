@@ -11,6 +11,7 @@ import { Button, Typography, Tooltip } from '@material-ui/core'
 import { Delete as DeleteIcon, Link as LinkIcon, CloudDownload as CloudDownloadIcon } from '@material-ui/icons'
 
 import FileCard from './FileCard'
+import MimeTypeIcon from '../../bits/MimeTypeIcon'
 
 const makeSrc = (bucketName, file) => `${window._env_.REACT_APP_API_URL}/downloader/${bucketName}/${file._id}`
 const makeThumbnailSrc = (bucketName, file) => (
@@ -79,16 +80,38 @@ const FilesGrid = ({ data, confirm, onDelete, bucketName }) => {
     <div style={styles.root}>
       {
         data &&
-        data.map((file) => (
-          <FileCard
-            key={file._id}
-            src={makeThumbnailSrc(bucketName, file)}
-            title={file.filename}
-            desc={makeDesc(file)}
-          >
-            {makeActions({ bucketName, confirm, onDelete, t })(file)}
-          </FileCard>
-        ))
+        data.map((file) => {
+          const isFileAnImage = ['image/jpeg', 'image/png'].includes(file.metadata.mimetype)
+
+          const src = (
+            isFileAnImage ?
+              makeThumbnailSrc(bucketName, file)
+              :
+              null
+          )
+
+          const mediaContent = (
+            !isFileAnImage ?
+              <MimeTypeIcon
+                size={100}
+                mimetype={file.metadata.mimetype}
+              />
+              :
+              null
+          )
+
+          return (
+            <FileCard
+              key={file._id}
+              src={src}
+              mediaContent={mediaContent}
+              title={file.filename}
+              desc={makeDesc(file)}
+            >
+              {makeActions({ bucketName, confirm, onDelete, t })(file)}
+            </FileCard>
+          )
+        })
       }
     </div >
   )

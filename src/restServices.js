@@ -1,4 +1,6 @@
 import makeRestServices, { crudActionsDeclarations, instances } from 'redux-rest-services'
+import { flashMessage } from 'redux-flash'
+import { store } from './store'
 
 import axios from './axios'
 
@@ -96,7 +98,10 @@ export const restServices = makeRestServices(
         name: 'sendFiles',
         method: 'POST',
         headers: { 'Content-Type': 'multipart/form-data' },
-        onUploadProgress: console.log,
+        onUploadProgress: (event) => {
+          const percentLoaded = Math.round((event.loaded / event.total) * 100)
+          store.dispatch(flashMessage(percentLoaded))
+        },
       }].concat(crudActionsDeclarations),
     },
   ],
