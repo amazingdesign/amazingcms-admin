@@ -3,6 +3,24 @@ import React from 'react'
 
 import { logOutAsyncAction } from './auth'
 
+const addSeparatorAtLastRoute = (routes) => ((
+  routes &&
+  routes.map(
+    (route, i, arr) => (
+      i === (arr.length - 1) ?
+        {
+          ...route,
+          separator: {
+            ...route.separator,
+            below: true,
+          },
+        }
+        :
+        route
+    )
+  )
+) || [])
+
 export const makeRoutes = (collectionsData, systemCollectionsData, dispatch, t) => {
   const collectionsRoutes = (
     collectionsData &&
@@ -28,28 +46,26 @@ export const makeRoutes = (collectionsData, systemCollectionsData, dispatch, t) 
     }))
   )
 
-  const systemRoutesWithSeparatorAtEnd = (
-    systemCollectionsRoutes &&
-    systemCollectionsRoutes.map(
-      (route, i, arr) => (
-        i === (arr.length - 1) ?
-          {
-            ...route,
-            separator: {
-              ...route.separator,
-              below: true,
-            },
-          }
-          :
-          route
-      )
-    )
-  ) || []
+  const systemRoutesWithSeparatorAtEnd = addSeparatorAtLastRoute(systemCollectionsRoutes)
+
+  const exoticCollectionsRoutes = [
+    {
+      name: 'Files',
+      path: ['/files'],
+      component: React.lazy(() => import('./pages/files')),
+      icon: 'fas fa-cloud',
+    },
+  ]
+
+  const exoticRoutesWithSeparatorAtEnd = addSeparatorAtLastRoute(exoticCollectionsRoutes)
 
   const mainMenuRoutes = (
     systemRoutesWithSeparatorAtEnd &&
     collectionsRoutes &&
-    systemRoutesWithSeparatorAtEnd.concat(collectionsRoutes)
+    exoticRoutesWithSeparatorAtEnd &&
+    systemRoutesWithSeparatorAtEnd
+      .concat(exoticRoutesWithSeparatorAtEnd)
+      .concat(collectionsRoutes)
   ) || []
 
   const routerRoutes = mainMenuRoutes.concat([

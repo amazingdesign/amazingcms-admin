@@ -28,7 +28,7 @@ const Page = (props) => {
   const classes = useStyles()
 
   return (
-    <div className={classes.root}>
+    <div style={props.style} className={classes.root}>
       {props.childrenAbove}
       <div className={classes.content}>
         {
@@ -49,6 +49,7 @@ const Page = (props) => {
 }
 
 Page.propTypes = {
+  style: PropTypes.object,
   paperProps: PropTypes.object,
   usePaper: PropTypes.bool,
   children: PropTypes.node,
