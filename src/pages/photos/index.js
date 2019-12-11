@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useParams } from 'react-router'
 
-import FilesEditor from '../../pieces/FilesEditor/FilesEditor'
+import FilesEditor from '../../bits/FilesEditor'
 
 const FilesPage = (props) => {
   const { bucketName } = useParams()

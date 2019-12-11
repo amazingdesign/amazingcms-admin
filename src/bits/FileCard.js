@@ -5,7 +5,7 @@ import formatBytes from '@bit/amazingdesign.utils.format-bytes'
 
 import { Typography } from '@material-ui/core'
 
-import MimeTypeIcon from '../../bits/MimeTypeIcon'
+import MimeTypeIcon from './MimeTypeIcon'
 import MediaCard from './MediaCard'
 
 const makeSrc = (bucketName, file) => `${window._env_.REACT_APP_API_URL}/downloader/${bucketName}/${file._id}`

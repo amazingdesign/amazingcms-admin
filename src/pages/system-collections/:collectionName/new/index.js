@@ -12,7 +12,7 @@ import { Uniform } from '../../../../bits/uniforms/Uniform'
 import { useDataItemFromStore } from '../../../../bits/redux-rest-services/useDataItemFromStore'
 import { useService } from '../../../../bits/redux-rest-services/useService'
 
-import Page from '../../../../pieces/Page'
+import Page from '../../../../bits/Page'
 import Button from '../../../../pieces/Button'
 
 const EditSystemCollectionPage = (props) => {

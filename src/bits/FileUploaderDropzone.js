@@ -5,8 +5,8 @@ import { useService } from '../bits/redux-rest-services/useService'
 
 import Dropzone from '../bits/Dropzone'
 
-const FileUploaderDropzone = ({ bucketName, acceptDesc, buttonProps, dropzoneProps }) => {
-  const { sendFiles, find } = useService('uploader', { bucketName })
+const FileUploaderDropzone = ({ bucketName, serviceName, acceptDesc, buttonProps, dropzoneProps }) => {
+  const { sendFiles, find } = useService(serviceName, { bucketName })
 
   const onFilesSubmit = (acceptedFiles, rejectedFiles) => {
     if (acceptedFiles.length === 0) return
@@ -33,12 +33,14 @@ const FileUploaderDropzone = ({ bucketName, acceptDesc, buttonProps, dropzonePro
 
 FileUploaderDropzone.defaultProps = {
   bucketName: 'fs',
+  serviceName: 'uploader',
 }
 
 FileUploaderDropzone.propTypes = {
   buttonProps: PropTypes.object,
   dropzoneProps: PropTypes.object,
   bucketName: PropTypes.string.isRequired,
+  serviceName: PropTypes.string.isRequired,
   acceptDesc: PropTypes.arrayOf(PropTypes.string),
 }
 

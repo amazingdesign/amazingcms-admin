@@ -5,13 +5,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { connectField } from 'uniforms'
-import DialogWithButton from '../DialogWithButton'
-import FilesEditor from '../../pieces/FilesEditor'
-import { FileCard } from '../../pieces/FilesGrid'
+import tinycolor from 'tinycolor2'
 
 import { useTheme } from '@material-ui/core/styles'
 
-import tinycolor from 'tinycolor2'
+import DialogWithButton from '../DialogWithButton'
+import FilesEditor from '../FilesEditor'
+import FileCard from '../FileCard'
 
 const styles = {
   root: {

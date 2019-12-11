@@ -2,11 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { useTranslation } from 'react-i18next'
-import { useServiceLoaded } from '../../bits/redux-rest-services/useServiceLoaded'
 
-import Page from '../../pieces/Page'
-import FileUploaderDropzone from '../../pieces/FileUploaderDropzone'
-import FilesGrid from '../../pieces/FilesGrid'
+import { useServiceLoaded } from './redux-rest-services/useServiceLoaded'
+
+import FileUploaderDropzone from './FileUploaderDropzone'
+import FilesGrid from './FilesGrid'
+import Page from './Page'
 
 const FilesEditor = (props) => {
   const { t } = useTranslation()

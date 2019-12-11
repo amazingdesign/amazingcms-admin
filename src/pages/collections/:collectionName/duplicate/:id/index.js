@@ -13,7 +13,7 @@ import { useDataItemFromStore } from '../../../../../bits/redux-rest-services/us
 import { useServiceLoaded } from '../../../../../bits/redux-rest-services/useServiceLoaded'
 import { useService } from '../../../../../bits/redux-rest-services/useService'
 
-import Page from '../../../../../pieces/Page'
+import Page from '../../../../../bits/Page'
 import Button from '../../../../../pieces/Button'
 
 const EditCollectionPage = (props) => {

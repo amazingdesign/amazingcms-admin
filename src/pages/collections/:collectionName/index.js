@@ -7,7 +7,7 @@ import { push } from 'connected-react-router'
 import { useTranslation } from 'react-i18next'
 
 import CollectionTable from '../../../pieces/CollectionTable'
-import Page from '../../../pieces/Page'
+import Page from '../../../bits/Page'
 import Button from '../../../pieces/Button'
 
 const CollectionPage = (props) => {
