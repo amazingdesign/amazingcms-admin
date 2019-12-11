@@ -90,7 +90,7 @@ export const restServices = makeRestServices(
     },
     {
       name: 'uploader',
-      url: `${window._env_.REACT_APP_API_URL}/uploader/:id`,
+      url: `${window._env_.REACT_APP_API_URL}/uploader/:bucketName/:id`,
       transformer: data => data && data.rows,
       actionsDeclarations: [{
         name: 'sendFiles',
@@ -98,13 +98,6 @@ export const restServices = makeRestServices(
         headers: { 'Content-Type': 'multipart/form-data' },
         onUploadProgress: console.log,
       }].concat(crudActionsDeclarations),
-      onReceivesData: ({ method, name }, dispatch) => {
-        if (['sendFiles', 'update', 'create', 'delete'].includes(name)) {
-          // need to current collection after change
-          const currentInstance = instances[0]
-          dispatch(currentInstance.actions.uploader.find({ pageSize: Number.MAX_SAFE_INTEGER }))
-        }
-      },
     },
   ],
   (...all) => axios(...all).then(response => response.data)

@@ -51,9 +51,17 @@ export const makeRoutes = (collectionsData, systemCollectionsData, dispatch, t) 
   const exoticCollectionsRoutes = [
     {
       name: 'Files',
-      path: ['/files'],
+      path: ['/files/:bucketName?'],
+      pathWithParams: '/files',
       component: React.lazy(() => import('./pages/files')),
       icon: 'fas fa-cloud',
+    },
+    {
+      name: 'Photos',
+      path: ['/photos/:bucketName?'],
+      pathWithParams: '/photos',
+      component: React.lazy(() => import('./pages/photos')),
+      icon: 'fas fa-image',
     },
   ]
 

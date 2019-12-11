@@ -5,18 +5,18 @@ import { useService } from '../bits/redux-rest-services/useService'
 
 import Dropzone from '../bits/Dropzone'
 
-const FileUploaderDropzone = ({ accept, acceptDesc, buttonProps, dropzoneProps }) => {
-  const { sendFiles } = useService('uploader')
+const FileUploaderDropzone = ({ bucketName, acceptDesc, buttonProps, dropzoneProps }) => {
+  const { sendFiles, find } = useService('uploader', { bucketName })
 
   const onFilesSubmit = (acceptedFiles, rejectedFiles) => {
     if (acceptedFiles.length === 0) return
 
     const formData = new FormData()
     acceptedFiles.forEach((file) => {
-      formData.append('fs', file, file.name)
+      formData.append(bucketName, file, file.name)
     })
 
-    return sendFiles({}, { data: formData })
+    return sendFiles({}, { data: formData }).then(() => find({ pageSize: Number.MAX_SAFE_INTEGER }))
   }
 
   return (
@@ -31,10 +31,14 @@ const FileUploaderDropzone = ({ accept, acceptDesc, buttonProps, dropzoneProps }
   )
 }
 
+FileUploaderDropzone.defaultProps = {
+  bucketName: 'fs',
+}
+
 FileUploaderDropzone.propTypes = {
   buttonProps: PropTypes.object,
   dropzoneProps: PropTypes.object,
-  accept: PropTypes.arrayOf(PropTypes.string),
+  bucketName: PropTypes.string.isRequired,
   acceptDesc: PropTypes.arrayOf(PropTypes.string),
 }
 

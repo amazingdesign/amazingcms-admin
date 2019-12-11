@@ -9,9 +9,10 @@ const FilesPage = (props) => {
 
   return (
     <FilesEditor
-      bucketName={bucketName || 'files'}
+      bucketName={bucketName || 'photos'}
       dropzoneProps={{
-        // there is no accept prop so all files will be accepted
+        accept: ['image/jpeg', 'image/png'],
+        acceptDesc: ['*.jpeg', '*.png'],
         maxSize: 10485760, // 10 MB
       }}
     />
