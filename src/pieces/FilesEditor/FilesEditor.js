@@ -43,6 +43,7 @@ const FilesEditor = (props) => {
           <Loader>
             <FilesGrid
               data={data}
+              onClick={props.onClick}
               onDelete={(id) => remove({ id }).then(() => find({ pageSize: Number.MAX_SAFE_INTEGER }))}
               bucketName={props.bucketName}
             />
@@ -65,6 +66,7 @@ FilesEditor.defaultProps = {
 FilesEditor.propTypes = {
   bucketName: PropTypes.string.isRequired,
   dropzoneProps: PropTypes.object.isRequired,
+  onClick: PropTypes.func,
 }
 
 export default FilesEditor

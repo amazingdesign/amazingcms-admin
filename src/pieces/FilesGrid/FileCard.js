@@ -1,73 +1,75 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { makeStyles } from '@material-ui/core/styles'
+import formatBytes from '@bit/amazingdesign.utils.format-bytes'
 
-import Card from '@material-ui/core/Card'
-import CardActionArea from '@material-ui/core/CardActionArea'
-import CardActions from '@material-ui/core/CardActions'
-import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
-import Typography from '@material-ui/core/Typography'
+import { Typography } from '@material-ui/core'
 
-const useStyles = makeStyles({
-  card: {
-    width: 272,
-    margin: '1rem',
-  },
-  media: {
-    height: 140,
-  },
-})
+import MimeTypeIcon from '../../bits/MimeTypeIcon'
+import MediaCard from './MediaCard'
 
-const FileCard = ({ src, title, name, desc, mediaContent, children }) => {
-  const classes = useStyles()
+const makeSrc = (bucketName, file) => `${window._env_.REACT_APP_API_URL}/downloader/${bucketName}/${file._id}`
+const makeThumbnailSrc = (bucketName, file) => (
+  makeSrc(bucketName, file) +
+  '?resize=' +
+  encodeURIComponent(JSON.stringify({ height: 280 }))
+)
+
+const makeDesc = (file) => [
+  <Typography key={'title'} style={{ fontSize: 'small' }} noWrap={true} component={'p'}>
+    <b>Title:</b> {file.filename}
+  </Typography>,
+  <Typography key={'createdAt'} style={{ fontSize: 'small' }} noWrap={true} component={'p'}>
+    <b>Created at:</b> {file.uploadDate}
+  </Typography>,
+  <Typography key={'type'} style={{ fontSize: 'small' }} noWrap={true} component={'p'}>
+    <b>Type:</b> {file.metadata.mimetype}
+  </Typography>,
+  <Typography key={'size'} style={{ fontSize: 'small' }} noWrap={true} component={'p'}>
+    <b>Size:</b> {formatBytes(file.length)}
+  </Typography>,
+]
+
+
+const FileCard = ({ file, bucketName, onClick, ...otherProps }) => {
+  if(!file || !file.metadata) return null
+
+  const isFileAnImage = ['image/jpeg', 'image/png'].includes(file.metadata.mimetype)
+
+  const src = (
+    isFileAnImage ?
+      makeThumbnailSrc(bucketName, file)
+      :
+      null
+  )
+
+  const mediaContent = (
+    !isFileAnImage ?
+      <MimeTypeIcon
+        size={100}
+        mimetype={file.metadata.mimetype}
+      />
+      :
+      null
+  )
 
   return (
-    <Card className={classes.card}>
-      <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image={src}
-          title={title}
-        >
-          {mediaContent}
-        </CardMedia>
-        {
-          (name || desc) &&
-          <CardContent>
-            {
-              name &&
-              <Typography gutterBottom variant={'h5'} component={'h2'}>
-                {name}
-              </Typography>
-            }
-            {
-              desc &&
-              <Typography variant={'body2'} color={'textSecondary'} component={'div'}>
-                {desc}
-              </Typography>
-            }
-          </CardContent>
-        }
-      </CardActionArea>
-      {
-        children &&
-        <CardActions>
-          {children}
-        </CardActions>
-      }
-    </Card>
+    <MediaCard
+      key={file._id}
+      src={src}
+      mediaContent={mediaContent}
+      title={file.filename}
+      desc={makeDesc(file)}
+      onClick={() => onClick && onClick(file)}
+      {...otherProps}
+    />
   )
 }
 
 FileCard.propTypes = {
-  src: PropTypes.string,
-  title: PropTypes.string,
-  name: PropTypes.node,
-  desc: PropTypes.node,
-  mediaContent: PropTypes.node,
-  children: PropTypes.node,
+  file: PropTypes.object,
+  onClick: PropTypes.func,
+  bucketName: PropTypes.string.isRequired,
 }
 
 export default FileCard

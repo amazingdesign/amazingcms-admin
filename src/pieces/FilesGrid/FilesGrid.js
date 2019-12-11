@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import React from 'react'
 import PropTypes from 'prop-types'
 
@@ -5,35 +6,13 @@ import { useTranslation } from 'react-i18next'
 
 import withConfirm from 'material-ui-confirm'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import formatBytes from '@bit/amazingdesign.utils.format-bytes'
 
-import { Button, Typography, Tooltip } from '@material-ui/core'
+import { Button, Tooltip } from '@material-ui/core'
 import { Delete as DeleteIcon, Link as LinkIcon, CloudDownload as CloudDownloadIcon } from '@material-ui/icons'
 
 import FileCard from './FileCard'
-import MimeTypeIcon from '../../bits/MimeTypeIcon'
 
 const makeSrc = (bucketName, file) => `${window._env_.REACT_APP_API_URL}/downloader/${bucketName}/${file._id}`
-const makeThumbnailSrc = (bucketName, file) => (
-  makeSrc(bucketName, file) +
-  '?resize=' +
-  encodeURIComponent(JSON.stringify({ height: 280 }))
-)
-
-const makeDesc = (file) => [
-  <Typography key={'title'} style={{ fontSize: 'small' }} noWrap={true} component={'p'}>
-    <b>Title:</b> {file.filename}
-  </Typography>,
-  <Typography key={'createdAt'} style={{ fontSize: 'small' }} noWrap={true} component={'p'}>
-    <b>Created at:</b> {file.uploadDate}
-  </Typography>,
-  <Typography key={'type'} style={{ fontSize: 'small' }} noWrap={true} component={'p'}>
-    <b>Type:</b> {file.metadata.mimetype}
-  </Typography>,
-  <Typography key={'size'} style={{ fontSize: 'small' }} noWrap={true} component={'p'}>
-    <b>Size:</b> {formatBytes(file.length)}
-  </Typography>,
-]
 
 const makeActions = ({ bucketName, confirm, onDelete, t }) => (file) => [
   <Tooltip key={'delete'} title={'Delete'}>
@@ -73,45 +52,23 @@ const styles = {
   },
 }
 
-const FilesGrid = ({ data, confirm, onDelete, bucketName }) => {
+const FilesGrid = ({ data, confirm, onClick, onDelete, bucketName }) => {
   const { t } = useTranslation()
 
   return (
     <div style={styles.root}>
       {
         data &&
-        data.map((file) => {
-          const isFileAnImage = ['image/jpeg', 'image/png'].includes(file.metadata.mimetype)
-
-          const src = (
-            isFileAnImage ?
-              makeThumbnailSrc(bucketName, file)
-              :
-              null
-          )
-
-          const mediaContent = (
-            !isFileAnImage ?
-              <MimeTypeIcon
-                size={100}
-                mimetype={file.metadata.mimetype}
-              />
-              :
-              null
-          )
-
-          return (
-            <FileCard
-              key={file._id}
-              src={src}
-              mediaContent={mediaContent}
-              title={file.filename}
-              desc={makeDesc(file)}
-            >
-              {makeActions({ bucketName, confirm, onDelete, t })(file)}
-            </FileCard>
-          )
-        })
+        data.map((file) => (
+          <FileCard
+            key={file._id}
+            file={file}
+            bucketName={bucketName}
+            onClick={onClick}
+          >
+            {makeActions({ bucketName, confirm, onDelete, t })(file)}
+          </FileCard>
+        ))
       }
     </div >
   )
@@ -121,6 +78,7 @@ FilesGrid.propTypes = {
   data: PropTypes.array,
   bucketName: PropTypes.string,
   onDelete: PropTypes.func,
+  onClick: PropTypes.func,
   confirm: PropTypes.func.isRequired,
 }
 

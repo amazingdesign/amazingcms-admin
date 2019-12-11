@@ -36,7 +36,8 @@
     "redux": "^4.0.4",
     "redux-flash": "^2.0.2",
     "redux-rest-services": "^0.2.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "tinycolor2": "^1.4.1"
   },
   "scripts": {
     "start": "chmod +x ./env.sh && ./env.sh && react-scripts start",
