@@ -17,6 +17,7 @@ const FilesEditor = (props) => {
     data,
     find,
     delete: remove,
+    isLoading,
   } = useServiceLoaded(
     'uploader',
     {
@@ -27,15 +28,15 @@ const FilesEditor = (props) => {
 
   return (
     <>
-
-      <Page usePaper={true} style={{ minHeight: 250 }}>
-        <Loader>
+      {
+        !isLoading &&
+        <Page usePaper={true} style={{ minHeight: 250 }}>
           <FileUploaderDropzone
             dropzoneProps={props.dropzoneProps}
             bucketName={props.bucketName}
           />
-        </Loader>
-      </Page>
+        </Page>
+      }
 
       <Page>
         <ErrorMessage actionName={'find'} message={t('Error occurred!')}>

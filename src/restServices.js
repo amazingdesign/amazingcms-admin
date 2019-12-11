@@ -1,6 +1,10 @@
 import makeRestServices, { crudActionsDeclarations, instances } from 'redux-rest-services'
-import { flashMessage } from 'redux-flash'
+
 import { store } from './store'
+import { flashMessage } from 'redux-flash'
+import { flashSuccessMessage } from './bits/flashSuccessMessage'
+
+import { i18n } from './i18n'
 
 import axios from './axios'
 
@@ -100,9 +104,17 @@ export const restServices = makeRestServices(
         headers: { 'Content-Type': 'multipart/form-data' },
         onUploadProgress: (event) => {
           const percentLoaded = Math.round((event.loaded / event.total) * 100)
-          store.dispatch(flashMessage(percentLoaded))
+          store.dispatch(flashMessage(i18n.t('Upload progress - ') + percentLoaded + '%'))
+          if (percentLoaded === 100) {
+            store.dispatch(flashMessage(i18n.t('Processing file(s)')))
+          }
         },
       }].concat(crudActionsDeclarations),
+      onReceivesData: ({ method, name }, dispatch) => {
+        if (['sendFiles'].includes(name)) {
+          dispatch(flashSuccessMessage(i18n.t('Upload completed!')))
+        }
+      },
     },
   ],
   (...all) => axios(...all).then(response => response.data)
