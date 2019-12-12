@@ -23,11 +23,14 @@ import Base64ImageField from './Base64ImageField'
 import MonacoEditorField from './MonacoEditorField'
 import MDXEditorField from './MDXEditorField'
 import FileField from './FileField'
+import DraftEditorField from './DraftEditorField'
 
 import { mapValues } from 'lodash'
 
 export const mapFieldNameToField = (fieldName) => {
   switch (fieldName) {
+    case 'DraftEditorField':
+      return DraftEditorField
     case 'FileField':
       return FileField
     case 'MDXEditorField':

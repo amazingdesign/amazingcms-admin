@@ -97,7 +97,10 @@ export const restServices = makeRestServices(
     {
       name: 'uploader',
       url: `${window._env_.REACT_APP_API_URL}/uploader/:bucketName/:id`,
-      transformer: data => data && data.rows,
+      transformer: (data, { method, name }) => {
+        if (name === 'find') return data && data.rows
+        return data
+      },
       actionsDeclarations: [{
         name: 'sendFiles',
         method: 'POST',

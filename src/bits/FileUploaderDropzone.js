@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { useService } from '../bits/redux-rest-services/useService'
+import { useService } from './redux-rest-services/useService'
 
-import Dropzone from '../bits/Dropzone'
+import Dropzone from './Dropzone'
 
 const FileUploaderDropzone = ({ bucketName, serviceName, acceptDesc, buttonProps, dropzoneProps }) => {
   const { sendFiles, find } = useService(serviceName, { bucketName })
