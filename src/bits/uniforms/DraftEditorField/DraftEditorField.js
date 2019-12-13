@@ -5,32 +5,15 @@ import { connectField } from 'uniforms'
 import { Editor } from 'react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
-import { useService } from '../../redux-rest-services/useService'
 import { useTranslation } from 'react-i18next'
 
-import makeToolbar from './toolbar'
+import FileButton from './FileButton'
+import toolbar from './toolbar'
 
 const isEmptyObject = (obj) => Object.entries(obj).length === 0 && obj.constructor === Object
 
 const DraftEditorField = ({ onChange, value, label, serviceName, bucketName, ...otherProps }) => {
   const { i18n } = useTranslation()
-  const { sendFiles } = useService(serviceName, { bucketName })
-
-  const makeSrc = (bucketName, file) => `${window._env_.REACT_APP_API_URL}/downloader/${bucketName}/${file._id}`
-
-  const uploadCallback = file => {
-    const formData = new FormData()
-
-    formData.append(bucketName, file, file.name)
-    
-    return sendFiles({}, { data: formData })
-      .then(([file]) => ({
-        data: {
-          link: makeSrc(bucketName, file),
-        },
-      }))
-  }
-
 
   const contentState = (
     typeof value === 'object' && isEmptyObject(value) ?
@@ -43,9 +26,12 @@ const DraftEditorField = ({ onChange, value, label, serviceName, bucketName, ...
     <div>
       <h2>{label}</h2>
       <Editor
-        toolbar={makeToolbar(uploadCallback)}
+        toolbar={toolbar}
+        toolbarCustomButtons={[<FileButton key={'file-button'} />]}
+
         initialContentState={contentState}
         onContentStateChange={onChange}
+
         localization={{
           locale: i18n.language,
         }}
@@ -57,6 +43,7 @@ const DraftEditorField = ({ onChange, value, label, serviceName, bucketName, ...
         wrapperStyle={{
           marginBottom: 20,
         }}
+
         {...otherProps}
       />
     </div>

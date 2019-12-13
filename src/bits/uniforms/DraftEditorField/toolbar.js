@@ -1,4 +1,4 @@
-export default (uploadCallback) => ({
+export default {
   options: [
     'blockType',
     'fontSize',
@@ -7,22 +7,8 @@ export default (uploadCallback) => ({
     'textAlign',
     'list',
     'link',
-    'image',
     'embedded',
     'emoji',
     'history',
   ],
-  image: {
-    urlEnabled: true,
-    uploadEnabled: true,
-    alignmentEnabled: true,
-    uploadCallback: uploadCallback,
-    previewImage: true,
-    inputAccept: 'image/jpeg,image/jpg,image/png',
-    alt: { present: false, mandatory: false },
-    defaultSize: {
-      height: 'auto',
-      width: '100%',
-    },
-  },
-})
+}

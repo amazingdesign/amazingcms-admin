@@ -10,9 +10,9 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { Button, Tooltip } from '@material-ui/core'
 import { Delete as DeleteIcon, Link as LinkIcon, CloudDownload as CloudDownloadIcon } from '@material-ui/icons'
 
-import FileCard from './FileCard'
+import { makeSrc } from './amazing-cms/makeDownloaderSrc'
 
-const makeSrc = (bucketName, file) => `${window._env_.REACT_APP_API_URL}/downloader/${bucketName}/${file._id}`
+import FileCard from './FileCard'
 
 const makeActions = ({ bucketName, confirm, onDelete, t }) => (file) => [
   <Tooltip key={'delete'} title={'Delete'}>
@@ -31,7 +31,7 @@ const makeActions = ({ bucketName, confirm, onDelete, t }) => (file) => [
     </Button>
   </Tooltip>,
   <Tooltip key={'download'} title={'Download'}>
-    <Button size={'small'} color={'primary'} onClick={() => window.open(makeSrc(bucketName, file))}>
+    <Button size={'small'} color={'primary'} onClick={() => window.open(makeSrc(bucketName)(file))}>
       <CloudDownloadIcon />
     </Button>
   </Tooltip>,

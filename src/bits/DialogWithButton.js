@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { Button } from '@material-ui/core'
+import { Button as MUIButton } from '@material-ui/core'
 import Dialog from './Dialog'
 
 const DialogWithButton = (props) => {
@@ -28,8 +28,10 @@ const DialogWithButton = (props) => {
     )
   )
 
+  const Button = props.buttonComponent || MUIButton
+
   return (
-    <div>
+    <>
       <Button
         fullWidth={true}
         onClick={openDialog}
@@ -47,12 +49,16 @@ const DialogWithButton = (props) => {
       >
         {childrenWithProps}
       </Dialog>
-    </div>
+    </>
   )
 }
 
 
 DialogWithButton.propTypes = {
+  buttonComponent: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.string,
+  ]),
   buttonProps: PropTypes.object,
   dialogProps: PropTypes.object,
   title: PropTypes.string,

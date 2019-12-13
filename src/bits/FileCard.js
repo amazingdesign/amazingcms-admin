@@ -5,12 +5,13 @@ import formatBytes from '@bit/amazingdesign.utils.format-bytes'
 
 import { Typography } from '@material-ui/core'
 
+import { makeSrc } from './amazing-cms/makeDownloaderSrc'
+
 import MimeTypeIcon from './MimeTypeIcon'
 import MediaCard from './MediaCard'
 
-const makeSrc = (bucketName, file) => `${window._env_.REACT_APP_API_URL}/downloader/${bucketName}/${file._id}`
 const makeThumbnailSrc = (bucketName, file) => (
-  makeSrc(bucketName, file) +
+  makeSrc(bucketName)(file) +
   '?resize=' +
   encodeURIComponent(JSON.stringify({ height: 280 }))
 )
