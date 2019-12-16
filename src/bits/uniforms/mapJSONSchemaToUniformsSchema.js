@@ -24,11 +24,17 @@ import MonacoEditorField from './MonacoEditorField'
 import MDXEditorField from './MDXEditorField'
 import FileField from './FileField'
 import DraftEditorField from './DraftEditorField'
+import ReactSelectField from './ReactSelectField'
+import MuiReactSelectField from './MuiReactSelectField'
 
 import { mapValues } from 'lodash'
 
 export const mapFieldNameToField = (fieldName) => {
   switch (fieldName) {
+    case 'MuiReactSelectField':
+      return MuiReactSelectField
+    case 'ReactSelectField':
+      return ReactSelectField
     case 'DraftEditorField':
       return DraftEditorField
     case 'FileField':
