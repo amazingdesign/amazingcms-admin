@@ -9,7 +9,6 @@ import { push } from 'connected-react-router'
 import { useTranslation } from 'react-i18next'
 
 import { useQsParams } from '../../bits/useQsParams'
-import { useDataItemFromStore } from '../../bits/redux-rest-services/useDataItemFromStore'
 import { useServiceLoaded } from '../../bits/redux-rest-services/useServiceLoaded'
 
 import CollectionTableStateless from './CollectionTableStateless'
@@ -17,21 +16,22 @@ import CollectionTableStateless from './CollectionTableStateless'
 const CollectionTable = ({
   collectionsServiceName,
   serviceName,
-  collectionName,
+  collectionData,
   startPage,
   startPageSize,
   confirm,
   isSystemCollection,
+  display,
   ...otherProps
 }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
+  const collectionName = collectionData.name
+
   const [params, setParams] = useQsParams({ page: startPage, pageSize: startPageSize })
   const onChangePage = (page) => setParams({ ...params, page: page + 1 })
   const onChangeRowsPerPage = (pageSize) => setParams({ ...params, pageSize })
-
-  const collectionData = useDataItemFromStore(collectionsServiceName, { query: { name: collectionName } })
 
   const {
     ErrorMessage,
@@ -57,7 +57,9 @@ const CollectionTable = ({
   )
 
   const onEdit = (event, rowData) => dispatch(push(`/${collectionsServiceName}/${collectionName}/${rowData._id}`))
-  const onDuplicate = (event, rowData) => dispatch(push(`/${collectionsServiceName}/${collectionName}/duplicate/${rowData._id}`))
+  const onDuplicate = (event, rowData) => (
+    dispatch(push(`/${collectionsServiceName}/${collectionName}/duplicate/${rowData._id}`))
+  )
   const onDelete = (event, rowData) => {
     confirm(
       () => (
@@ -79,26 +81,26 @@ const CollectionTable = ({
         isLoading={isLoading}
         collectionData={collectionData}
         data={rows && dataPromise}
-        title={collectionData.displayName || collectionData.name}
+        title={collectionData.displayName || collectionName}
         onChangePage={onChangePage}
         onChangeRowsPerPage={onChangeRowsPerPage}
         options={{ pageSize: Number(params.pageSize) }}
         actions={[
-          {
+          ...(!display.edit ? [] : [{
             icon: 'edit',
             tooltip: t('Edit'),
             onClick: onEdit,
-          },
-          {
+          }]),
+          ...(!display.duplicate ? [] : [{
             icon: 'file_copy',
             tooltip: t('Duplicate'),
             onClick: onDuplicate,
-          },
-          {
+          }]),
+          ...(!display.remove ? [] : [{
             icon: 'delete',
             tooltip: t('Delete'),
             onClick: onDelete,
-          },
+          }]),
         ]}
         {...otherProps}
       />
@@ -112,16 +114,22 @@ CollectionTable.defaultProps = {
   collectionsServiceName: 'collections',
   serviceName: 'actions',
   isSystemCollection: false,
+  display: {
+    edit: true,
+    duplicate: true,
+    remove: true,
+  },
 }
 
 CollectionTable.propTypes = {
   confirm: PropTypes.func.isRequired,
   startPage: PropTypes.number.isRequired,
   startPageSize: PropTypes.number.isRequired,
-  collectionName: PropTypes.string.isRequired,
+  collectionData: PropTypes.object.isRequired,
   collectionsServiceName: PropTypes.string.isRequired,
   serviceName: PropTypes.string.isRequired,
   isSystemCollection: PropTypes.bool.isRequired,
+  display: PropTypes.object.isRequired,
 }
 
 export default withConfirm(CollectionTable)

@@ -14,6 +14,7 @@ import { useService } from '../../../../bits/redux-rest-services/useService'
 
 import Page from '../../../../bits/Page'
 import Button from '../../../../pieces/Button'
+import CheckCollectionPermissions from '../../../../pieces/CheckCollectionPermissions'
 
 const EditSystemCollectionPage = (props) => {
   const { t } = useTranslation()
@@ -30,22 +31,27 @@ const EditSystemCollectionPage = (props) => {
   const onSubmit = (data) => create({}, { data }).then(goBack)
 
   return (
-    <Page
-      usePaper={true}
-      childrenAbove={
-        <Button onClick={goBack}>
-          {t('Go back!')}
-        </Button>
-      }
+    <CheckCollectionPermissions
+      collectionData={collectionData}
+      checks={['create']}
     >
-      <Typography variant={'h5'}>
-        {t('Add new item')}
-      </Typography>
-      <Uniform
-        schema={schema}
-        onSubmit={onSubmit}
-      />
-    </Page>
+      <Page
+        usePaper={true}
+        childrenAbove={
+          <Button onClick={goBack}>
+            {t('Go back!')}
+          </Button>
+        }
+      >
+        <Typography variant={'h5'}>
+          {t('Add new item')}
+        </Typography>
+        <Uniform
+          schema={schema}
+          onSubmit={onSubmit}
+        />
+      </Page>
+    </CheckCollectionPermissions>
   )
 }
 

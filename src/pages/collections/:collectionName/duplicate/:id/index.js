@@ -15,8 +15,9 @@ import { useService } from '../../../../../bits/redux-rest-services/useService'
 
 import Page from '../../../../../bits/Page'
 import Button from '../../../../../pieces/Button'
+import CheckCollectionPermissions from '../../../../../pieces/CheckCollectionPermissions'
 
-const EditCollectionPage = (props) => {
+const DuplicateCollectionPage = (props) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
@@ -32,30 +33,35 @@ const EditCollectionPage = (props) => {
   const onSubmit = (data) => create({}, { data }).then(goBack)
 
   return (
-    <Page
-      usePaper={true}
-      childrenAbove={
-        <Button onClick={goBack}>
-          {t('Go back!')}
-        </Button>
-      }
+    <CheckCollectionPermissions
+      collectionData={collectionData}
+      checks={['create']}
     >
-      <ErrorMessage message={t('Error occurred!')}>
-        <Loader>
-          <Typography variant={'h5'}>
-            {t('Duplicate item')}
-          </Typography>
-          <Uniform
-            schema={schema}
-            model={{ ...data, _id: undefined }}
-            onSubmit={onSubmit}
-          />
-        </Loader>
-      </ErrorMessage>
-    </Page>
+      <Page
+        usePaper={true}
+        childrenAbove={
+          <Button onClick={goBack}>
+            {t('Go back!')}
+          </Button>
+        }
+      >
+        <ErrorMessage message={t('Error occurred!')}>
+          <Loader>
+            <Typography variant={'h5'}>
+              {t('Duplicate item')}
+            </Typography>
+            <Uniform
+              schema={schema}
+              model={{ ...data, _id: undefined }}
+              onSubmit={onSubmit}
+            />
+          </Loader>
+        </ErrorMessage>
+      </Page>
+    </CheckCollectionPermissions>
   )
 }
 
-EditCollectionPage.propTypes = {}
+DuplicateCollectionPage.propTypes = {}
 
-export default EditCollectionPage
+export default DuplicateCollectionPage

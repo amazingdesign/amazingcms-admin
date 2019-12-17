@@ -14,6 +14,7 @@ import { useServiceLoaded } from '../../../../bits/redux-rest-services/useServic
 
 import Page from '../../../../bits/Page'
 import Button from '../../../../pieces/Button'
+import CheckCollectionPermissions from '../../../../pieces/CheckCollectionPermissions'
 
 const EditCollectionPage = (props) => {
   const { t } = useTranslation()
@@ -30,27 +31,32 @@ const EditCollectionPage = (props) => {
   const onSubmit = (data) => update({}, { data }).then(goBack)
 
   return (
-    <Page
-      usePaper={true}
-      childrenAbove={
-        <Button onClick={goBack}>
-          {t('Go back!')}
-        </Button>
-      }
+    <CheckCollectionPermissions
+      collectionData={collectionData}
+      checks={['update']}
     >
-      <ErrorMessage message={t('Error occurred!')}>
-        <Loader>
-          <Typography variant={'h5'}>
-            {t('Edit item')}
-          </Typography>
-          <Uniform
-            schema={schema}
-            model={data}
-            onSubmit={onSubmit}
-          />
-        </Loader>
-      </ErrorMessage>
-    </Page>
+      <Page
+        usePaper={true}
+        childrenAbove={
+          <Button onClick={goBack}>
+            {t('Go back!')}
+          </Button>
+        }
+      >
+        <ErrorMessage message={t('Error occurred!')}>
+          <Loader>
+            <Typography variant={'h5'}>
+              {t('Edit item')}
+            </Typography>
+            <Uniform
+              schema={schema}
+              model={data}
+              onSubmit={onSubmit}
+            />
+          </Loader>
+        </ErrorMessage>
+      </Page>
+    </CheckCollectionPermissions>
   )
 }
 

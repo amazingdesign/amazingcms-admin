@@ -30,6 +30,7 @@ const App = () => {
 
   const isUserLoggedIn = useSelector((state) => state.auth.isUserLoggedIn)
   const userAvatarSrc = useSelector((state) => state.auth && state.auth.userData && state.auth.userData.avatar)
+  const userPrivileges = useSelector((state) => state.auth && state.auth.userData && state.auth.userData.privileges)
 
   const collectionsData = useSelector((state) => state.collections.find.data)
   const systemCollectionsData = useSelector((state) => state['system-collections'].find.data)
@@ -39,7 +40,7 @@ const App = () => {
     routerRoutes,
     profileMenuRoutes,
   } = useMemo(() => {
-    return makeRoutes(collectionsData, systemCollectionsData, dispatch, t)
+    return makeRoutes(collectionsData, systemCollectionsData, userPrivileges, dispatch, t)
   }, [collectionsData, systemCollectionsData])
 
   const languages = [
