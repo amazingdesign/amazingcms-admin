@@ -9,15 +9,24 @@ import { reducer as flashReducer, middleware as flashMiddleware } from 'redux-fl
 import { reducer as authReducer } from './auth'
 import { restServices } from './restServices'
 
+
 export const history = createBrowserHistory()
 const routerReducer = connectRouter(history)
 
-const rootReducer = combineReducers({
+const mainReducer = combineReducers({
   auth: authReducer,
   flash: flashReducer,
   router: routerReducer,
   ...restServices.reducers,
 })
+
+const rootReducer = (state, action) => {
+  if (action.type === '@redux-auth/SET_USER_IS_LOGGED_OUT') {
+    state = undefined
+  }
+
+  return mainReducer(state, action)
+}
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
