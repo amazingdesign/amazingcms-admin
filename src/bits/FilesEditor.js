@@ -5,6 +5,8 @@ import { useTranslation } from 'react-i18next'
 
 import { useServiceLoaded } from './redux-rest-services/useServiceLoaded'
 
+import { useDataItemFromStore } from './redux-rest-services/useDataItemFromStore'
+import CheckCollectionPermissions from './CheckCollectionPermissions'
 import FileUploaderDropzone from './FileUploaderDropzone'
 import FilesGrid from './FilesGrid'
 import Page from './Page'
@@ -27,32 +29,45 @@ const FilesEditor = (props) => {
     }
   )
 
+  const collectionData = useDataItemFromStore('system-collections', { query: { name: 'uploader' } })
+
   return (
-    <>
+    <CheckCollectionPermissions collectionData={collectionData}>
       {
-        !isLoading &&
-        <Page usePaper={true} style={{ minHeight: 250 }}>
-          <FileUploaderDropzone
-            dropzoneProps={props.dropzoneProps}
-            bucketName={props.bucketName}
-          />
-        </Page>
+        ({ userCan }) => (
+          <>
+            {
+              !isLoading &&
+              <Page usePaper={true} style={{ minHeight: 250 }}>
+                <FileUploaderDropzone
+                  dropzoneProps={props.dropzoneProps}
+                  bucketName={props.bucketName}
+                />
+              </Page>
+            }
+
+            <Page>
+              <ErrorMessage actionName={'find'} message={t('Error occurred!')}>
+                <Loader>
+                  <FilesGrid
+                    data={data}
+                    onClick={props.onClick}
+                    onDelete={(id) => remove({ id }).then(() => find({ pageSize: Number.MAX_SAFE_INTEGER }))}
+                    bucketName={props.bucketName}
+                    display={{
+                      remove: userCan.remove,
+                      download: true,
+                      link: true,
+                    }}
+                  />
+                </Loader>
+              </ErrorMessage>
+            </Page>
+          </>
+        )
       }
 
-      <Page>
-        <ErrorMessage actionName={'find'} message={t('Error occurred!')}>
-          <Loader>
-            <FilesGrid
-              data={data}
-              onClick={props.onClick}
-              onDelete={(id) => remove({ id }).then(() => find({ pageSize: Number.MAX_SAFE_INTEGER }))}
-              bucketName={props.bucketName}
-            />
-          </Loader>
-        </ErrorMessage>
-      </Page>
-
-    </>
+    </CheckCollectionPermissions>
   )
 }
 

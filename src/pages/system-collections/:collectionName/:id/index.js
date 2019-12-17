@@ -14,7 +14,7 @@ import { useServiceLoaded } from '../../../../bits/redux-rest-services/useServic
 
 import Page from '../../../../bits/Page'
 import Button from '../../../../pieces/Button'
-import CheckCollectionPermissions from '../../../../pieces/CheckCollectionPermissions'
+import CheckCollectionPermissions from '../../../../bits/CheckCollectionPermissions'
 
 const EditCollectionPage = (props) => {
   const { t } = useTranslation()

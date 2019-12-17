@@ -15,7 +15,7 @@ import { useService } from '../../../../../bits/redux-rest-services/useService'
 
 import Page from '../../../../../bits/Page'
 import Button from '../../../../../pieces/Button'
-import CheckCollectionPermissions from '../../../../../pieces/CheckCollectionPermissions'
+import CheckCollectionPermissions from '../../../../../bits/CheckCollectionPermissions'
 
 const DuplicateCollectionPage = (props) => {
   const { t } = useTranslation()

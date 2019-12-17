@@ -11,8 +11,8 @@ import { useDataItemFromStore } from '../../../bits/redux-rest-services/useDataI
 
 import Button from '../../../pieces/Button'
 import CollectionTable from '../../../pieces/CollectionTable'
-import CheckCollectionPermissions from '../../../pieces/CheckCollectionPermissions'
-import { useCollectionPrivileges } from '../../../pieces/useCollectionPrivileges'
+import CheckCollectionPermissions from '../../../bits/CheckCollectionPermissions'
+import { useCollectionPrivileges } from '../../../bits/useCollectionPrivileges'
 
 const SystemCollectionPage = (props) => {
   const { t } = useTranslation()

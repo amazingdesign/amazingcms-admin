@@ -14,7 +14,8 @@ import { makeSrc } from './amazing-cms/makeDownloaderSrc'
 
 import FileCard from './FileCard'
 
-const makeActions = ({ bucketName, confirm, onDelete, t }) => (file) => [
+const makeActions = ({ bucketName, confirm, onDelete, display, t }) => (file) => [
+  display.remove &&
   <Tooltip key={'delete'} title={'Delete'}>
     <Button size={'small'} color={'primary'} onClick={() => {
       confirm(
@@ -30,11 +31,13 @@ const makeActions = ({ bucketName, confirm, onDelete, t }) => (file) => [
       <DeleteIcon />
     </Button>
   </Tooltip>,
+  display.download &&
   <Tooltip key={'download'} title={'Download'}>
     <Button size={'small'} color={'primary'} onClick={() => window.open(makeSrc(bucketName)(file))}>
       <CloudDownloadIcon />
     </Button>
   </Tooltip>,
+  display.link &&
   <Tooltip key={'copyLink'} title={'Copy download link'}>
     <CopyToClipboard text={makeSrc(bucketName, file)} >
       <Button size={'small'} color={'primary'}>
@@ -52,7 +55,7 @@ const styles = {
   },
 }
 
-const FilesGrid = ({ data, confirm, onClick, onDelete, bucketName }) => {
+const FilesGrid = ({ data, confirm, onClick, onDelete, bucketName, display }) => {
   const { t } = useTranslation()
 
   return (
@@ -66,12 +69,20 @@ const FilesGrid = ({ data, confirm, onClick, onDelete, bucketName }) => {
             bucketName={bucketName}
             onClick={onClick}
           >
-            {makeActions({ bucketName, confirm, onDelete, t })(file)}
+            {makeActions({ bucketName, confirm, onDelete, display, t })(file)}
           </FileCard>
         ))
       }
     </div >
   )
+}
+
+FilesGrid.defaultProps = {
+  display: {
+    remove: true,
+    download: true,
+    link: true,
+  },
 }
 
 FilesGrid.propTypes = {
@@ -80,6 +91,7 @@ FilesGrid.propTypes = {
   onDelete: PropTypes.func,
   onClick: PropTypes.func,
   confirm: PropTypes.func.isRequired,
+  display: PropTypes.object.isRequired,
 }
 
 export default withConfirm(FilesGrid)

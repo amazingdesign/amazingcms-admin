@@ -17,8 +17,6 @@ const CheckCollectionPermissions = ({ children, checks, collectionData }) => {
     true
   )
 
-  console.log(userCan, userPassAllChecks)
-
   return (
     !userPassAllChecks ?
       <IconMessage
@@ -26,7 +24,10 @@ const CheckCollectionPermissions = ({ children, checks, collectionData }) => {
         message={t('This route is forbidden!')}
       />
       :
-      children
+      typeof children === 'function' ?
+        children({ userCan })
+        :
+        children
   )
 }
 
@@ -35,7 +36,10 @@ CheckCollectionPermissions.defaultProps = {
 }
 
 CheckCollectionPermissions.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.func,
+  ]),
   collectionData: PropTypes.object.isRequired,
   checks: PropTypes.arrayOf(PropTypes.string).isRequired,
 }
