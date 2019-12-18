@@ -20,6 +20,7 @@ const CollectionTable = ({
   display,
   params,
   setParams,
+  onCreate,
   ...otherProps
 }) => {
   const { t } = useTranslation()
@@ -38,7 +39,7 @@ const CollectionTable = ({
     isLoading,
   } = useServiceLoaded(
     (isSystemCollection ? 'system-collection-' : '') + serviceName,
-    isSystemCollection ? params : { collectionName, ...params }
+    isSystemCollection ? { ...params } : { collectionName, ...params }
   )
 
   const rows = data && data.rows
@@ -84,6 +85,12 @@ const CollectionTable = ({
         onChangeRowsPerPage={onChangeRowsPerPage}
         options={{ pageSize: Number(params.pageSize || 10) }}
         actions={[
+          ...(!display.create ? [] : [{
+            isFreeAction: true,
+            icon: 'add',
+            tooltip: t('Add new'),
+            onClick: onCreate,
+          }]),
           ...(!display.remove ? [] : [(rowData) => ({
             icon: rowData._archived ? 'settings_backup_restore' : 'archive',
             tooltip: rowData._archived ? t('Rollback') : t('Archive'),
@@ -113,6 +120,7 @@ CollectionTable.defaultProps = {
   serviceName: 'actions',
   isSystemCollection: false,
   display: {
+    create: true,
     edit: true,
     duplicate: true,
     remove: true,
@@ -121,6 +129,7 @@ CollectionTable.defaultProps = {
 
 CollectionTable.propTypes = {
   params: PropTypes.object.isRequired,
+  onCreate: PropTypes.func.isRequired,
   setParams: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
   collectionData: PropTypes.object.isRequired,

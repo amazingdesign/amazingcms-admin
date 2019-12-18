@@ -7,6 +7,7 @@ import { push } from 'connected-react-router'
 import { useTranslation } from 'react-i18next'
 
 import { Typography } from '@material-ui/core'
+import { ArrowBack } from '@material-ui/icons'
 
 import { Uniform } from '../../../../../bits/uniforms/Uniform'
 import { useDataItemFromStore } from '../../../../../bits/redux-rest-services/useDataItemFromStore'
@@ -40,7 +41,11 @@ const DuplicateCollectionPage = (props) => {
       <Page
         usePaper={true}
         childrenAbove={
-          <Button onClick={goBack}>
+          <Button
+            onClick={goBack}
+            variant={'text'}
+            startIcon={<ArrowBack />}
+          >
             {t('Go back!')}
           </Button>
         }

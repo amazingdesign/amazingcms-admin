@@ -18,8 +18,6 @@ const ArchiveToggle = ({ onChange, query }) => {
     onChange({ _archived: value && JSON.parse(value) })
   }
 
-  console.log(query._archived)
-
   if (
     !query._archived ||
     !Object.values(STATES).includes(JSON.stringify(query._archived))

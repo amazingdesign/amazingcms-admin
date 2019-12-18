@@ -4,21 +4,16 @@ import { useParams } from 'react-router'
 import { useDispatch } from 'react-redux'
 import { push } from 'connected-react-router'
 
-import { useTranslation } from 'react-i18next'
-
 import Page from '../../../bits/Page'
 import { useQsParams } from '../../../bits/useQsParams'
 import { useCollectionPrivileges } from '../../../bits/useCollectionPrivileges'
 import CheckCollectionPermissions from '../../../bits/CheckCollectionPermissions'
 import { useDataItemFromStore } from '../../../bits/redux-rest-services/useDataItemFromStore'
 
-import Button from '../../../pieces/Button'
 import CollectionTable from '../../../pieces/CollectionTable'
 import CollectionSearch from '../../../pieces/CollectionSearch/CollectionSearch'
 
 const CollectionPage = (props) => {
-  const { t } = useTranslation()
-
   const dispatch = useDispatch()
 
   const { collectionName } = useParams()
@@ -32,17 +27,11 @@ const CollectionPage = (props) => {
   const collectionData = useDataItemFromStore(collectionsServiceName, { query: { name: collectionName } })
   const userCan = useCollectionPrivileges(collectionData)
 
-  const onAdd = (event, rowData) => dispatch(push(`/collections/${collectionName}/new`))
+  const onCreate = (event, rowData) => dispatch(push(`/collections/${collectionName}/new`))
 
   return (
     <Page>
       <CheckCollectionPermissions collectionData={collectionData}>
-        {
-          userCan.create &&
-          <Button onClick={onAdd}>
-            {t('Add new!')}
-          </Button>
-        }
         <CollectionSearch
           onChange={(query) => setParams({ ...params, query: { ...params.query, ...query } })}
           query={params.query}
@@ -55,7 +44,9 @@ const CollectionPage = (props) => {
           collectionData={collectionData}
           collectionsServiceName={collectionsServiceName}
           serviceName={'actions'}
+          onCreate={onCreate}
           display={{
+            create: userCan.create,
             edit: userCan.update,
             duplicate: userCan.create,
             remove: userCan.remove,
