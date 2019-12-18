@@ -7,12 +7,18 @@ import Select from 'react-select'
 
 const styles = {
   root: {
-    margin: '0.25rem 0',
+    margin: '0.5rem 0 0.25rem 0',
     zIndex: 20,
   },
   label: {
     fontSize: '0.875rem',
   },
+}
+
+const customStyles = {
+  container: (base) => ({ ...base }),
+  control: (base) => ({ ...base, backgroundColor: 'transparent' }),
+  menu: (base) => ({ ...base, backgroundColor: 'white', zIndex: 20 }),
 }
 
 const getValues = (values) => {
@@ -42,11 +48,7 @@ function ReactSelectField({ onChange, value, label, options, labelComponent, mul
         options={options}
         isSearchable={true}
         isMulti={field.type === 'array'}
-        styles={{
-          container: (base) => ({ ...base }),
-          control: (base) => ({ ...base, backgroundColor: 'transparent' }),
-          menu: (base) => ({ ...base, backgroundColor: 'white', zIndex: 20 }),
-        }}
+        styles={customStyles}
         {...otherProps}
       />
     </div>

@@ -7,7 +7,10 @@ export const useCollectionPrivileges = (collectionData) => {
   const userPrivileges = useSelector(state => state.auth.userData.privileges)
 
   return mapValues(
-    collectionData.requiredPrivileges,
+    (
+      collectionData &&
+      collectionData.requiredPrivileges
+    ) || {},
     (privileges) => Boolean(privileges.find(privilege => userPrivileges.includes(privilege)))
   )
 }
