@@ -1,14 +1,17 @@
 import React from 'react'
 
+import bg from './unlock.svg'
+
 const LoginImage = (props) => (
   <div
     style={{
-      width: '100%',
+      width: '80%',
+      margin: '2rem auto',
       backgroundPosition: 'center',
-      backgroundSize: 'cover',
+      backgroundSize: 'contain',
       backgroundRepeat: 'no-repeat',
       // eslint-disable-next-line no-undef
-      backgroundImage: `url(${process.env.PUBLIC_URL}/img/login-bg.svg)`,
+      backgroundImage: `url(${bg}`,
     }}
   >
   </div>
