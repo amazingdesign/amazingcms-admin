@@ -56,7 +56,7 @@ function MuiReactSelectField(props) {
   return (
     <ReactSelectField
       theme={theme}
-      labelComponent={FormLabel}
+      labelComponent={(props) => <FormLabel {...props} />}
       {...props}
     />
   )

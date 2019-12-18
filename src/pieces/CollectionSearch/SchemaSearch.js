@@ -11,11 +11,13 @@ import { Uniform } from '../../bits/uniforms/Uniform'
 
 const filterSchemaByTableFields = (collectionData) => {
   const { tableFields, schema } = collectionData
-  const tableFieldsNames = tableFields.map(field => field.name)
 
   const newSchemaProperties = pickBy(
     schema.properties,
-    (fieldSchema, fieldName) => tableFieldsNames.includes(fieldName)
+    (fieldSchema, fieldName) => (
+      tableFields.find(field => field.name === fieldName) &&
+      tableFields.find(field => field.name === fieldName).columnRenderType !== 'avatar'
+    )
   )
 
   return {
@@ -87,6 +89,10 @@ const SchemaSearch = ({ query, onChange, collectionData, label }) => {
           model={model}
           schema={filteredSchema}
           onSubmit={onSubmit}
+          // @HACK this disable validation
+          // do not need validation here because in most cases 
+          // user search not exact words so it is compared by LIKE
+          onValidate={(model, error, callback) => callback(null)}
           submitField={() => (
             <DefaultSubmitField
               startIcon={<Search />}
