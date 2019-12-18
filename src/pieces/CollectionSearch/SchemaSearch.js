@@ -61,7 +61,7 @@ const transformQueryToValues = (query, collectionData) => {
     (value, key) => {
       if (typeof value !== 'object') return value
 
-      if (value.$regex) return value.$regex
+      if (value.$regex || value.$regex === '') return value.$regex
       if (value.$in) return value.$in
 
       return value
