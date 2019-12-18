@@ -8,20 +8,31 @@ import Select from 'react-select'
 const styles = {
   root: {
     margin: '0.25rem 0',
+    zIndex: 20,
   },
   label: {
     fontSize: '0.875rem',
   },
 }
 
-const getValues = (array) => array && array.map(item => item.value)
-const filterOptionsByValues = (options, values) => (
-  values &&
-  values.map(value => options.find(option => option.value === value))
-)
+const getValues = (values) => {
+  if (!values) return
+  if (Array.isArray(values)) {
+    return values.map(item => item.value)
+  }
+  return values.value
+}
+const filterOptionsByValues = (options, values) => {
+  if (!values) return
+  if (Array.isArray(values)) {
+    return values.map(value => options.find(option => option.value === value))
+  }
+  return options.find(option => option.value === values.value)
+}
 
-function ReactSelectField({ onChange, value, label, options, labelComponent, ...otherProps }) {
+function ReactSelectField({ onChange, value, label, options, labelComponent, multiple, field, ...otherProps }) {
   const Label = labelComponent || 'h4'
+
   return (
     <div style={styles.root}>
       <Label style={styles.label}>{label}</Label>
@@ -30,7 +41,12 @@ function ReactSelectField({ onChange, value, label, options, labelComponent, ...
         onChange={(values) => onChange(getValues(values))}
         options={options}
         isSearchable={true}
-        isMulti={true}
+        isMulti={field.type === 'array'}
+        styles={{
+          container: (base) => ({ ...base }),
+          control: (base) => ({ ...base, backgroundColor: 'transparent' }),
+          menu: (base) => ({ ...base, backgroundColor: 'white', zIndex: 20 }),
+        }}
         {...otherProps}
       />
     </div>
@@ -42,11 +58,16 @@ ReactSelectField.defaultProps = {
 }
 
 ReactSelectField.propTypes = {
+  multiple: PropTypes.bool,
   options: PropTypes.array,
   onChange: PropTypes.func.isRequired,
   labelComponent: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.array,
+  ]).isRequired,
   label: PropTypes.string.isRequired,
+  field: PropTypes.object.isRequired,
 }
 
 export default connectField(ReactSelectField)
