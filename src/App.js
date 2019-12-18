@@ -6,6 +6,7 @@ import {
   logInAsyncAction,
   checkIfLoggedInAsyncAction,
   sendForgotPasswordEmailAsyncAction,
+  resetPasswordAsyncAction,
 } from './auth'
 import { restServices } from './restServices'
 
@@ -13,20 +14,36 @@ import { useTranslation } from 'react-i18next'
 
 import DisplayFlashToasts from '@bit/amazingdesign.react-redux-mui-starter.display-flash-toasts'
 import Kit from '@bit/amazingdesign.react-redux-mui-starter.kit'
+import { useQsParams } from './bits/useQsParams'
 
 import CopyrightFooter from './pieces/CopyrightFooter'
+import PasswordReset from './pieces/PasswordReset'
 import LoginImage from './pieces/LoginImage'
 
+import { createValidator } from './validator'
 import { makeRoutes } from './routes'
 import { theme } from './theme'
-
 
 const App = () => {
   const dispatch = useDispatch()
   const { t } = useTranslation(null, { useSuspense: false })
 
+  const [params, setParams] = useQsParams()
+
   const onLoginSubmit = ({ email, password }) => dispatch(logInAsyncAction(email, password))
   const onForgottenPassSubmit = ({ email }) => dispatch(sendForgotPasswordEmailAsyncAction(email))
+  const onPasswordResetSubmit = ({ password }) => (
+    dispatch(resetPasswordAsyncAction(password, { passwordResetToken: params.passwordResetToken }))
+      .then(() => setParams({}))
+  )
+
+  const loginContent = (
+    params.passwordResetToken &&
+    <PasswordReset
+      createValidator={createValidator}
+      onSubmit={onPasswordResetSubmit}
+    />
+  )
 
   const isUserLoggedIn = useSelector((state) => state.auth.isUserLoggedIn)
   const userAvatarSrc = useSelector((state) => state.auth && state.auth.userData && state.auth.userData.avatar)
@@ -78,6 +95,8 @@ const App = () => {
         appTitle={'Amazing CMS'}
         footer={<CopyrightFooter />}
         loginAside={<LoginImage />}
+
+        loginContent={loginContent}
       />
       <DisplayFlashToasts />
     </>
