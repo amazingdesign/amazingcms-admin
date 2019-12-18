@@ -6,7 +6,6 @@ import { push } from 'connected-react-router'
 
 import { useTranslation } from 'react-i18next'
 
-import { useQsParams } from '../../bits/useQsParams'
 import { useServiceLoaded } from '../../bits/redux-rest-services/useServiceLoaded'
 import withArchiveConfirm from '../../bits/withArchiveConfirm'
 
@@ -16,11 +15,11 @@ const CollectionTable = ({
   collectionsServiceName,
   serviceName,
   collectionData,
-  startPage,
-  startPageSize,
   confirm,
   isSystemCollection,
   display,
+  params,
+  setParams,
   ...otherProps
 }) => {
   const { t } = useTranslation()
@@ -28,7 +27,6 @@ const CollectionTable = ({
 
   const collectionName = collectionData.name
 
-  const [params, setParams] = useQsParams({ page: startPage, pageSize: startPageSize })
   const onChangePage = (page) => setParams({ ...params, page: page + 1 })
   const onChangeRowsPerPage = (pageSize) => setParams({ ...params, pageSize })
 
@@ -40,7 +38,7 @@ const CollectionTable = ({
     isLoading,
   } = useServiceLoaded(
     (isSystemCollection ? 'system-collection-' : '') + serviceName,
-    isSystemCollection ? params : { collectionName, query: { _archived: { $in: [true, false, undefined] } }, ...params }
+    isSystemCollection ? params : { collectionName, ...params }
   )
 
   const rows = data && data.rows
@@ -84,7 +82,7 @@ const CollectionTable = ({
         title={collectionData.displayName || collectionName}
         onChangePage={onChangePage}
         onChangeRowsPerPage={onChangeRowsPerPage}
-        options={{ pageSize: Number(params.pageSize) }}
+        options={{ pageSize: Number(params.pageSize || 10) }}
         actions={[
           ...(!display.remove ? [] : [(rowData) => ({
             icon: rowData._archived ? 'settings_backup_restore' : 'archive',
@@ -111,8 +109,6 @@ const CollectionTable = ({
 }
 
 CollectionTable.defaultProps = {
-  startPage: 1,
-  startPageSize: 10,
   collectionsServiceName: 'collections',
   serviceName: 'actions',
   isSystemCollection: false,
@@ -124,9 +120,9 @@ CollectionTable.defaultProps = {
 }
 
 CollectionTable.propTypes = {
+  params: PropTypes.object.isRequired,
+  setParams: PropTypes.func.isRequired,
   confirm: PropTypes.func.isRequired,
-  startPage: PropTypes.number.isRequired,
-  startPageSize: PropTypes.number.isRequired,
   collectionData: PropTypes.object.isRequired,
   collectionsServiceName: PropTypes.string.isRequired,
   serviceName: PropTypes.string.isRequired,
