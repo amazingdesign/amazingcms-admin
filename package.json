@@ -8,7 +8,7 @@
     "@bit/amazingdesign.react-redux-mui-starter.display-flash-toasts": "0.0.4",
     "@bit/amazingdesign.react-redux-mui-starter.i18n": "0.0.1",
     "@bit/amazingdesign.react-redux-mui-starter.icon": "^0.2.1",
-    "@bit/amazingdesign.react-redux-mui-starter.kit": "0.0.11",
+    "@bit/amazingdesign.react-redux-mui-starter.kit": "0.0.12",
     "@bit/amazingdesign.react-redux-mui-starter.loading-indictor": "0.0.3",
     "@bit/amazingdesign.react-redux-mui-starter.make-auth-requests": "0.0.3",
     "@bit/amazingdesign.react-redux-mui-starter.make-redux-auth": "0.0.4",
