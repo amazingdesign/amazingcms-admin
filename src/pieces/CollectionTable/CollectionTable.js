@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import withConfirm from 'material-ui-confirm'
-
 import { useDispatch } from 'react-redux'
 import { push } from 'connected-react-router'
 
@@ -10,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 
 import { useQsParams } from '../../bits/useQsParams'
 import { useServiceLoaded } from '../../bits/redux-rest-services/useServiceLoaded'
+import withArchiveConfirm from '../../bits/withArchiveConfirm'
 
 import CollectionTableStateless from './CollectionTableStateless'
 
@@ -41,7 +40,7 @@ const CollectionTable = ({
     isLoading,
   } = useServiceLoaded(
     (isSystemCollection ? 'system-collection-' : '') + serviceName,
-    isSystemCollection ? params : { collectionName, ...params }
+    isSystemCollection ? params : { collectionName, query: { _archived: { $in: [true, false, undefined] } }, ...params }
   )
 
   const rows = data && data.rows
@@ -60,18 +59,19 @@ const CollectionTable = ({
   const onDuplicate = (event, rowData) => (
     dispatch(push(`/${collectionsServiceName}/${collectionName}/duplicate/${rowData._id}`))
   )
-  const onDelete = (event, rowData) => {
+  const onArchive = (event, rowData) => {
+    confirm(() => (
+      remove({ id: rowData._id, collectionName })
+        .then(() => find({ collectionName, page: params.page, pageSize: params.pageSize }))
+    ))()
+  }
+  const onRollback = (event, rowData) => {
     confirm(
       () => (
         remove({ id: rowData._id, collectionName })
           .then(() => find({ collectionName, page: params.page, pageSize: params.pageSize }))
       ),
-      {
-        confirmationText: t('Ok'),
-        cancellationText: t('Cancel'),
-        title: t('Are you sure?'),
-        description: t('This will permanently delete this item!'),
-      }
+      { description: t('This will restore archived item!') }
     )()
   }
 
@@ -86,21 +86,23 @@ const CollectionTable = ({
         onChangeRowsPerPage={onChangeRowsPerPage}
         options={{ pageSize: Number(params.pageSize) }}
         actions={[
-          ...(!display.edit ? [] : [{
-            icon: 'edit',
-            tooltip: t('Edit'),
-            onClick: onEdit,
-          }]),
-          ...(!display.duplicate ? [] : [{
+          ...(!display.remove ? [] : [(rowData) => ({
+            icon: rowData._archived ? 'settings_backup_restore' : 'archive',
+            tooltip: rowData._archived ? t('Rollback') : t('Archive'),
+            onClick: rowData._archived ? onRollback : onArchive,
+          })]),
+          ...(!display.duplicate ? [] : [(rowData) => ({
             icon: 'file_copy',
             tooltip: t('Duplicate'),
             onClick: onDuplicate,
-          }]),
-          ...(!display.remove ? [] : [{
-            icon: 'delete',
-            tooltip: t('Delete'),
-            onClick: onDelete,
-          }]),
+            hidden: Boolean(rowData._archived),
+          })]),
+          ...(!display.edit ? [] : [(rowData) => ({
+            icon: 'edit',
+            tooltip: t('Edit'),
+            onClick: onEdit,
+            hidden: Boolean(rowData._archived),
+          })]),
         ]}
         {...otherProps}
       />
@@ -132,4 +134,4 @@ CollectionTable.propTypes = {
   display: PropTypes.object.isRequired,
 }
 
-export default withConfirm(CollectionTable)
+export default withArchiveConfirm(CollectionTable)

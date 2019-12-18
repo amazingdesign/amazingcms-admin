@@ -22,7 +22,7 @@
     "easymde": "^2.8.0",
     "history": "^4.10.1",
     "lodash": "^4.17.15",
-    "material-table": "^1.54.1",
+    "material-table": "^1.54.2",
     "material-ui-confirm": "^1.0.1",
     "mime-types": "^2.1.25",
     "moment": "^2.24.0",

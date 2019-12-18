@@ -4,13 +4,13 @@ import PropTypes from 'prop-types'
 
 import { useTranslation } from 'react-i18next'
 
-import withConfirm from 'material-ui-confirm'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 import { Button, Tooltip } from '@material-ui/core'
 import { Delete as DeleteIcon, Link as LinkIcon, CloudDownload as CloudDownloadIcon } from '@material-ui/icons'
 
 import { makeSrc } from './amazing-cms/makeDownloaderSrc'
+import withDeleteConfirm from './withDeleteConfirm'
 
 import FileCard from './FileCard'
 
@@ -18,15 +18,7 @@ const makeActions = ({ bucketName, confirm, onDelete, display, t }) => (file) =>
   display.remove &&
   <Tooltip key={'delete'} title={'Delete'}>
     <Button size={'small'} color={'primary'} onClick={() => {
-      confirm(
-        () => (onDelete(file._id)),
-        {
-          confirmationText: t('Ok'),
-          cancellationText: t('Cancel'),
-          title: t('Are you sure?'),
-          description: t('This will permanently delete this item!'),
-        }
-      )()
+      confirm(() => (onDelete(file._id)))()
     }}>
       <DeleteIcon />
     </Button>
@@ -94,4 +86,4 @@ FilesGrid.propTypes = {
   display: PropTypes.object.isRequired,
 }
 
-export default withConfirm(FilesGrid)
+export default withDeleteConfirm(FilesGrid)
