@@ -25,14 +25,14 @@ const getValues = (values) => {
   if (Array.isArray(values)) {
     return values.map(item => item.value)
   }
-  return values.value
+  return values
 }
 const filterOptionsByValues = (options, values) => {
   if (!values) return
   if (Array.isArray(values)) {
     return values.map(value => options.find(option => option.value === value))
   }
-  return options.find(option => option.value === values.value)
+  return options.find(option => option.value === values)
 }
 
 function ReactSelectField({ onChange, value, label, options, labelComponent, multiple, field, ...otherProps }) {
