@@ -4,12 +4,10 @@ import PropTypes from 'prop-types'
 import { connectField } from 'uniforms'
 
 import Select from 'react-select'
-import { relative } from 'path'
 
 const styles = {
   root: {
     margin: '0.5rem 0 0.25rem 0',
-    zIndex: 20,
   },
   label: {
     fontSize: '0.875rem',
@@ -17,7 +15,7 @@ const styles = {
 }
 
 const customStyles = {
-  container: (base) => ({ ...base, zIndex: 15 }),
+  container: (base) => ({ ...base }),
   control: (base) => ({ ...base, backgroundColor: 'inherit' }),
   menu: (base) => ({ ...base, backgroundColor: 'white', zIndex: 20 }),
 }
