@@ -1,6 +1,8 @@
 /* eslint-disable max-lines */
 import React from 'react'
 
+import { privilegesChecker } from './bits/useCollectionPrivileges'
+
 import { logOutAsyncAction } from './auth'
 
 const addSeparatorAtLastRoute = (routes) => ((
@@ -21,10 +23,10 @@ const addSeparatorAtLastRoute = (routes) => ((
   )
 ) || [])
 
+
+
 const filterByPrivileges = (userPrivileges) => (routeData) => (
-  routeData.requiredPrivileges &&
-  routeData.requiredPrivileges.list &&
-  routeData.requiredPrivileges.list.find(privilege => userPrivileges.includes(privilege))
+  privilegesChecker(userPrivileges, routeData.requiredPrivileges)
 )
 
 // eslint-disable-next-line max-params

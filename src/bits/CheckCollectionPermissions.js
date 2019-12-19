@@ -12,6 +12,8 @@ const CheckCollectionPermissions = ({ children, checks, collectionData }) => {
 
   const userCan = useCollectionPrivileges(collectionData)
 
+  console.log(userCan)
+
   const userPassAllChecks = checks.reduce(
     (r, check) => r && userCan[check],
     true
