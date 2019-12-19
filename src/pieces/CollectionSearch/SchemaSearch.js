@@ -51,7 +51,7 @@ const transformValuesToQuery = (values, collectionData) => {
 
       switch (type) {
         case 'string':
-          return { $regex: value }
+          return { $regex: value, $options: 'i' }
         case 'array':
           return { $in: value }
         default:
