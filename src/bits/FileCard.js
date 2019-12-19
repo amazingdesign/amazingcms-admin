@@ -5,6 +5,8 @@ import formatBytes from '@bit/amazingdesign.utils.format-bytes'
 
 import { Typography } from '@material-ui/core'
 
+import { useTranslation } from 'react-i18next'
+
 import { makeSrc } from './amazing-cms/makeDownloaderSrc'
 
 import MimeTypeIcon from './MimeTypeIcon'
@@ -16,24 +18,26 @@ const makeThumbnailSrc = (bucketName, file) => (
   encodeURIComponent(JSON.stringify({ height: 280 }))
 )
 
-const makeDesc = (file) => [
+const makeDesc = (file, t) => [
   <Typography key={'title'} style={{ fontSize: 'small' }} noWrap={true} component={'p'}>
-    <b>Title:</b> {file.filename}
+    <b>{t('File name')}:</b> {file.filename}
   </Typography>,
   <Typography key={'createdAt'} style={{ fontSize: 'small' }} noWrap={true} component={'p'}>
-    <b>Created at:</b> {file.uploadDate}
+    <b>{t('Created at')}:</b> {file.uploadDate}
   </Typography>,
   <Typography key={'type'} style={{ fontSize: 'small' }} noWrap={true} component={'p'}>
-    <b>Type:</b> {file.metadata.mimetype}
+    <b>{t('Type')}:</b> {file.metadata.mimetype}
   </Typography>,
   <Typography key={'size'} style={{ fontSize: 'small' }} noWrap={true} component={'p'}>
-    <b>Size:</b> {formatBytes(file.length)}
+    <b>{t('Size')}:</b> {formatBytes(file.length)}
   </Typography>,
 ]
 
 
 const FileCard = ({ file, bucketName, onClick, ...otherProps }) => {
-  if(!file || !file.metadata) return null
+  const { t } = useTranslation()
+
+  if (!file || !file.metadata) return null
 
   const isFileAnImage = ['image/jpeg', 'image/png'].includes(file.metadata.mimetype)
 
@@ -60,7 +64,7 @@ const FileCard = ({ file, bucketName, onClick, ...otherProps }) => {
       src={src}
       mediaContent={mediaContent}
       title={file.filename}
-      desc={makeDesc(file)}
+      desc={makeDesc(file, t)}
       onClick={() => onClick && onClick(file)}
       {...otherProps}
     />

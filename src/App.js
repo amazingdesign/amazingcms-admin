@@ -26,7 +26,7 @@ import { theme } from './theme'
 
 const App = () => {
   const dispatch = useDispatch()
-  const { t } = useTranslation(null, { useSuspense: false })
+  const { t, i18n } = useTranslation(null, { useSuspense: false })
 
   const [params, setParams] = useQsParams()
 
@@ -58,7 +58,7 @@ const App = () => {
     profileMenuRoutes,
   } = useMemo(() => {
     return makeRoutes(collectionsData, systemCollectionsData, userPrivileges, dispatch, t)
-  }, [collectionsData, systemCollectionsData])
+  }, [collectionsData, systemCollectionsData, userPrivileges, i18n.language])
 
   const languages = [
     { code: 'pl', name: t('Polish') },

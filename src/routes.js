@@ -50,7 +50,7 @@ export const makeRoutes = (collectionsData, systemCollectionsData, userPrivilege
       .filter(filterByPrivileges(userPrivileges))
       .filter(collectionData => collectionData.schema)
       .map(collectionData => ({
-        name: collectionData.displayName || collectionData.name,
+        name: t(collectionData.displayName || collectionData.name),
         path: ['/system-collections/:collectionName'],
         pathWithParams: `/system-collections/${collectionData.name}`,
         component: React.lazy(() => import('./pages/system-collections/:collectionName')),
@@ -72,14 +72,14 @@ export const makeRoutes = (collectionsData, systemCollectionsData, userPrivilege
     ) ?
       [
         {
-          name: 'Files',
+          name: t('Files'),
           path: ['/files/:bucketName?'],
           pathWithParams: '/files',
           component: React.lazy(() => import('./pages/files')),
           icon: 'fas fa-cloud',
         },
         {
-          name: 'Photos',
+          name: t('Photos'),
           path: ['/photos/:bucketName?'],
           pathWithParams: '/photos',
           component: React.lazy(() => import('./pages/photos')),

@@ -16,7 +16,7 @@ import FileCard from './FileCard'
 
 const makeActions = ({ bucketName, confirm, onDelete, display, t }) => (file) => [
   display.remove &&
-  <Tooltip key={'delete'} title={'Delete'}>
+  <Tooltip key={'delete'} title={t('Delete')}>
     <Button size={'small'} color={'primary'} onClick={() => {
       confirm(() => (onDelete(file._id)))()
     }}>
@@ -24,13 +24,13 @@ const makeActions = ({ bucketName, confirm, onDelete, display, t }) => (file) =>
     </Button>
   </Tooltip>,
   display.download &&
-  <Tooltip key={'download'} title={'Download'}>
+  <Tooltip key={'download'} title={t('Download')}>
     <Button size={'small'} color={'primary'} onClick={() => window.open(makeSrc(bucketName)(file))}>
       <CloudDownloadIcon />
     </Button>
   </Tooltip>,
   display.link &&
-  <Tooltip key={'copyLink'} title={'Copy download link'}>
+  <Tooltip key={'copyLink'} title={t('Copy download link')}>
     <CopyToClipboard text={makeSrc(bucketName, file)} >
       <Button size={'small'} color={'primary'}>
         <LinkIcon />
