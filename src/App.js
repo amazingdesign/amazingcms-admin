@@ -24,6 +24,9 @@ import { createValidator } from './validator'
 import { makeRoutes } from './routes'
 import { theme } from './theme'
 
+const LANGUAGES = JSON.parse(window._env_.REACT_APP_LANGUAGES)
+const TITLE = window._env_.REACT_APP_TITLE
+
 const App = () => {
   const dispatch = useDispatch()
   const { t, i18n } = useTranslation(null, { useSuspense: false })
@@ -60,10 +63,10 @@ const App = () => {
     return makeRoutes(collectionsData, systemCollectionsData, userPrivileges, dispatch, t)
   }, [collectionsData, systemCollectionsData, userPrivileges, i18n.language])
 
-  const languages = [
-    { code: 'pl', name: t('Polish') },
-    { code: 'en', name: t('English') },
-  ]
+  const languages = LANGUAGES.map(lang => ({
+    ...lang,
+    name: t(lang.name),
+  }))
 
   useEffect(() => {
     dispatch(checkIfLoggedInAsyncAction())
@@ -92,7 +95,7 @@ const App = () => {
         routerRoutes={routerRoutes}
 
         userAvatarSrc={userAvatarSrc}
-        appTitle={'Amazing CMS'}
+        appTitle={TITLE}
         footer={<CopyrightFooter />}
         loginAside={<LoginImage />}
 
