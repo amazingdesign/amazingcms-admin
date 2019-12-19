@@ -16,6 +16,9 @@ const filterSchemaByTableFields = (collectionData) => {
     schema.properties,
     (fieldSchema, fieldName) => (
       tableFields.find(field => field.name === fieldName) &&
+      tableFields.find(field => field.name === fieldName).columnRenderType !== 'date' &&
+      tableFields.find(field => field.name === fieldName).columnRenderType !== 'date-time' &&
+      tableFields.find(field => field.name === fieldName).columnRenderType !== 'time-from-now' &&
       tableFields.find(field => field.name === fieldName).columnRenderType !== 'avatar'
     )
   )
