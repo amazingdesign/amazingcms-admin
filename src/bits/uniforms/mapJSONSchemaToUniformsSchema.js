@@ -26,11 +26,14 @@ import FileField from './FileField'
 import DraftEditorField from './DraftEditorField'
 import ReactSelectField from './ReactSelectField'
 import MuiReactSelectField from './MuiReactSelectField'
+import MuiPickerField from './MuiPickerField'
 
 import { mapValues } from 'lodash'
 
 export const mapFieldNameToField = (fieldName) => {
   switch (fieldName) {
+    case 'MuiPickerField':
+      return MuiPickerField
     case 'MuiReactSelectField':
       return MuiReactSelectField
     case 'ReactSelectField':
