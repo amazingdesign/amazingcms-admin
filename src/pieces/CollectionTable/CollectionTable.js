@@ -74,13 +74,15 @@ const CollectionTable = ({
     )()
   }
 
+  const title = collectionData.displayName || collectionName
+
   return (
     <ErrorMessage actionName={'find'} message={t('Error occurred!')}>
       <CollectionTableStateless
         isLoading={isLoading}
         collectionData={collectionData}
         data={rows && dataPromise}
-        title={collectionData.displayName || collectionName}
+        title={isSystemCollection ? t(title) : title}
         onChangePage={onChangePage}
         onChangeRowsPerPage={onChangeRowsPerPage}
         options={{ pageSize: Number(params.pageSize || 10) }}
