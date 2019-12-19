@@ -12,7 +12,7 @@ import { Uniform } from '../../bits/uniforms/Uniform'
 const filterSchemaByTableFields = (collectionData) => {
   const { tableFields, schema } = collectionData
 
-  const newSchemaProperties = pickBy(
+  const tableFieldsSchemaProps = pickBy(
     schema.properties,
     (fieldSchema, fieldName) => (
       tableFields.find(field => field.name === fieldName) &&
@@ -20,10 +20,24 @@ const filterSchemaByTableFields = (collectionData) => {
     )
   )
 
+  const mappedSchemaProps = mapValues(
+    tableFieldsSchemaProps,
+    (value, key) => {
+      if (value && value.uniforms && value.uniforms.type) {
+        return {
+          ...value,
+          uniforms: { ...value.uniforms, type: undefined },
+        }
+      }
+
+      return value
+    }
+  )
+
   return {
     ...schema,
     required: undefined,
-    properties: newSchemaProperties,
+    properties: mappedSchemaProps,
   }
 }
 
