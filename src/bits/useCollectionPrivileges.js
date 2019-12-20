@@ -3,19 +3,21 @@ import { mapValues } from 'lodash'
 
 import { useSelector } from 'react-redux'
 
-export const privilegesChecker = (userPrivileges, requiredPrivileges) => {
+export const privilegesChecker = (userPrivileges, requiredPrivilegesItem) => {
   const requiredPrivilegesAreSet = (
-    requiredPrivileges &&
-    requiredPrivileges.list &&
-    Array.isArray(requiredPrivileges.list) &&
-    requiredPrivileges.list.length !== 0
+    requiredPrivilegesItem &&
+    Array.isArray(requiredPrivilegesItem) &&
+    requiredPrivilegesItem.length !== 0
   )
 
-  return requiredPrivilegesAreSet ?
-    requiredPrivileges.list.find(privilege => userPrivileges.includes(privilege))
-    :
-    // no requiredPrivileges === access
-    true
+  // no requiredPrivileges === access
+  if (!requiredPrivilegesAreSet) return true
+
+  // no access fo anyone
+  if (requiredPrivilegesItem.includes['$NONE']) return false
+
+  return requiredPrivilegesItem.find(privilege => userPrivileges.includes(privilege))
+
 }
 
 export const useCollectionPrivileges = (collectionData) => {
@@ -26,14 +28,14 @@ export const useCollectionPrivileges = (collectionData) => {
       collectionData &&
       collectionData.requiredPrivileges
     ) || {},
-    (privileges) => Boolean(privilegesChecker(userPrivileges, privileges))
+    (requiredPrivilegesItem) => Boolean(privilegesChecker(userPrivileges, requiredPrivilegesItem))
   )
 
   return new Proxy(
     userCan,
     {
       get(target, name) {
-        return target[name] || true
+        return target[name] === undefined ? true : target[name]
       },
     }
   )
