@@ -1,6 +1,8 @@
 /* eslint-disable react/display-name */
 import React from 'react'
 
+import _ from 'lodash'
+
 import { Avatar, Chip } from '@material-ui/core'
 
 import { formattedDate, formattedDateTime, timeFromNow } from '../../dateTime'
@@ -19,36 +21,28 @@ const renderCurrency = (field) => (rowData) => {
 const renderAvatar = (field) => (rowData) => <Avatar src={rowData[field.name]} />
 
 const renderChips = (field) => (rowData) => {
-  const value = rowData[field.name]
+  const value = _.get(rowData, field.name)
 
   if (!value) return null
 
   return (
-    <>
-      {
-        Array.isArray(value) ?
-          value.map((val) => <Chip style={{ margin: '0.5rem' }} key={val} label={val} />)
-          :
-          <Chip style={{ margin: '0.25rem' }} label={value} />
-      }
-    </>
+    Array.isArray(value) ?
+      value.map((val) => <Chip style={{ margin: '0.5rem' }} key={val} label={val} />)
+      :
+      <Chip style={{ margin: '0.25rem' }} label={value} />
   )
 }
 
 const renderChipsLookup = (field) => (rowData) => {
-  const value = rowData[field.name]
+  const value = _.get(rowData, field.name)
 
   if (!value) return null
 
   return (
-    <>
-      {
-        Array.isArray(value) ?
-          value.map((val) => <Chip style={{ margin: '0.5rem' }} key={val} label={field.lookup[val]} />)
-          :
-          <Chip style={{ margin: '0.25rem' }} label={field.lookup[value]} />
-      }
-    </>
+    Array.isArray(value) ?
+      value.map((val) => <Chip style={{ margin: '0.5rem' }} key={val} label={field.lookup[val]} />)
+      :
+      <Chip style={{ margin: '0.25rem' }} label={field.lookup[value]} />
   )
 }
 

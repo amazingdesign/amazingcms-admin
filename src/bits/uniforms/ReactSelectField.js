@@ -25,7 +25,7 @@ const getValues = (values) => {
   if (Array.isArray(values)) {
     return values.map(item => item.value)
   }
-  return values
+  return values.value
 }
 const filterOptionsByValues = (options, values) => {
   if (!values) return
