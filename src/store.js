@@ -21,8 +21,12 @@ const mainReducer = combineReducers({
 })
 
 const rootReducer = (state, action) => {
+  // @TODO - delete it after reset action introduced
+  // to redux-rest-services and redux-auth
   if (action.type === '@redux-auth/SET_USER_IS_LOGGED_OUT') {
-    state = undefined
+    // @HACK preserve only flash messages
+    // re-init all other parts of state
+    state = { flash: state.flash }
   }
 
   return mainReducer(state, action)
