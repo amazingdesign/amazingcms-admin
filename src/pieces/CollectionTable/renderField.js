@@ -5,6 +5,8 @@ import _ from 'lodash'
 
 import { Avatar, Chip } from '@material-ui/core'
 
+import Icon from '@bit/amazingdesign.react-redux-mui-starter.icon'
+
 import { formattedDate, formattedDateTime, timeFromNow } from '../../dateTime'
 
 const renderStringified = (field) => (rowData) => JSON.stringify(rowData[field.name])
@@ -46,7 +48,23 @@ const renderChipsLookup = (field) => (rowData) => {
   )
 }
 
+const renderBool =(field) => (rowData) => {
+  const value = _.get(rowData, field.name)
+
+  return String(value)
+}
+
+const renderBoolIcon =(field) => (rowData) => {
+  const value = _.get(rowData, field.name)
+
+  if(value) return <Icon>fas fa-check-circle</Icon>
+
+  return <Icon>fas fa-times-circle</Icon>
+}
+
 const mapFieldToFunc = {
+  'boolean': renderBool,
+  'boolean-icon': renderBoolIcon,
   'avatar': renderAvatar,
   'chips': renderChips,
   'chips-lookup': renderChipsLookup,
