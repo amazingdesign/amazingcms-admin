@@ -43,6 +43,7 @@ const DraftEditorField = ({ onChange, value, label, serviceName, bucketName, ...
         wrapperStyle={{
           marginBottom: 20,
         }}
+        stripPastedStyles={true}
 
         {...otherProps}
       />
