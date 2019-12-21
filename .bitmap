@@ -253,6 +253,18 @@
         "origin": "AUTHORED",
         "exported": true
     },
+    "amazingdesign.uniforms/find-first-level-slug-fields@0.0.1": {
+        "files": [
+            {
+                "relativePath": "src/bits/uniforms/findFirstLevelSlugFields.js",
+                "test": false,
+                "name": "findFirstLevelSlugFields.js"
+            }
+        ],
+        "mainFile": "src/bits/uniforms/findFirstLevelSlugFields.js",
+        "origin": "AUTHORED",
+        "exported": true
+    },
     "amazingdesign.uniforms/list-field-reorder@0.0.2": {
         "files": [
             {

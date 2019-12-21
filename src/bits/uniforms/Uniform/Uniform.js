@@ -1,41 +1,55 @@
-
-import React from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-import { JSONSchemaBridge } from 'uniforms-bridge-json-schema'
-import { AutoForm } from 'uniforms-material'
-import DefaultSubmitField from '@bit/amazingdesign.react-redux-mui-starter.default-submit-field'
+import slugify from 'slugify'
 
-import { mapJSONSchemaToUniformsSchema } from '../mapJSONSchemaToUniformsSchema'
-import { createValidator as defaultCreateValidator } from './defaultCreateValidator'
+import UniformStateless from './UniformStateless'
 
-const Uniform = ({ schema, createValidator, submitLabel, ...otherProps }) => {
-  if (!schema) return null
+import { findFirstLevelSlugFields } from '../findFirstLevelSlugFields'
 
-  const schemaMapped = mapJSONSchemaToUniformsSchema(schema)
+const Uniform = ({ schema, model: propsModel, ...otherProps }) => {
+  const [model, setModel] = useState(propsModel)
 
-  const schemaValidator = createValidator(schemaMapped)
-  const bridge = new JSONSchemaBridge(schemaMapped, schemaValidator)
+  useEffect(() => {
+    propsModel &&
+      setSlugsOnChangeModel(propsModel)
+  }, [propsModel])
+
+  const slugFields = useMemo(() => findFirstLevelSlugFields(schema), [schema])
+  const setSlugOnChangeModel = (newModel, { fieldName, from }) => {
+    if (newModel[from] !== undefined) {
+      return {
+        ...newModel,
+        [fieldName]: slugify(newModel.name).toLocaleLowerCase(),
+      }
+    }
+
+    return newModel
+  }
+  const setSlugsOnChangeModel = (newModel) => {
+    const newModelWithSlugs = slugFields.reduce(
+      setSlugOnChangeModel,
+      newModel
+    )
+
+    if (newModel !== newModelWithSlugs) {
+      setModel({ ...newModelWithSlugs })
+    }
+  }
 
   return (
-    <AutoForm
-      schema={bridge}
-      showInlineError={true}
-      errorsField={() => null}
-      submitField={() => <DefaultSubmitField label={submitLabel} />}
-      {...otherProps}submitLabel
+    <UniformStateless
+      model={model}
+      schema={schema}
+      onChangeModel={setSlugsOnChangeModel}
+      {...otherProps}
     />
   )
 }
 
-Uniform.defaultProps = {
-  createValidator: defaultCreateValidator,
-}
-
 Uniform.propTypes = {
-  createValidator: PropTypes.func.isRequired,
-  submitLabel: PropTypes.string,
-  schema: PropTypes.object,
+  schema: PropTypes.object.isRequired,
+  model: PropTypes.object,
 }
 
 export default Uniform
