@@ -59,6 +59,7 @@ const DuplicateCollectionPage = (props) => {
               schema={schema}
               model={{ ...data, _id: undefined }}
               onSubmit={onSubmit}
+              submitLabel={t('Submit')}
             />
           </Loader>
         </ErrorMessage>

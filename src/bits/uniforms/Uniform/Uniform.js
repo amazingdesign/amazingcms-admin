@@ -9,7 +9,7 @@ import DefaultSubmitField from '@bit/amazingdesign.react-redux-mui-starter.defau
 import { mapJSONSchemaToUniformsSchema } from '../mapJSONSchemaToUniformsSchema'
 import { createValidator as defaultCreateValidator } from './defaultCreateValidator'
 
-const Uniform = ({ schema, createValidator, label, ...otherProps }) => {
+const Uniform = ({ schema, createValidator, submitLabel, ...otherProps }) => {
   if (!schema) return null
 
   const schemaMapped = mapJSONSchemaToUniformsSchema(schema)
@@ -22,8 +22,8 @@ const Uniform = ({ schema, createValidator, label, ...otherProps }) => {
       schema={bridge}
       showInlineError={true}
       errorsField={() => null}
-      submitField={() => <DefaultSubmitField label={label} />}
-      {...otherProps}
+      submitField={() => <DefaultSubmitField label={submitLabel} />}
+      {...otherProps}submitLabel
     />
   )
 }
@@ -34,7 +34,7 @@ Uniform.defaultProps = {
 
 Uniform.propTypes = {
   createValidator: PropTypes.func.isRequired,
-  label: PropTypes.string,
+  submitLabel: PropTypes.string,
   schema: PropTypes.object,
 }
 

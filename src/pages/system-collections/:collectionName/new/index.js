@@ -54,6 +54,7 @@ const EditSystemCollectionPage = (props) => {
         <Uniform
           schema={schema}
           onSubmit={onSubmit}
+          submitLabel={t('Submit')}
         />
       </Page>
     </CheckCollectionPermissions>

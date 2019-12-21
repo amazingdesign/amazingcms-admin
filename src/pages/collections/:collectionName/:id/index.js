@@ -57,6 +57,7 @@ const EditCollectionPage = (props) => {
               schema={schema}
               model={data}
               onSubmit={onSubmit}
+              submitLabel={t('Submit')}
             />
           </Loader>
         </ErrorMessage>
