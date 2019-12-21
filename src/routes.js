@@ -36,13 +36,17 @@ export const makeRoutes = (collectionsData, systemCollectionsData, userPrivilege
     collectionsData.map &&
     collectionsData
       .filter(filterByPrivileges(userPrivileges))
-      .map(collectionData => ({
-        name: collectionData.displayName || collectionData.name,
-        path: ['/collections/:collectionName'],
-        pathWithParams: `/collections/${collectionData.name}`,
-        component: React.lazy(() => import('./pages/collections/:collectionName')),
-        icon: collectionData.icon || 'data_usage',
-      }))
+      .map(collectionData => {
+        const singletonPathAddon = collectionData.singleton ? '/singleton' : '' 
+
+        return ({
+          name: collectionData.displayName || collectionData.name,
+          path: ['/collections/:collectionName' + singletonPathAddon],
+          pathWithParams: `/collections/${collectionData.name}` + singletonPathAddon,
+          component: React.lazy(() => import('./pages/collections/:collectionName' + singletonPathAddon)),
+          icon: collectionData.icon || 'data_usage',
+        })
+      })
   )
 
   const systemCollectionsRoutes = (
