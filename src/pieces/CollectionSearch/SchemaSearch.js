@@ -16,6 +16,8 @@ const filterSchemaByTableFields = (collectionData) => {
     schema.properties,
     (fieldSchema, fieldName) => (
       tableFields.find(field => field.name.split('.')[0] === fieldName) &&
+      tableFields.find(field => field.name.split('.')[0] === fieldName).columnRenderType !== 'boolean-icon' &&
+      tableFields.find(field => field.name.split('.')[0] === fieldName).columnRenderType !== 'boolean' &&
       tableFields.find(field => field.name.split('.')[0] === fieldName).columnRenderType !== 'date' &&
       tableFields.find(field => field.name.split('.')[0] === fieldName).columnRenderType !== 'date-time' &&
       tableFields.find(field => field.name.split('.')[0] === fieldName).columnRenderType !== 'time-from-now' &&
