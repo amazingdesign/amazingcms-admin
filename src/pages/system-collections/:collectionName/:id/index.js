@@ -53,7 +53,7 @@ const EditCollectionPage = (props) => {
           </Button>
         }
       >
-        <ErrorMessage message={t('Error occurred!')}>
+        <ErrorMessage message={t('Error occurred!')} actionName={'find'}>
           <Loader>
             <Typography variant={'h5'}>
               {t('Edit item')}
