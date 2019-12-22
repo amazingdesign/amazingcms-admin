@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 
 import DefaultLoadingIndicator from '@bit/amazingdesign.react-redux-mui-starter.loading-indictor'
 
-const RestServicesLoader = ({ component, serviceName, children, ...otherProps }) => {
+const RestServicesLoader = ({ component, serviceName, children, doNotRenderChildrenWhenLoading, ...otherProps }) => {
   const LoadingIndicator = component || DefaultLoadingIndicator
   const isLoading = useSelector(state => (
     state &&
@@ -15,7 +15,15 @@ const RestServicesLoader = ({ component, serviceName, children, ...otherProps })
 
   return (
     isLoading ?
-      <LoadingIndicator {...otherProps} />
+      <>
+        <LoadingIndicator {...otherProps} />
+        {
+          doNotRenderChildrenWhenLoading ?
+            null
+            :
+            children
+        }
+      </>
       :
       children
   )
@@ -25,6 +33,7 @@ RestServicesLoader.propTypes = {
   children: PropTypes.node,
   component: PropTypes.func,
   serviceName: PropTypes.string.isRequired,
+  doNotRenderChildrenWhenLoading: PropTypes.bool,
 }
 
 export default RestServicesLoader
