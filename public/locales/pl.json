@@ -77,5 +77,6 @@
   "Upload completed!": "Ukończono przesyłanie!",
   "Upload progress - ": "Postęp przesyłania - ",
   "User not found!": "Nie znaleziono użytkownika!",
-  "Users": "Użytkownicy"
+  "Users": "Użytkownicy",
+  "There is a record with the same value of field that should be unique! Check unique fields!": "Istnieje rekord o takiej samej wartości unikalnego pola! Sprawdź pola które muszą być unikalne!"
 }

@@ -39,7 +39,7 @@ export const store = createStore(
   composeEnhancers(
     applyMiddleware(
       routerMiddleware(history),
-      flashMiddleware(),
+      flashMiddleware({ timeout: 5000 }),
       thunk,
     )
   )
