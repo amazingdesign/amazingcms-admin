@@ -7,6 +7,8 @@ import { Avatar, Chip } from '@material-ui/core'
 
 import Icon from '@bit/amazingdesign.react-redux-mui-starter.icon'
 
+import { makeSrc } from '../../bits/amazing-cms/makeDownloaderSrc'
+
 import { formattedDate, formattedDateTime, timeFromNow } from '../../dateTime'
 
 const renderStringified = (field) => (rowData) => JSON.stringify(rowData[field.name])
@@ -20,7 +22,14 @@ const renderCurrency = (field) => (rowData) => {
   return String(value.toFixed(2))
 }
 
-const renderAvatar = (field) => (rowData) => <Avatar src={rowData[field.name]} />
+const renderAvatar = (field) => (rowData) => {
+  const value = _.get(rowData, field.name)
+  const src = value && makeSrc('photos', { width: 50, height: 50 })(rowData[field.name])
+
+  return (
+    <Avatar src={src} />
+  )
+}
 
 const renderChips = (field) => (rowData) => {
   const value = _.get(rowData, field.name)
@@ -48,16 +57,16 @@ const renderChipsLookup = (field) => (rowData) => {
   )
 }
 
-const renderBool =(field) => (rowData) => {
+const renderBool = (field) => (rowData) => {
   const value = _.get(rowData, field.name)
 
   return String(value)
 }
 
-const renderBoolIcon =(field) => (rowData) => {
+const renderBoolIcon = (field) => (rowData) => {
   const value = _.get(rowData, field.name)
 
-  if(value) return <Icon>fas fa-check-circle</Icon>
+  if (value) return <Icon>fas fa-check-circle</Icon>
 
   return <Icon>fas fa-times-circle</Icon>
 }

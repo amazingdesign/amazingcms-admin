@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next'
 import DisplayFlashToasts from '@bit/amazingdesign.react-redux-mui-starter.display-flash-toasts'
 import Kit from '@bit/amazingdesign.react-redux-mui-starter.kit'
 import { useQsParams } from './bits/useQsParams'
+import { makeSrc } from './bits/amazing-cms/makeDownloaderSrc'
 
 import CopyrightFooter from './pieces/CopyrightFooter'
 import PasswordReset from './pieces/PasswordReset'
@@ -49,8 +50,10 @@ const App = () => {
   )
 
   const isUserLoggedIn = useSelector((state) => state.auth.isUserLoggedIn)
-  const userAvatarSrc = useSelector((state) => state.auth && state.auth.userData && state.auth.userData.avatar)
+  const userAvatarFile = useSelector((state) => state.auth && state.auth.userData && state.auth.userData.avatar)
   const userPrivileges = useSelector((state) => state.auth && state.auth.userData && state.auth.userData.privileges)
+
+  const userAvatarSrc = userAvatarFile && makeSrc('photos', { width: 50, height: 50 })(userAvatarFile)
 
   const collectionsData = useSelector((state) => state.collections.find.data)
   const systemCollectionsData = useSelector((state) => state['system-collections'].find.data)
