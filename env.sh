@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Recreate config file
-rm -rf ./public/env-config.js
-touch ./public/env-config.js
+rm -rf ./env-config.js
+touch ./env-config.js
 
 # Add assignment 
-echo "/* eslint-disable */" >> ./public/env-config.js
-echo "window._env_ = {" >> ./public/env-config.js
+echo "/* eslint-disable */" >> ./env-config.js
+echo "window._env_ = {" >> ./env-config.js
 
 # Read each line in .env file
 # Each line represents key=value pairs
@@ -49,7 +49,7 @@ do
   # Append configuration property to JS file
   echo "  - Saving to env-config.js!"
 
-  echo "  $varname: '$value'," >> ./public/env-config.js
+  echo "  $varname: '$value'," >> ./env-config.js
 done < ./.env
 
-echo "}" >> ./public/env-config.js
+echo "}" >> ./env-config.js
