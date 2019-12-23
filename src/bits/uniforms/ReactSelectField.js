@@ -20,12 +20,14 @@ const customStyles = {
   menu: (base) => ({ ...base, backgroundColor: 'white', zIndex: 20 }),
 }
 
+const emptyStringIfFalse = (value) => {
+  return value || ''
+}
 const getValues = (values) => {
-  if (!values) return
   if (Array.isArray(values)) {
-    return values.map(item => item.value)
+    return values.map(item => emptyStringIfFalse(item && item.value))
   }
-  return values.value
+  return emptyStringIfFalse(values && values.value)
 }
 const filterOptionsByValues = (options, values) => {
   if (!values) return
@@ -46,6 +48,7 @@ function ReactSelectField({ onChange, value, label, options, labelComponent, mul
         onChange={(values) => onChange(getValues(values))}
         options={options}
         isSearchable={true}
+        isClearable={true}
         isMulti={field.type === 'array'}
         styles={customStyles}
         {...otherProps}
@@ -66,7 +69,7 @@ ReactSelectField.propTypes = {
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.array,
-  ]).isRequired,
+  ]),
   label: PropTypes.string.isRequired,
   field: PropTypes.object.isRequired,
 }

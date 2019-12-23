@@ -66,7 +66,14 @@ const renderBool = (field) => (rowData) => {
 const renderBoolIcon = (field) => (rowData) => {
   const value = _.get(rowData, field.name)
 
-  if (value) return <Icon>fas fa-check-circle</Icon>
+  const unifiedVal = (
+    typeof value === 'string' ?
+      value === 'true' ? true : false
+      :
+      value
+  )
+
+  if (unifiedVal) return <Icon>fas fa-check-circle</Icon>
 
   return <Icon>fas fa-times-circle</Icon>
 }
