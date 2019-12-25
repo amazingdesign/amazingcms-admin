@@ -10,19 +10,11 @@ import { useCollectionPrivileges } from '../../../bits/useCollectionPrivileges'
 import CheckCollectionPermissions from '../../../bits/CheckCollectionPermissions'
 import { useDataItemFromStore } from '../../../bits/redux-rest-services/useDataItemFromStore'
 
+import { store } from '../../../store'
 import CollectionTable from '../../../pieces/CollectionTable'
-import CollectionSearch from '../../../pieces/CollectionSearch/CollectionSearch'
+import CollectionSearch from '../../../pieces/CollectionSearch'
 
-
-const useDataOfPopulatedFields = (populateSchema, parentFieldName = '') => {
-  const findCollectionFromPopulateAction = (populateAction) => {
-    if (populateAction.includes('__')) {
-      const collectionName = populateAction.split('__')[0]
-      return useDataItemFromStore('collections', { query: { name: collectionName } })
-    }
-    const collectionName = populateAction.split('.')[0]
-    return useDataItemFromStore('system-collections', { query: { name: collectionName } })
-  }
+const getDataOfPopulatedFields = (populateSchema, parentFieldName = '') => {
   const parentFieldNameWithDot = parentFieldName ? parentFieldName + '.' : ''
 
   return Object.entries(populateSchema || {}).reduce(
@@ -31,11 +23,21 @@ const useDataOfPopulatedFields = (populateSchema, parentFieldName = '') => {
       if (!['string', 'object'].includes(typeof populateDefinition)) return r
       const populateAction = typeof populateDefinition === 'string' ? populateDefinition : populateDefinition.action
 
-      const populatedCollectionData = findCollectionFromPopulateAction(populateAction)
+      const isSystemCollection = !populateAction.includes('__')
+      const serviceName = isSystemCollection ? 'system-collections' : 'collections'
+      const splitActionBy = isSystemCollection ? '.' : '__'
+      const collectionName = populateAction.split(splitActionBy)[0]
+      const allCollectionsData = store.getState()[serviceName].find.data
+      const populatedCollectionData = (
+        allCollectionsData &&
+        allCollectionsData.find(
+          (collectionData) => collectionData.name === collectionName
+        )
+      ) || []
 
       const nestedPopulatedFields = (
         populatedCollectionData.populateSchema ?
-          useDataOfPopulatedFields(populatedCollectionData.populateSchema, `${parentFieldNameWithDot}${fieldName}`)
+          getDataOfPopulatedFields(populatedCollectionData.populateSchema, `${parentFieldNameWithDot}${fieldName}`)
           :
           {}
       )
@@ -54,16 +56,16 @@ const CollectionPage = (props) => {
   const { collectionName } = useParams()
   const collectionsServiceName = 'collections'
   const collectionData = useDataItemFromStore(collectionsServiceName, { query: { name: collectionName } })
-  const populate = Object.keys(collectionData.populateSchema || {})
-  const populatedFieldsCollectionsData = useDataOfPopulatedFields(collectionData.populateSchema)
+  const populatedFieldsCollectionsData = getDataOfPopulatedFields(collectionData.populateSchema)
 
   const userCan = useCollectionPrivileges(collectionData)
 
+  // params from URL are strings
+  // passing strings as initial saves render
   const [params, setParams] = useQsParams({
-    page: 1,
-    pageSize: 10,
-    populate,
-    query: {},
+    page: '1',
+    pageSize: '10',
+    query: { _archived: { $in: ['false', ''] } },
   }, collectionName)
 
   const onCreate = (event, rowData) => dispatch(push(`/collections/${collectionName}/new`))

@@ -8,7 +8,6 @@ import { renderField } from './renderField'
 const CollectionTableStateless = ({ collectionData, data, options, ...otherProps }) => {
   const columns = useMemo(() => (
     collectionData.tableFields
-      // .filter((field) => field.displayAsTableColumn)
       .map((field) => ({
         title: field.label || field.name,
         field: field.name,

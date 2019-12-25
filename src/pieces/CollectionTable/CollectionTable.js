@@ -27,6 +27,7 @@ const CollectionTable = ({
   const dispatch = useDispatch()
 
   const collectionName = collectionData.name
+  const populate = Object.keys(collectionData.populateSchema || {})
 
   const onChangePage = (page) => setParams({ ...params, page: page + 1 })
   const onChangeRowsPerPage = (pageSize) => setParams({ ...params, pageSize })
@@ -39,20 +40,14 @@ const CollectionTable = ({
     isLoading,
   } = useServiceLoaded(
     (isSystemCollection ? 'system-collection-' : '') + serviceName,
-    isSystemCollection ? { ...params } : { collectionName, ...params }
+    isSystemCollection ? { populate, ...params } : { collectionName, populate, ...params }
   )
 
-  const rows = data && data.rows
-  const totalCount = data && data.total
-  const dataPromise = (query) => (
-    new Promise((resolve, reject) => {
-      resolve({
-        data: rows,
-        page: params.page - 1,
-        totalCount: totalCount,
-      })
-    })
-  )
+  const dataPromise = data && ((query) => Promise.resolve({
+    data: data.rows,
+    page: (params.page - 1) || 0,
+    totalCount: data.total || 0,
+  }))
 
   const onEdit = (event, rowData) => dispatch(push(`/${collectionsServiceName}/${collectionName}/${rowData._id}`))
   const onDuplicate = (event, rowData) => (
@@ -81,7 +76,7 @@ const CollectionTable = ({
       <CollectionTableStateless
         isLoading={isLoading}
         collectionData={collectionData}
-        data={rows && dataPromise}
+        data={dataPromise}
         title={isSystemCollection ? t(title) : title}
         onChangePage={onChangePage}
         onChangeRowsPerPage={onChangeRowsPerPage}

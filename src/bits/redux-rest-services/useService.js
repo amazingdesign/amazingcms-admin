@@ -33,5 +33,6 @@ export const useService = (serviceName, globalParams, globalFetchOptions) => {
     ...boundActions,
     Loader,
     ErrorMessage,
+    syncActions: instance.syncActions[serviceName],
   }
 }
