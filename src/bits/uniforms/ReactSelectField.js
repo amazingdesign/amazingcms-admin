@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { connectField } from 'uniforms'
 
 import Select from 'react-select'
+import CreatableSelect from 'react-select/creatable'
 
 const styles = {
   root: {
@@ -37,13 +38,15 @@ const filterOptionsByValues = (options, values) => {
   return options.find(option => option.value === values)
 }
 
-function ReactSelectField({ onChange, value, label, options, labelComponent, multiple, field, ...otherProps }) {
+function ReactSelectField({ onChange, value, label, options, labelComponent, field, isCreatable, ...otherProps }) {
   const Label = labelComponent || 'h4'
+
+  const SelectComponent = isCreatable ? CreatableSelect : Select
 
   return (
     <div style={styles.root}>
       <Label style={styles.label}>{label}</Label>
-      <Select
+      <SelectComponent
         value={filterOptionsByValues(options, value)}
         onChange={(values) => onChange(getValues(values))}
         options={options}
@@ -62,7 +65,7 @@ ReactSelectField.defaultProps = {
 }
 
 ReactSelectField.propTypes = {
-  multiple: PropTypes.bool,
+  isCreatable: PropTypes.bool,
   options: PropTypes.array,
   onChange: PropTypes.func.isRequired,
   labelComponent: PropTypes.func.isRequired,

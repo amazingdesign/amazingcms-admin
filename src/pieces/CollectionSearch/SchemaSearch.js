@@ -164,7 +164,12 @@ const SchemaSearch = ({ query, onChange, collectionData, populatedFieldsCollecti
 
   const onSubmit = (values) => {
     const query = transformValuesToQuery(values, collectionDataWithPopulatedProperties)
-    const otherQueryParams = decideToUseQueryByPopulation(query, collectionDataWithPopulatedProperties) ? { queryByPopulation: true } : {}
+    const otherQueryParams = (
+      decideToUseQueryByPopulation(query, collectionDataWithPopulatedProperties) ?
+        { queryByPopulation: true }
+        :
+        {}
+    )
 
     onChange(query, otherQueryParams)
   }

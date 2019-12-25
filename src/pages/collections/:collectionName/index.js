@@ -13,19 +13,40 @@ import { useDataItemFromStore } from '../../../bits/redux-rest-services/useDataI
 import CollectionTable from '../../../pieces/CollectionTable'
 import CollectionSearch from '../../../pieces/CollectionSearch/CollectionSearch'
 
-const getDataOfPopulatedFields = (populateSchema) => Object.entries(populateSchema || {}).reduce(
-  (r, [fieldName, populateAction]) => {
-    // @TODO moleculer can have object also here in more complex populations
-    if (typeof populateAction !== 'string') return r
+
+const useDataOfPopulatedFields = (populateSchema, parentFieldName = '') => {
+  const findCollectionFromPopulateAction = (populateAction) => {
     if (populateAction.includes('__')) {
       const collectionName = populateAction.split('__')[0]
-      return { ...r, [fieldName]: useDataItemFromStore('collections', { query: { name: collectionName } }) }
+      return useDataItemFromStore('collections', { query: { name: collectionName } })
     }
     const collectionName = populateAction.split('.')[0]
-    return { ...r, [fieldName]: useDataItemFromStore('system-collections', { query: { name: collectionName } }) }
-  },
-  {}
-)
+    return useDataItemFromStore('system-collections', { query: { name: collectionName } })
+  }
+  const parentFieldNameWithDot = parentFieldName ? parentFieldName + '.' : ''
+
+  return Object.entries(populateSchema || {}).reduce(
+    (r, [fieldName, populateDefinition]) => {
+      // @TODO moleculer can have object also here in more complex populations
+      if (!['string', 'object'].includes(typeof populateDefinition)) return r
+      const populateAction = typeof populateDefinition === 'string' ? populateDefinition : populateDefinition.action
+
+      const populatedCollectionData = findCollectionFromPopulateAction(populateAction)
+
+      const nestedPopulatedFields = (
+        populatedCollectionData.populateSchema ?
+          useDataOfPopulatedFields(populatedCollectionData.populateSchema, `${parentFieldNameWithDot}${fieldName}`)
+          :
+          {}
+      )
+
+      const fieldNameWithParent = `${parentFieldNameWithDot}${fieldName}`
+
+      return { ...r, ...nestedPopulatedFields, [fieldNameWithParent]: populatedCollectionData }
+    },
+    {}
+  )
+}
 
 const CollectionPage = (props) => {
   const dispatch = useDispatch()
@@ -34,7 +55,7 @@ const CollectionPage = (props) => {
   const collectionsServiceName = 'collections'
   const collectionData = useDataItemFromStore(collectionsServiceName, { query: { name: collectionName } })
   const populate = Object.keys(collectionData.populateSchema || {})
-  const populatedFieldsCollectionsData = getDataOfPopulatedFields(collectionData.populateSchema)
+  const populatedFieldsCollectionsData = useDataOfPopulatedFields(collectionData.populateSchema)
 
   const userCan = useCollectionPrivileges(collectionData)
 
