@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { pickBy, mapValues } from 'lodash'
+import { pickBy, mapValues, mapKeys } from 'lodash'
 
 import { Search } from '@material-ui/icons'
 
@@ -9,25 +9,54 @@ import DefaultSubmitField from '@bit/amazingdesign.react-redux-mui-starter.defau
 
 import { Uniform } from '../../bits/uniforms/Uniform'
 
-const filterSchemaByTableFields = (collectionData) => {
-  const { tableFields, schema } = collectionData
+const REPLACER = '~NESTED~SEPARATOR~' // no . or []
+const nestedFieldSafeName = (name) => name.replace(/\./g, REPLACER)
+const nestedFieldDotName = (name) => name.replace(new RegExp(REPLACER.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), '.')
+
+const pickFieldsFromSchemaToBeSearchFields = (tableFields) => (fieldSchema, fieldName) => {
+  return (
+    tableFields.find(field => nestedFieldSafeName(field.name) === fieldName) &&
+    tableFields.find(field => nestedFieldSafeName(field.name) === fieldName).columnRenderType !== 'boolean-icon' &&
+    tableFields.find(field => nestedFieldSafeName(field.name) === fieldName).columnRenderType !== 'boolean' &&
+    tableFields.find(field => nestedFieldSafeName(field.name) === fieldName).columnRenderType !== 'date' &&
+    tableFields.find(field => nestedFieldSafeName(field.name) === fieldName).columnRenderType !== 'date-time' &&
+    tableFields.find(field => nestedFieldSafeName(field.name) === fieldName).columnRenderType !== 'time-from-now' &&
+    tableFields.find(field => nestedFieldSafeName(field.name) === fieldName).columnRenderType !== 'avatar'
+  )
+}
+
+const getPopulatedPathProperties = (populatedFieldsCollectionsData) => {
+  return Object.entries(populatedFieldsCollectionsData || {}).reduce(
+    (r, [fieldName, collectionData]) => {
+      const nestedFieldsSchema = (
+        collectionData &&
+        collectionData.schema &&
+        Object.entries(collectionData.schema.properties || {}).reduce(
+          (r, [nestedFieldName, nestedFieldSchema]) => ({
+            ...r,
+            [nestedFieldSafeName(`${fieldName}.${nestedFieldName}`)]: nestedFieldSchema,
+          }),
+          {}
+        )
+      )
+      return { ...r, ...nestedFieldsSchema }
+    },
+    {}
+  )
+}
+
+const filterSchemaByTableFields = (colledctionDataWithPopulatedFieldsProperties) => {
+  const { tableFields, schema } = colledctionDataWithPopulatedFieldsProperties
 
   const tableFieldsSchemaProps = pickBy(
     schema.properties,
-    (fieldSchema, fieldName) => (
-      tableFields.find(field => field.name.split('.')[0] === fieldName) &&
-      tableFields.find(field => field.name.split('.')[0] === fieldName).columnRenderType !== 'boolean-icon' &&
-      tableFields.find(field => field.name.split('.')[0] === fieldName).columnRenderType !== 'boolean' &&
-      tableFields.find(field => field.name.split('.')[0] === fieldName).columnRenderType !== 'date' &&
-      tableFields.find(field => field.name.split('.')[0] === fieldName).columnRenderType !== 'date-time' &&
-      tableFields.find(field => field.name.split('.')[0] === fieldName).columnRenderType !== 'time-from-now' &&
-      tableFields.find(field => field.name.split('.')[0] === fieldName).columnRenderType !== 'avatar'
-    )
+    pickFieldsFromSchemaToBeSearchFields(tableFields)
   )
 
   const mappedSchemaProps = mapValues(
     tableFieldsSchemaProps,
     (value, key) => {
+      // clear fields like email formated
       if (value && value.uniforms && value.uniforms.type) {
         return {
           ...value,
@@ -51,8 +80,8 @@ const transformValuesToQuery = (values, collectionData) => {
 
   const query = mapValues(
     values,
-    (value, key) => {
-      const { type } = fieldsDeclarations[key]
+    (value, fieldName) => {
+      const { type } = fieldsDeclarations[fieldName]
 
       switch (type) {
         case 'string':
@@ -65,7 +94,12 @@ const transformValuesToQuery = (values, collectionData) => {
     }
   )
 
-  return query
+  const queryWithDots = mapKeys(
+    query,
+    (value, fieldName) => nestedFieldDotName(fieldName)
+  )
+
+  return queryWithDots
 }
 
 const transformQueryToValues = (query, collectionData) => {
@@ -89,17 +123,52 @@ const transformQueryToValues = (query, collectionData) => {
     }
   )
 
-  return values
+  const valuesWithSafeNames = mapKeys(
+    values,
+    (value, fieldName) => nestedFieldSafeName(fieldName)
+  )
+
+  return valuesWithSafeNames
 }
 
-const SchemaSearch = ({ query, onChange, collectionData, label }) => {
-  const schema = collectionData && collectionData.schema
-  const filteredSchema = filterSchemaByTableFields(collectionData)
+const decideToUseQueryByPopulation = (query, collectionData) => {
+  if (!collectionData) return false
+  if (!collectionData.populateSchema) return false
 
-  const model = transformQueryToValues(query, collectionData)
-  const onSubmit = (values) => {
-    onChange(transformValuesToQuery(values, collectionData))
+  const nestedQueryKeys = Object.keys(query)
+    .filter((path) => path.split('.')[1])
+    .map((path) => path.split('.')[0])
+
+  const populatedFields = Object.keys(collectionData.populateSchema)
+
+  if (populatedFields.find(populateFieldName => nestedQueryKeys.includes(populateFieldName))) {
+    return true
   }
+
+  return false
+}
+
+const SchemaSearch = ({ query, onChange, collectionData, populatedFieldsCollectionsData, label }) => {
+  const schema = collectionData && collectionData.schema
+  const populatedPathsProperties = getPopulatedPathProperties(populatedFieldsCollectionsData)
+  const collectionDataWithPopulatedProperties = {
+    ...collectionData,
+    schema: {
+      ...collectionData.schema,
+      properties: { ...collectionData.schema.properties, ...populatedPathsProperties },
+    },
+  }
+  const filteredSchema = filterSchemaByTableFields(collectionDataWithPopulatedProperties)
+
+  const model = transformQueryToValues(query, collectionDataWithPopulatedProperties)
+
+  const onSubmit = (values) => {
+    const query = transformValuesToQuery(values, collectionDataWithPopulatedProperties)
+    const otherQueryParams = decideToUseQueryByPopulation(query, collectionDataWithPopulatedProperties) ? { queryByPopulation: true } : {}
+
+    onChange(query, otherQueryParams)
+  }
+
   return (
     <div>
       {
@@ -130,6 +199,7 @@ SchemaSearch.propTypes = {
   query: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   collectionData: PropTypes.object.isRequired,
+  populatedFieldsCollectionsData: PropTypes.object.isRequired,
 }
 
 export default SchemaSearch

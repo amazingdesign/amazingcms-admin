@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import ArchiveToggle from './ArchiveToggle'
 import SchemaSearch from './SchemaSearch'
 
-const CollectionSearch = ({ onChange, query, collectionData }) => {
+const CollectionSearch = ({ onChange, query, collectionData, populatedFieldsCollectionsData }) => {
   const { t } = useTranslation()
 
   return (
@@ -19,6 +19,7 @@ const CollectionSearch = ({ onChange, query, collectionData }) => {
         query={query}
         onChange={onChange}
         collectionData={collectionData}
+        populatedFieldsCollectionsData={populatedFieldsCollectionsData}
         label={t('Search')}
       />
     </div>
@@ -33,6 +34,7 @@ CollectionSearch.propTypes = {
   onChange: PropTypes.func.isRequired,
   query: PropTypes.object.isRequired,
   collectionData: PropTypes.object.isRequired,
+  populatedFieldsCollectionsData: PropTypes.object.isRequired,
 }
 
 export default CollectionSearch

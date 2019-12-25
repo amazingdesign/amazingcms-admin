@@ -17,23 +17,29 @@ const SystemCollectionPage = (props) => {
   const dispatch = useDispatch()
 
   const { collectionName } = useParams()
+  const collectionsServiceName = 'system-collections'
+  const collectionData = useDataItemFromStore(collectionsServiceName, { query: { name: collectionName } })
+  const populate = Object.keys(collectionData.populateSchema || {})
+
+  const userCan = useCollectionPrivileges(collectionData)
+
   const [params, setParams] = useQsParams({
     page: 1,
     pageSize: 10,
+    populate,
     query: {},
   }, collectionName)
 
-  const collectionsServiceName = 'system-collections'
-  const collectionData = useDataItemFromStore(collectionsServiceName, { query: { name: collectionName } })
-  const userCan = useCollectionPrivileges(collectionData)
-
   const onCreate = (event, rowData) => dispatch(push(`/system-collections/${collectionName}/new`))
+  const onSearchChange = (query, paramsFromQuery) => (
+    setParams({ ...params, ...paramsFromQuery, query: { ...params.query, ...query } })
+  )
 
   return (
     <Page>
       <CheckCollectionPermissions collectionData={collectionData}>
         <CollectionSearch
-          onChange={(query) => setParams({ ...params, query: { ...params.query, ...query } })}
+          onChange={onSearchChange}
           query={params.query}
           collectionData={collectionData}
         />
