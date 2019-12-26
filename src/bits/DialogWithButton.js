@@ -1,11 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 import { Button as MUIButton } from '@material-ui/core'
 import Dialog from './Dialog'
 
 const DialogWithButton = (props) => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [isDialogOpen, setIsDialogOpen] = useState(props.open || false)
+  useEffect(() => {
+    setIsDialogOpen(props.open)
+  }, [props.open])
 
   const openDialog = () => setIsDialogOpen(true)
   const closeDialog = () => setIsDialogOpen(false)
@@ -66,6 +69,7 @@ DialogWithButton.propTypes = {
   closeDialogProp: PropTypes.string,
   children: PropTypes.node,
   label: PropTypes.string,
+  open: PropTypes.bool.isRequired,
 }
 
 export default DialogWithButton
