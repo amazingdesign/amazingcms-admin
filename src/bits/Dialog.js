@@ -12,7 +12,13 @@ import {
 
 const styles = {
   dialog: {
-    padding: 20,
+    overflow: 'visible',
+  },
+  paper: {
+    overflow: 'visible',
+  },
+  content: {
+    overflow: 'visible',
   },
 }
 
@@ -23,6 +29,7 @@ const Dialog = (props) => (
     fullScreen={props.fullScreen}
     fullWidth={true}
     maxWidth={'md'}
+    scroll={'body'}
   >
     {
       props.title ?

@@ -5,7 +5,7 @@ import { Button as MUIButton } from '@material-ui/core'
 import Dialog from './Dialog'
 
 const DialogWithButton = (props) => {
-  const [isDialogOpen, setIsDialogOpen] = useState(props.open || false)
+  const [isDialogOpen, setIsDialogOpen] = useState(props.open)
   useEffect(() => {
     setIsDialogOpen(props.open)
   }, [props.open])
@@ -56,6 +56,10 @@ const DialogWithButton = (props) => {
   )
 }
 
+
+DialogWithButton.defaultProps = {
+  open: false,
+}
 
 DialogWithButton.propTypes = {
   buttonComponent: PropTypes.oneOfType([
