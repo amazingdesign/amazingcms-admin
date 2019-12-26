@@ -2,7 +2,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-
 import { JSONSchemaBridge } from 'uniforms-bridge-json-schema'
 import { AutoForm } from 'uniforms-material'
 import DefaultSubmitField from '@bit/amazingdesign.react-redux-mui-starter.default-submit-field'

@@ -21,13 +21,16 @@ const styles = {
   },
 }
 
-function MuiPickerField({ onChange, value, label, format, variant, fullWidth, type, ...otherProps }) {
+const MuiPickerField = (
+  { onChange, value, label, format, variant, fullWidth, type, error, errorMessage, ...otherProps }
+) => {
   const { i18n } = useTranslation()
 
   const commonProps = {
     disableToolbar: true,
     variant: variant || 'inline',
-    label: label,
+    error: Boolean(error),
+    label: error ? errorMessage : label,
     value: moment(value),
     onChange: (momentValue) => onChange(momentValue.toISOString()),
     KeyboardButtonProps: { 'aria-label': 'change date' },
@@ -65,6 +68,8 @@ MuiPickerField.propTypes = {
   variant: PropTypes.string,
   fullWidth: PropTypes.bool,
   type: PropTypes.string,
+  error: PropTypes.bool,
+  errorMessage: PropTypes.string,
 }
 
 export default connectField(MuiPickerField)

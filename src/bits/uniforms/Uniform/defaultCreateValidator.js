@@ -1,6 +1,12 @@
 import Ajv from 'ajv'
+import ajvKeyWords from 'ajv-keywords'
+import ajvErrors from 'ajv-errors'
 
-export const ajv = new Ajv({ allErrors: true, useDefaults: true })
+export const ajv = ajvErrors(
+  ajvKeyWords(
+    new Ajv({ allErrors: true, jsonPointers: true, useDefaults: true, $data: true })
+  )
+)
 
 export const createValidator = (schema) => {
   const validator = ajv.compile(schema)
