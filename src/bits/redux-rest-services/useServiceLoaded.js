@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import { debounce } from 'lodash'
 
@@ -21,17 +21,25 @@ export const useServiceLoaded = (name, globalParams, globalFetchOptions) => {
   const isError = useSelector(state => state[name].isError)
   const touched = useSelector(state => state[name].touched)
 
-  useEffect(() => {
-    const action = id ? service.get : service.find
-    const clearAdnLoadData = () => {
-      dispatch(service.syncActions.find.RECEIVES_DATA(null, null))
-      action()
+  const loadAction = service[method]
+  const resetAction = useMemo(() => (
+    () => {
+      dispatch(service.syncActions[method].START_FETCHING())
+      dispatch(service.syncActions[method].RECEIVES_DATA(null, null))
     }
+  ), [service.syncActions, dispatch, method])
 
-    callDebounce(clearAdnLoadData)
+  const globalParamsString = useMemo(() => JSON.stringify(globalParams), [globalParams])
+  const globalFetchOptionsString = useMemo(() => JSON.stringify(globalFetchOptions), [globalFetchOptions])
+  useEffect(() => {
+    // reset data sync to prevent persisting old data on eg. new routes 
+    resetAction()
+
+    // batch multiple param changes into one call
+    callDebounce(loadAction)
 
     return () => callDebounce.cancel()
-  }, [name, JSON.stringify(globalParams), JSON.stringify(globalFetchOptions)])
+  }, [loadAction, resetAction, globalParamsString, globalFetchOptionsString])
 
   return {
     ...service,

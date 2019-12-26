@@ -7,18 +7,24 @@ import { renderField } from './renderField'
 
 const CollectionTableStateless = ({ collectionData, data, options, ...otherProps }) => {
   const columns = useMemo(() => (
-    collectionData.tableFields
-      .map((field) => ({
-        title: field.label || field.name,
-        field: field.name,
-        render: renderField(field),
-        lookup: field.lookup,
-      }))
-  ), [collectionData.tableFields])
+    collectionData ?
+      collectionData.tableFields
+        .map((field) => ({
+          title: field.label || field.name,
+          field: field.name,
+          render: renderField(field),
+          lookup: field.lookup,
+        }))
+      :
+      []
+  ), [collectionData])
 
   return (
     <div style={{ maxWidth: '100%' }}>
       <MaterialTable
+        // @HACK reset state when data changes
+        // from empty to promise 
+        key={data}
         columns={columns}
         data={data || []}
         options={{

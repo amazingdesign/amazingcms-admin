@@ -74,7 +74,7 @@ const MDXEditorField = (props) => {
         .catch(() => setIsError(true))
         .finally(() => setIsFetching(false))
     },
-    [debouncedValue, isPreviewVisible]
+    [value, debouncedValue, isPreviewVisible]
   )
 
   return (

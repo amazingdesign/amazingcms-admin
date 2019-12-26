@@ -18,17 +18,19 @@ export const useQsParams = (defaultParams, page) => {
   // on page change reset to page defaults
   // but not on initial component mount
   useEffect(() => {
-    if(isInitialMount.current){
+    if (isInitialMount.current) {
       isInitialMount.current = false
       return
     }
 
     setParams(defaultParams)
-  }, [page])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(defaultParams), page])
 
   useEffect(() => {
     dispatch(push(qs.stringify(params, { addQueryPrefix: true })))
-  }, [JSON.stringify(params)])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, JSON.stringify(params)])
 
   return [params, setParams]
 }

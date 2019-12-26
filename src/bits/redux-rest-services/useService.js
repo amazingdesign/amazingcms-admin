@@ -15,7 +15,8 @@ export const useService = (serviceName, globalParams, globalFetchOptions) => {
   if (!instance) throw Error('redux-rest-services main instance not found!')
 
   const serviceActions = instance.actions[serviceName]
-  if (!serviceActions) throw Error(`service "${serviceName}" not found!`)
+  const syncActions = instance.syncActions[serviceName]
+  if (!serviceActions || !syncActions) throw Error(`service "${serviceName}" not found!`)
 
   const dispatch = useDispatch()
 
@@ -24,15 +25,22 @@ export const useService = (serviceName, globalParams, globalFetchOptions) => {
     (action) => (params, fetchOptions) => dispatch(
       action({ ...globalParams, ...params }, { ...globalFetchOptions, ...fetchOptions })
     )
-  ), [serviceName, JSON.stringify(globalParams), JSON.stringify(globalFetchOptions)])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  ), [serviceActions, JSON.stringify(globalParams), JSON.stringify(globalFetchOptions)])
 
-  const Loader = (props) => <RestServicesLoader serviceName={serviceName} {...props} />
-  const ErrorMessage = (props) => <RestServicesErrorMessage serviceName={serviceName} {...props} />
+  const Loader = useMemo(() => {
+    const Loader = (props) => <RestServicesLoader serviceName={serviceName} {...props} />
+    return Loader
+  }, [serviceName])
+  const ErrorMessage = useMemo(() => {
+    const ErrorMessage = (props) => <RestServicesErrorMessage serviceName={serviceName} {...props} />
+    return ErrorMessage
+  }, [serviceName])
 
-  return {
+  return useMemo(() => ({
     ...boundActions,
     Loader,
     ErrorMessage,
-    syncActions: instance.syncActions[serviceName],
-  }
+    syncActions,
+  }), [boundActions, syncActions, Loader, ErrorMessage])
 }

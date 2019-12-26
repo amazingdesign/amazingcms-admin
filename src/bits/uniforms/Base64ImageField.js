@@ -32,6 +32,7 @@ function Base64ImageField({ onChange, value, label }) {
         <img
           style={{ cursor: 'pointer', width: '150px', height: '150px' }}
           src={value ? value : imgPlaceholder}
+          alt={'avatar'}
         />
       </label>
       <input

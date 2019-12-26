@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState, useMemo, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
 import slugify from 'slugify'
@@ -10,13 +10,8 @@ import { findFirstLevelSlugFields } from '../findFirstLevelSlugFields'
 const Uniform = ({ schema, model: propsModel, ...otherProps }) => {
   const [model, setModel] = useState(propsModel)
 
-  useEffect(() => {
-    propsModel &&
-      setSlugsOnChangeModel(propsModel)
-  }, [propsModel])
-
   const slugFields = useMemo(() => findFirstLevelSlugFields(schema), [schema])
-  const setSlugOnChangeModel = (newModel, { fieldName, from }) => {
+  const setSlugOnChangeModel = useCallback((newModel, { fieldName, from }) => {
     if (newModel[from] !== undefined) {
       return {
         ...newModel,
@@ -25,8 +20,8 @@ const Uniform = ({ schema, model: propsModel, ...otherProps }) => {
     }
 
     return newModel
-  }
-  const setSlugsOnChangeModel = (newModel) => {
+  }, [])
+  const setSlugsOnChangeModel = useCallback((newModel) => {
     const newModelWithSlugs = slugFields.reduce(
       setSlugOnChangeModel,
       newModel
@@ -35,7 +30,12 @@ const Uniform = ({ schema, model: propsModel, ...otherProps }) => {
     if (newModel !== newModelWithSlugs) {
       setModel({ ...newModelWithSlugs })
     }
-  }
+  }, [setSlugOnChangeModel, slugFields])
+
+  useEffect(() => {
+    propsModel && setSlugsOnChangeModel(propsModel)
+  }, [propsModel, setSlugsOnChangeModel])
+
 
   return (
     <UniformStateless

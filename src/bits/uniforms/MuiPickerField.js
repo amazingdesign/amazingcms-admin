@@ -22,7 +22,7 @@ const styles = {
 }
 
 function MuiPickerField({ onChange, value, label, format, variant, fullWidth, type, ...otherProps }) {
-  const { t, i18n } = useTranslation()
+  const { i18n } = useTranslation()
 
   const commonProps = {
     disableToolbar: true,

@@ -9,7 +9,6 @@ import ErrorMessage from './ErrorMessage'
 
 import { getTmpPreviewLink } from './mdxPreview'
 
-
 const styles = (theme, props) => ({
   iframe: {
     width: '100%',
@@ -40,6 +39,7 @@ const Preview = (props) => {
             <LoadingIndicator />
             :
             <iframe
+              title={'mdx-preview'}
               className={props.classes.iframe}
               /*eslint-env node*/
               // eslint-disable-next-line max-len
@@ -49,7 +49,6 @@ const Preview = (props) => {
     </BackgroundFieldWrapper>
   )
 }
-
 
 Preview.propTypes = {
   classes: PropTypes.object,

@@ -67,6 +67,7 @@ function Dropzone({ acceptDesc, dropzoneProps, onSubmit, buttonProps }) {
   useEffect(() => {
     setAcceptedFiles(acceptedFiles.concat(acceptedFilesDropzone))
     setRejectedFiles(rejectedFiles.concat(rejectedFilesDropzone))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [acceptedFilesDropzone, rejectedFilesDropzone])
 
   const style = useMemo(() => ({
@@ -76,6 +77,7 @@ function Dropzone({ acceptDesc, dropzoneProps, onSubmit, buttonProps }) {
     ...(isDragReject ? rejectStyle : {}),
   }), [
     isDragActive,
+    isDragAccept,
     isDragReject,
   ])
 

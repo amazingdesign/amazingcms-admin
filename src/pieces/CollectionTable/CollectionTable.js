@@ -43,7 +43,7 @@ const CollectionTable = ({
     isSystemCollection ? { populate, ...params } : { collectionName, populate, ...params }
   )
 
-  const dataPromise = data && ((query) => Promise.resolve({
+  const dataPromise = data && (() => Promise.resolve({
     data: data.rows,
     page: (params.page - 1) || 0,
     totalCount: data.total || 0,

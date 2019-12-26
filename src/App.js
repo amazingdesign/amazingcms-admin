@@ -30,7 +30,7 @@ const TITLE = window._env_.REACT_APP_TITLE
 
 const App = () => {
   const dispatch = useDispatch()
-  const { t, i18n } = useTranslation(null, { useSuspense: false })
+  const { t } = useTranslation(null, { useSuspense: false })
 
   const [params, setParams] = useQsParams()
 
@@ -64,7 +64,7 @@ const App = () => {
     profileMenuRoutes,
   } = useMemo(() => {
     return makeRoutes(collectionsData, systemCollectionsData, userPrivileges, dispatch, t)
-  }, [collectionsData, systemCollectionsData, userPrivileges, i18n.language])
+  }, [collectionsData, systemCollectionsData, userPrivileges, dispatch, t])
 
   const languages = LANGUAGES.map(lang => ({
     ...lang,
