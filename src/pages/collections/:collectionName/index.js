@@ -10,45 +10,9 @@ import { useCollectionPrivileges } from '../../../bits/useCollectionPrivileges'
 import CheckCollectionPermissions from '../../../bits/CheckCollectionPermissions'
 import { useDataItemFromStore } from '../../../bits/redux-rest-services/useDataItemFromStore'
 
-import { store } from '../../../store'
 import CollectionTable from '../../../pieces/CollectionTable'
 import CollectionSearch from '../../../pieces/CollectionSearch'
-
-const getDataOfPopulatedFields = (populateSchema, parentFieldName = '') => {
-  const parentFieldNameWithDot = parentFieldName ? parentFieldName + '.' : ''
-
-  return Object.entries(populateSchema || {}).reduce(
-    (r, [fieldName, populateDefinition]) => {
-      // @TODO moleculer can have object also here in more complex populations
-      if (!['string', 'object'].includes(typeof populateDefinition)) return r
-      const populateAction = typeof populateDefinition === 'string' ? populateDefinition : populateDefinition.action
-
-      const isSystemCollection = !populateAction.includes('__')
-      const serviceName = isSystemCollection ? 'system-collections' : 'collections'
-      const splitActionBy = isSystemCollection ? '.' : '__'
-      const collectionName = populateAction.split(splitActionBy)[0]
-      const allCollectionsData = store.getState()[serviceName].find.data
-      const populatedCollectionData = (
-        allCollectionsData &&
-        allCollectionsData.find(
-          (collectionData) => collectionData.name === collectionName
-        )
-      ) || []
-
-      const nestedPopulatedFields = (
-        populatedCollectionData.populateSchema ?
-          getDataOfPopulatedFields(populatedCollectionData.populateSchema, `${parentFieldNameWithDot}${fieldName}`)
-          :
-          {}
-      )
-
-      const fieldNameWithParent = `${parentFieldNameWithDot}${fieldName}`
-
-      return { ...r, ...nestedPopulatedFields, [fieldNameWithParent]: populatedCollectionData }
-    },
-    {}
-  )
-}
+import getDataOfPopulatedFields from '../../../pieces/getDataOfPopulatedFields'
 
 const CollectionPage = (props) => {
   const dispatch = useDispatch()

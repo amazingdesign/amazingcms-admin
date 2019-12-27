@@ -21,12 +21,12 @@ export const useServiceLoaded = (name, globalParams, globalFetchOptions) => {
   const isError = useSelector(state => state[name].isError)
   const touched = useSelector(state => state[name].touched)
 
-  const loadAction = service[method]
+  const loadAction = useMemo(() => {
+    console.debug('useServiceLoaded', method, name, globalParams, globalFetchOptions)
+    return service[method]
+  }, [service, method])
   const resetAction = useMemo(() => (
-    () => {
-      dispatch(service.syncActions[method].START_FETCHING())
-      dispatch(service.syncActions[method].RECEIVES_DATA(null, null))
-    }
+    () => dispatch(service.syncActions[method].RECEIVES_DATA(null, null))
   ), [service.syncActions, dispatch, method])
 
   const globalParamsString = useMemo(() => JSON.stringify(globalParams), [globalParams])

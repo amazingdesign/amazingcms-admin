@@ -12,6 +12,7 @@ import { useDataItemFromStore } from '../../../bits/redux-rest-services/useDataI
 
 import CollectionTable from '../../../pieces/CollectionTable'
 import CollectionSearch from '../../../pieces/CollectionSearch/CollectionSearch'
+import getDataOfPopulatedFields from '../../../pieces/getDataOfPopulatedFields'
 
 const SystemCollectionPage = (props) => {
   const dispatch = useDispatch()
@@ -19,15 +20,16 @@ const SystemCollectionPage = (props) => {
   const { collectionName } = useParams()
   const collectionsServiceName = 'system-collections'
   const collectionData = useDataItemFromStore(collectionsServiceName, { query: { name: collectionName } })
-  const populate = Object.keys(collectionData.populateSchema || {})
+  const populatedFieldsCollectionsData = getDataOfPopulatedFields(collectionData.populateSchema)
 
   const userCan = useCollectionPrivileges(collectionData)
 
+  // params from URL are strings
+  // passing strings as initial saves render
   const [params, setParams] = useQsParams({
-    page: 1,
-    pageSize: 10,
-    populate,
-    query: {},
+    page: '1',
+    pageSize: '10',
+    query: { _archived: { $in: ['false', ''] } },
   }, collectionName)
 
   const onCreate = (event, rowData) => dispatch(push(`/system-collections/${collectionName}/new`))
@@ -42,6 +44,7 @@ const SystemCollectionPage = (props) => {
           onChange={onSearchChange}
           query={params.query}
           collectionData={collectionData}
+          populatedFieldsCollectionsData={populatedFieldsCollectionsData}
         />
         <CollectionTable
           params={params}
