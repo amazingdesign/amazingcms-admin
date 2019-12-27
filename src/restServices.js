@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import makeRestServices, { crudActionsDeclarations, instances } from 'redux-rest-services'
 
 import { store } from './store'
