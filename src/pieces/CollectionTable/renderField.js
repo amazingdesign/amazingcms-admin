@@ -2,10 +2,13 @@
 import React from 'react'
 
 import _ from 'lodash'
+import isAbsoluteUrl from 'is-absolute-url'
 
-import { Avatar, Chip } from '@material-ui/core'
+import { Avatar, Chip, Button, IconButton } from '@material-ui/core'
 
 import Icon from '@bit/amazingdesign.react-redux-mui-starter.icon'
+import ConnectedLink from '@bit/amazingdesign.react-redux-mui-starter.connected-link'
+import { replace } from '@bit/amazingdesign.utils.variables-in-string'
 
 import { makeSrc } from '../../bits/amazing-cms/makeDownloaderSrc'
 
@@ -78,7 +81,38 @@ const renderBoolIcon = (field) => (rowData) => {
   return <Icon>fas fa-times-circle</Icon>
 }
 
+const renderButtonLink = (field) => (rowData) => {
+  const { button: { label, link, variant, color } } = field
+
+  const labelReplaced = replace(label, rowData)
+  const linkReplaced = replace(link, rowData)
+
+  const LinkComponent = (
+    isAbsoluteUrl(linkReplaced) ?
+      (props) => <a href={linkReplaced} target={'_blank'} style={{ textDecoration: 'none' }} {...props} />
+      :
+      (props) => <ConnectedLink to={linkReplaced} {...props} />
+  )
+
+  const ButtonComponent = (
+    variant === 'icon' ?
+      // eslint-disable-next-line react/prop-types
+      ({ children, ...otherProps }) => <IconButton color={color} {...otherProps}><Icon>{children}</Icon></IconButton>
+      :
+      (props) => <Button color={color} variant={variant} style={{ whiteSpace: 'nowrap' }} {...props} />
+  )
+
+  return (
+    <LinkComponent>
+      <ButtonComponent>
+        {labelReplaced}
+      </ButtonComponent>
+    </LinkComponent >
+  )
+}
+
 const mapFieldToFunc = {
+  'button-link': renderButtonLink,
   'boolean': renderBool,
   'boolean-icon': renderBoolIcon,
   'avatar': renderAvatar,

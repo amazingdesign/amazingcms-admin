@@ -10,8 +10,10 @@ import DefaultSubmitField from '@bit/amazingdesign.react-redux-mui-starter.defau
 import { Uniform } from '../../bits/uniforms/Uniform'
 
 const REPLACER = '~NESTED~SEPARATOR~' // no . or []
-const nestedFieldSafeName = (name) => name.replace(/\./g, REPLACER)
-const nestedFieldDotName = (name) => name.replace(new RegExp(REPLACER.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), '.')
+const nestedFieldSafeName = (name) => name && name.replace(/\./g, REPLACER)
+const nestedFieldDotName = (name) => (
+  name && name.replace(new RegExp(REPLACER.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), '.')
+)
 
 const pickFieldsFromSchemaToBeSearchFields = (tableFields) => (fieldSchema, fieldName) => {
   return (
