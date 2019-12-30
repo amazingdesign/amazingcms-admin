@@ -47,6 +47,7 @@ const ReactSelectField = ({
   errorLabelComponent,
   field,
   isCreatable,
+  disabled,
   error,
   errorMessage,
   errorColor,
@@ -68,6 +69,7 @@ const ReactSelectField = ({
         options={options}
         isSearchable={true}
         isClearable={true}
+        isDisabled={disabled}
         isMulti={field.type === 'array'}
         styles={customStyles(error)}
         {...otherProps}
@@ -93,6 +95,7 @@ ReactSelectField.propTypes = {
   ]),
   label: PropTypes.string.isRequired,
   field: PropTypes.object.isRequired,
+  disabled: PropTypes.bool,
   error: PropTypes.bool,
   errorMessage: PropTypes.string,
   errorColor: PropTypes.string,
