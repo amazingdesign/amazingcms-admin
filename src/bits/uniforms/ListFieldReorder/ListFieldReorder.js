@@ -57,14 +57,14 @@ const List = ({
           {...itemProps}
         />
       ))}
+    <ListAddField
+      key="listAddField"
+      name={`${name}.$`}
+      icon={addIcon}
+      initialCount={initialCount}
+      fullWidth={'false'}
+    />
   </ListMaterial>,
-  <ListAddField
-    key="listAddField"
-    name={`${name}.$`}
-    icon={addIcon}
-    initialCount={initialCount}
-    fullWidth={'false'}
-  />,
 ])
 
 List.defaultProps = {
