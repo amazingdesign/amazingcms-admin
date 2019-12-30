@@ -26,7 +26,8 @@ const addSeparatorAtLastRoute = (routes) => ((
 
 
 const filterByPrivileges = (userPrivileges) => (routeData) => (
-  privilegesChecker(userPrivileges, routeData.requiredPrivileges && routeData.requiredPrivileges.list)
+  privilegesChecker(userPrivileges, routeData.requiredPrivileges && routeData.requiredPrivileges.list) &&
+  privilegesChecker(userPrivileges, routeData.requiredPrivileges && routeData.requiredPrivileges._displayInAdmin)
 )
 
 // eslint-disable-next-line max-params
