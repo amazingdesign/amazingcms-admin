@@ -3,7 +3,7 @@ import React from 'react'
 import tinycolor from 'tinycolor2'
 
 import { useTheme } from '@material-ui/core/styles'
-import { FormLabel } from '@material-ui/core'
+import { FormLabel, FormHelperText } from '@material-ui/core'
 
 import ReactSelectField from './ReactSelectField'
 
@@ -57,6 +57,8 @@ function MuiReactSelectField(props) {
     <ReactSelectField
       theme={theme}
       labelComponent={(props) => <FormLabel {...props} />}
+      errorLabelComponent={(props) => <FormHelperText {...props} />}
+      errorColor={MUITheme.palette.error.main}
       {...props}
     />
   )

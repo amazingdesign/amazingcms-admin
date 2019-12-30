@@ -15,11 +15,11 @@ const styles = {
   },
 }
 
-const customStyles = {
+const customStyles = (isError) => ({
   container: (base) => ({ ...base }),
-  control: (base) => ({ ...base, backgroundColor: 'inherit' }),
+  control: (base) => ({ ...base, backgroundColor: 'inherit', ...(isError ? { borderColor: 'red' } : {}) }),
   menu: (base) => ({ ...base, backgroundColor: 'white', zIndex: 20 }),
-}
+})
 
 const emptyStringIfFalse = (value) => {
   return value || ''
@@ -38,14 +38,30 @@ const filterOptionsByValues = (options, values) => {
   return options.find(option => option.value === values)
 }
 
-function ReactSelectField({ onChange, value, label, options, labelComponent, field, isCreatable, ...otherProps }) {
+const ReactSelectField = ({
+  onChange,
+  value,
+  label,
+  options,
+  labelComponent,
+  errorLabelComponent,
+  field,
+  isCreatable,
+  error,
+  errorMessage,
+  errorColor,
+  ...otherProps
+}) => {
+  const errorStyle = { color: errorColor || 'red' }
+
   const Label = labelComponent || 'h4'
+  const ErrorLabel = errorLabelComponent || 'p'
 
   const SelectComponent = isCreatable ? CreatableSelect : Select
 
   return (
     <div style={styles.root}>
-      <Label style={styles.label}>{label}</Label>
+      <Label style={error ? { ...styles, label, ...errorStyle } : styles.label}>{label}</Label>
       <SelectComponent
         value={filterOptionsByValues(options, value)}
         onChange={(values) => onChange(getValues(values))}
@@ -53,10 +69,11 @@ function ReactSelectField({ onChange, value, label, options, labelComponent, fie
         isSearchable={true}
         isClearable={true}
         isMulti={field.type === 'array'}
-        styles={customStyles}
+        styles={customStyles(error)}
         {...otherProps}
       />
-    </div>
+      {errorMessage ? <ErrorLabel style={error ? errorStyle : {}} > {errorMessage}</ErrorLabel> : null}
+    </div >
   )
 }
 
@@ -68,13 +85,17 @@ ReactSelectField.propTypes = {
   isCreatable: PropTypes.bool,
   options: PropTypes.array,
   onChange: PropTypes.func.isRequired,
-  labelComponent: PropTypes.func.isRequired,
+  labelComponent: PropTypes.func,
+  errorLabelComponent: PropTypes.func,
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.array,
   ]),
   label: PropTypes.string.isRequired,
   field: PropTypes.object.isRequired,
+  error: PropTypes.bool,
+  errorMessage: PropTypes.string,
+  errorColor: PropTypes.string,
 }
 
 export default connectField(ReactSelectField)
