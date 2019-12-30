@@ -1,21 +1,26 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { Button as MUIButton } from '@material-ui/core'
 import Dialog from './Dialog'
 
 const DialogWithButton = (props) => {
-  const [isDialogOpen, setIsDialogOpen] = useState(props.open)
-  useEffect(() => {
-    setIsDialogOpen(props.open)
-  }, [props.open])
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   const openDialog = () => setIsDialogOpen(true)
   const closeDialog = () => setIsDialogOpen(false)
 
   const mergeFunctions = (first, second) => (
     (typeof first === 'function') && (typeof second === 'function') ?
-      (...all) => [first(...all), second(...all)]
+      (...all) => {
+        const firstResult = first(...all)
+        
+        if(firstResult instanceof Promise){
+          return firstResult.finally(() => second(...all))
+        }
+
+        return [firstResult, second(...all)]
+      }
       :
       second
   )
@@ -54,11 +59,6 @@ const DialogWithButton = (props) => {
       </Dialog>
     </>
   )
-}
-
-
-DialogWithButton.defaultProps = {
-  open: false,
 }
 
 DialogWithButton.propTypes = {
