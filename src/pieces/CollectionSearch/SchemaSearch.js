@@ -65,6 +65,13 @@ const filterSchemaByTableFields = (colledctionDataWithPopulatedFieldsProperties)
           uniforms: { ...value.uniforms, type: undefined },
         }
       }
+      // clear disabled
+      if (value && value.uniforms && value.uniforms.disabled) {
+        return {
+          ...value,
+          uniforms: { ...value.uniforms, disabled: undefined },
+        }
+      }
 
       return value
     }
