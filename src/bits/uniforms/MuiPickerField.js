@@ -22,7 +22,7 @@ const styles = {
 }
 
 const MuiPickerField = (
-  { onChange, value, label, format, variant, fullWidth, type, error, errorMessage, ...otherProps }
+  { onChange, value, label, dateFormat, variant, fullWidth, type, error, errorMessage, ...otherProps }
 ) => {
   const { i18n } = useTranslation()
 
@@ -46,12 +46,12 @@ const MuiPickerField = (
         {
           type === 'datetime' ?
             <KeyboardDateTimePicker
-              format={format || 'YYYY-MM-DD HH:mm'}
+              format={dateFormat || 'YYYY-MM-DD HH:mm'}
               {...commonProps}
             />
             :
             <KeyboardDatePicker
-              format={format || 'YYYY-MM-DD'}
+              format={dateFormat || 'YYYY-MM-DD'}
               {...commonProps}
             />
         }
@@ -64,7 +64,7 @@ MuiPickerField.propTypes = {
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  format: PropTypes.string,
+  dateFormat: PropTypes.string,
   variant: PropTypes.string,
   fullWidth: PropTypes.bool,
   type: PropTypes.string,
