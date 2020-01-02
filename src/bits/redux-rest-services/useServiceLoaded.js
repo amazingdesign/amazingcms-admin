@@ -9,7 +9,7 @@ const call = (func) => func()
 const callDebounce = debounce(call, 0)
 
 // eslint-disable-next-line max-params
-export const useServiceLoaded = (name, globalParams, globalFetchOptions) => {
+export const useServiceLoaded = (name, globalParams = {}, globalFetchOptions = {}) => {
   const { id } = globalParams
   const method = id ? 'get' : 'find'
 

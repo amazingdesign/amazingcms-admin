@@ -16,7 +16,7 @@ const DraftEditorField = ({ onChange, value, label, serviceName, bucketName, ...
   const { i18n } = useTranslation()
 
   const contentState = (
-    typeof value === 'object' && isEmptyObject(value) ?
+    typeof value !== 'object' || isEmptyObject(value) ?
       null
       :
       value
