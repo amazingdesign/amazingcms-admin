@@ -3,6 +3,7 @@ export default {
     'blockType',
     'fontSize',
     'fontFamily',
+    'colorPicker',
     'inline',
     'textAlign',
     'list',
