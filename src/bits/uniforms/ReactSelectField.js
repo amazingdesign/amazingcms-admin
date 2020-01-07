@@ -21,14 +21,14 @@ const customStyles = (isError) => ({
   menu: (base) => ({ ...base, backgroundColor: 'white', zIndex: 20 }),
 })
 
-const emptyStringIfFalse = (value) => {
-  return value || ''
+const emptyValueCheck = (value, isMulti) => {
+  return value || (isMulti ? [] : '')
 }
-const getValues = (values) => {
+const getValues = (values, isMulti) => {
   if (Array.isArray(values)) {
-    return values.map(item => emptyStringIfFalse(item && item.value))
+    return values.map(item => emptyValueCheck(item && item.value, isMulti))
   }
-  return emptyStringIfFalse(values && values.value)
+  return emptyValueCheck(values && values.value, isMulti)
 }
 const filterOptionsByValues = (options, values) => {
   if (!values) return
@@ -59,18 +59,19 @@ const ReactSelectField = ({
   const ErrorLabel = errorLabelComponent || 'p'
 
   const SelectComponent = isCreatable ? CreatableSelect : Select
+  const isMulti = field.type === 'array'
 
   return (
     <div style={styles.root}>
       <Label style={error ? { ...styles, label, ...errorStyle } : styles.label}>{label}</Label>
       <SelectComponent
         value={filterOptionsByValues(options, value)}
-        onChange={(values) => onChange(getValues(values))}
+        onChange={(values) => onChange(getValues(values, isMulti))}
         options={options}
         isSearchable={true}
         isClearable={true}
         isDisabled={disabled}
-        isMulti={field.type === 'array'}
+        isMulti={isMulti}
         styles={customStyles(error)}
         {...otherProps}
       />
