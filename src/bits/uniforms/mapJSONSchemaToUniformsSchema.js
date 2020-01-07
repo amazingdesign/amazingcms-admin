@@ -27,11 +27,14 @@ import DraftEditorField from './DraftEditorField'
 import ReactSelectField from './ReactSelectField'
 import MuiReactSelectField from './MuiReactSelectField'
 import MuiPickerField from './MuiPickerField'
+import UUIDField from './UUIDField'
 
 import { mapValues } from 'lodash'
 
 export const mapFieldNameToField = (fieldName) => {
   switch (fieldName) {
+    case 'UUIDField':
+      return UUIDField
     case 'MuiPickerField':
       return MuiPickerField
     case 'MuiReactSelectField':
