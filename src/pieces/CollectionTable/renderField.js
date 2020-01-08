@@ -85,8 +85,8 @@ const renderBoolIcon = (field) => (rowData) => {
 const renderButtonLink = (field) => (rowData) => {
   const { button: { label, link, variant, color } } = field
 
-  const labelReplaced = replace(label, rowData)
-  const linkReplaced = replace(link, rowData)
+  const labelReplaced = replace(label, { ...window._env_, ...rowData })
+  const linkReplaced = replace(link, { ...window._env_, ...rowData })
 
   const LinkComponent = (
     isAbsoluteUrl(linkReplaced) ?
