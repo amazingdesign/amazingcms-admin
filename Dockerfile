@@ -10,7 +10,7 @@ COPY src/ src/
 
 RUN npm config set '@bit:registry' https://node.bit.dev
 
-RUN npm install
+RUN npm install --production
 RUN npm run build:no-env
 
 ### STAGE 2: Production Environment ###

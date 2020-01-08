@@ -1,0 +1,12 @@
+version: "3.2"
+
+services:
+
+  admin:
+    build:
+      context: .
+    image: amazingcms-admin
+    container_name: amazingcms-admin
+    env_file: .env
+    ports:
+      - $PORT:80
