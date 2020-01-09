@@ -72,6 +72,7 @@ const App = () => {
   }))
 
   useEffect(() => {
+    document.title = TITLE
     dispatch(checkIfLoggedInAsyncAction())
     // eslint-disable-next-line
   }, [])
