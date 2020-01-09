@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import {
   AutoField,
   LongTextField,
@@ -28,8 +29,6 @@ import ReactSelectField from './ReactSelectField'
 import MuiReactSelectField from './MuiReactSelectField'
 import MuiPickerField from './MuiPickerField'
 import UUIDField from './UUIDField'
-
-import { mapValues } from 'lodash'
 
 export const mapFieldNameToField = (fieldName) => {
   switch (fieldName) {
@@ -99,17 +98,28 @@ export const modifyUniformsProperty = (object) => {
   }
 }
 
-export const mapJSONSchemaToUniformsSchema = (object) => mapValues(
-  object,
-  (value, key) => {
-    if (typeof value !== 'object') return value
-    if (Array.isArray(value)) return value
-    if (value === null) return value
+const prepareKey = (key) => (
+  key &&
+  (key.slice(0, 2) === '_$' ? key.slice(1) : key)
+)
 
-    if (key !== 'uniforms') return mapJSONSchemaToUniformsSchema(value)
+export const mapJSONSchemaToUniformsSchema = (object) => (
+  object &&
+  Object.entries(object)
+    .reduce(
+      (r, [key, value]) => {
+        const preparedKey = prepareKey(key)
 
-    return modifyUniformsProperty(value)
-  }
+        if (typeof value !== 'object') return { ...r, [preparedKey]: value }
+        if (Array.isArray(value)) return { ...r, [preparedKey]: value }
+        if (value === null) return { ...r, [preparedKey]: value }
+
+        if (key !== 'uniforms') return { ...r, [preparedKey]: mapJSONSchemaToUniformsSchema(value) }
+
+        return { ...r, [preparedKey]: modifyUniformsProperty(value) }
+      },
+      {}
+    )
 )
 
 export default mapJSONSchemaToUniformsSchema

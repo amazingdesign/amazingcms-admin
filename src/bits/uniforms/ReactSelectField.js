@@ -75,7 +75,7 @@ const ReactSelectField = ({
         styles={customStyles(error)}
         {...otherProps}
       />
-      {errorMessage ? <ErrorLabel style={error ? errorStyle : {}} > {errorMessage}</ErrorLabel> : null}
+      {(error && errorMessage) ? <ErrorLabel style={error ? errorStyle : {}} > {errorMessage}</ErrorLabel> : null}
     </div >
   )
 }
