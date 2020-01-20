@@ -13,6 +13,9 @@ const styles = {
     width: '100%',
     alignItems: 'center',
   },
+  fieldsColumn: {
+    width: '100%',
+  },
   toolboxColumn: {
     display: 'flex',
     flexDirection: 'column',
@@ -27,22 +30,23 @@ const ListItem = ({ dense, divider, disableGutters, removeIcon, ...props }) => (
     disableGutters={disableGutters}
   >
     <div style={styles.root}>
-
-      {
-        props.children ?
-          (
-            Children.map(props.children, child =>
-              React.cloneElement(child, {
-                name: joinName(props.name, child.props.name),
-                label: null,
-              }),
+      <div style={styles.fieldsColumn}>
+        {
+          props.children ?
+            (
+              Children.map(props.children, child =>
+                React.cloneElement(child, {
+                  name: joinName(props.name, child.props.name),
+                  label: null,
+                }),
+              )
             )
-          )
-          :
-          (
-            <AutoField {...props} />
-          )
-      }
+            :
+            (
+              <AutoField {...props} />
+            )
+        }
+      </div>
       <div style={styles.toolboxColumn}>
         <IconButton
           disabled={props.moveUpDisabled}
