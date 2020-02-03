@@ -43,9 +43,16 @@ const CollectionTable = ({
     isSystemCollection ? { populate, ...params } : { collectionName, populate, ...params }
   )
 
+  const getLatestPageIfPageNotExist = (proposedPage) => ((
+    data &&
+      (proposedPage > data.totalPages) ?
+      (data.totalPages)
+      :
+      proposedPage
+  ) || 0)
   const dataPromise = data && (() => Promise.resolve({
     data: data.rows,
-    page: (params.page - 1) || 0,
+    page: getLatestPageIfPageNotExist(params.page - 1 || 0),
     totalCount: data.total || 0,
   }))
 
