@@ -15,6 +15,10 @@ const nestedFieldDotName = (name) => (
   name && name.replace(new RegExp(REPLACER.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), '.')
 )
 
+const escapeRegExp = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // $& means the whole matched string
+// eslint-disable-next-line no-useless-escape
+const unEscapeRegExp = (string) => string.replace(/\\([\.\*\+\?\^\$\{\}\(\)\|\[\]\/\\])/g, '$1')
+
 const pickFieldsFromSchemaToBeSearchFields = (tableFields) => (fieldSchema, fieldName) => {
   return (
     tableFields.find(field => nestedFieldSafeName(field.name) === fieldName) &&
@@ -90,15 +94,18 @@ const transformValuesToQuery = (values, collectionData) => {
   const query = mapValues(
     values,
     (value, fieldName) => {
+      if(value === '') return undefined
+
       const { type } = fieldsDeclarations[fieldName]
+      const valueTrimmed = typeof value === 'string' ? value.trim() : value
 
       switch (type) {
         case 'string':
-          return { $regex: value, $options: 'i' }
+          return { $regex: escapeRegExp(valueTrimmed), $options: 'i' }
         case 'array':
-          return { $in: value }
+          return { $in: valueTrimmed }
         default:
-          return value
+          return valueTrimmed
       }
     }
   )
@@ -122,10 +129,10 @@ const transformQueryToValues = (query, collectionData) => {
 
   const values = mapValues(
     queryFiltered,
-    (value, key) => {
+    (value, key) => {    
       if (typeof value !== 'object') return value
 
-      if (value.$regex || value.$regex === '') return value.$regex
+      if (value.$regex || value.$regex === '') return unEscapeRegExp(value.$regex)
       if (value.$in) return value.$in
 
       return value
