@@ -9,12 +9,15 @@ export const ajv = ajvErrors(
 )
 
 export const createValidator = (schema) => {
+  console.log(schema)
   const validator = ajv.compile(schema)
 
   return model => {
     validator(model)
 
     if (validator.errors && validator.errors.length) {
+
+      console.log(validator.errors)
 
       // eslint-disable-next-line no-throw-literal
       throw { details: validator.errors }

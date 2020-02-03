@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { connectField } from 'uniforms'
@@ -26,13 +26,18 @@ const MuiPickerField = (
 ) => {
   const { i18n } = useTranslation()
 
+  const [isOpen, setIsOpen] = useState(false)
+
   const commonProps = {
+    open: isOpen,
+    onAccept: () => setIsOpen(false),
     disableToolbar: true,
     variant: variant || 'inline',
     error: Boolean(error),
     label: error ? errorMessage : label,
     value: moment(value || Date.now()),
     onChange: (momentValue) => onChange((moment(momentValue || Date.now())).toISOString()),
+    InputAdornmentProps: { onClick: () => setIsOpen(true) },
     KeyboardButtonProps: { 'aria-label': 'change date' },
     fullWidth: fullWidth || true,
     name,
