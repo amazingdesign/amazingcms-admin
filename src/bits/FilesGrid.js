@@ -31,7 +31,7 @@ const makeActions = ({ bucketName, confirm, onDelete, display, t }) => (file) =>
   </Tooltip>,
   display.link &&
   <Tooltip key={'copyLink'} title={t('Copy download link')}>
-    <CopyToClipboard text={makeSrc(bucketName, file)} >
+    <CopyToClipboard text={makeSrc(bucketName)(file)} >
       <Button size={'small'} color={'primary'}>
         <LinkIcon />
       </Button>
