@@ -78,8 +78,8 @@ const App = () => {
   }, [])
   useEffect(() => {
     if (isUserLoggedIn) {
-      dispatch(restServices.actions.collections.find())
-      dispatch(restServices.actions['system-collections'].find())
+      dispatch(restServices.actions.collections.find({ pageSize: Number.MAX_SAFE_INTEGER }))
+      dispatch(restServices.actions['system-collections'].find({ pageSize: Number.MAX_SAFE_INTEGER }))
     }
     // eslint-disable-next-line
   }, [isUserLoggedIn])

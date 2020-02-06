@@ -15,7 +15,7 @@ const updateSystemCollectionsOnRecordModify = ({ method, name }, dispatch) => {
   if (['update', 'create', 'delete'].includes(name)) {
     // need to reload all collections after change
     const currentInstance = instances[0]
-    dispatch(currentInstance.actions['system-collections'].find())
+    dispatch(currentInstance.actions['system-collections'].find({ pageSize: Number.MAX_SAFE_INTEGER }))
   }
 }
 
@@ -23,7 +23,7 @@ const updateCollectionsOnRecordModify = ({ method, name }, dispatch) => {
   if (['update', 'create', 'delete'].includes(name)) {
     // need to reload all collections after change
     const currentInstance = instances[0]
-    dispatch(currentInstance.actions.collections.find())
+    dispatch(currentInstance.actions.collections.find({ pageSize: Number.MAX_SAFE_INTEGER }))
   }
 }
 
