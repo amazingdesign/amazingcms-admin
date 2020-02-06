@@ -127,7 +127,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "amazingdesign.react-redux-mui-starter/files-editor@0.0.2": {
+    "amazingdesign.react-redux-mui-starter/files-editor@0.0.3": {
         "files": [
             {
                 "relativePath": "src/bits/FilesEditor.js",
@@ -139,7 +139,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "amazingdesign.react-redux-mui-starter/files-grid@0.0.2": {
+    "amazingdesign.react-redux-mui-starter/files-grid@0.0.3": {
         "files": [
             {
                 "relativePath": "src/bits/FilesGrid.js",
@@ -319,7 +319,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "amazingdesign.uniforms/draft-editor-field@0.0.1": {
+    "amazingdesign.uniforms/draft-editor-field@0.0.2": {
         "files": [
             {
                 "relativePath": "src/bits/uniforms/DraftEditorField/DraftEditorField.js",
@@ -347,7 +347,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "amazingdesign.uniforms/file-field@0.0.2": {
+    "amazingdesign.uniforms/file-field@0.0.3": {
         "files": [
             {
                 "relativePath": "src/bits/uniforms/FileField.js",
@@ -371,7 +371,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "amazingdesign.uniforms/list-field-reorder@0.0.3": {
+    "amazingdesign.uniforms/list-field-reorder@0.0.4": {
         "files": [
             {
                 "relativePath": "src/bits/uniforms/ListFieldReorder/ListAddField.js",
@@ -399,7 +399,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "amazingdesign.uniforms/map-json-schema-to-uniforms-schema@0.0.7": {
+    "amazingdesign.uniforms/map-json-schema-to-uniforms-schema@0.0.8": {
         "files": [
             {
                 "relativePath": "src/bits/uniforms/mapJSONSchemaToUniformsSchema.js",
@@ -512,7 +512,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "amazingdesign.uniforms/mui-picker-field@0.0.1": {
+    "amazingdesign.uniforms/mui-picker-field@0.0.2": {
         "files": [
             {
                 "relativePath": "src/bits/uniforms/MuiPickerField.js",
@@ -548,7 +548,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "amazingdesign.uniforms/uniform@0.0.9": {
+    "amazingdesign.uniforms/uniform@0.0.10": {
         "files": [
             {
                 "relativePath": "src/bits/uniforms/Uniform/Uniform.js",
