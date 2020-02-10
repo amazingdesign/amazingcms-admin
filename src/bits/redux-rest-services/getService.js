@@ -1,6 +1,6 @@
 /* eslint-disable max-params */
 import memoizee from 'memoizee'
-import { mapValues } from 'lodash'
+import { mapValues, get } from 'lodash'
 import { instances } from 'redux-rest-services'
 
 const parseJSON = (paramsJSON) => {
@@ -9,7 +9,7 @@ const parseJSON = (paramsJSON) => {
   try {
     parsedParams = JSON.parse(paramsJSON)
   } catch (error) {
-    console.error('Unable to parse globalParams using instead:', paramsJSON)
+    console.error('[getService] Unable to JSON.parse params using its value instead:', paramsJSON)
   }
 
   return parsedParams
@@ -27,17 +27,9 @@ const makeBoundActions = memoizee((dispatch, serviceActions, globalParamsJSON, g
   )
 })
 
-const makeDataGetters = memoizee((store, serviceName) => ({
-  getData: () => store.getState()[serviceName].data,
-  getRawData: () => store.getState()[serviceName].rawData,
-  getIsLoading: () => store.getState()[serviceName].isLoading,
-  getIsError: () => store.getState()[serviceName].isError,
-  getTouched: () => store.getState()[serviceName].touched,
-}))
-
-const makeResponse = memoizee((dataGetters, boundActions, syncActions) => ({
-  ...dataGetters,
+const makeResponse = memoizee((getState, boundActions, syncActions) => ({
   ...boundActions,
+  getState,
   syncActions,
 }))
 
@@ -59,7 +51,12 @@ export const getService = (store, serviceName, globalParams, globalFetchOptions)
     JSON.stringify(globalFetchOptions)
   )
 
-  const dataGetters = makeDataGetters(store, serviceName)
+  const getState = (path) => {
+    const state = store.getState()
+    const serviceState = state && state[serviceName]
 
-  return makeResponse(dataGetters, boundActions, syncActions)
+    return path ? get(serviceState, path) : serviceState
+  }
+
+  return makeResponse(getState, boundActions, syncActions)
 }

@@ -8,8 +8,22 @@ import { useService } from './useService'
 const call = (func) => func()
 const callDebounce = debounce(call, 0)
 
+const isOptionsObject = (obj) => (
+  obj.globalParams !== undefined ||
+  obj.globalFetchOptions !== undefined ||
+  obj.doNotLoadOnMount !== undefined
+)
+
 // eslint-disable-next-line max-params
-export const useServiceLoaded = (name, globalParams = {}, globalFetchOptions = {}) => {
+export const useServiceLoaded = (name, secondArg = {}, thirdArg = {}, fourthArg = {}) => {
+  // fallback - useServiceLoaded can be used with options as second arg
+  // or as before 0.1.0 with 4 args  (name, globalParams, globalFetchOptions, options)
+  const {
+    globalParams = {},
+    globalFetchOptions = {},
+    doNotLoadOnMount,
+  } = isOptionsObject(secondArg) ? secondArg : { globalParams: secondArg, globalFetchOptions: thirdArg, ...fourthArg }
+
   const { id } = globalParams
   const method = id ? 'get' : 'find'
 
@@ -22,7 +36,7 @@ export const useServiceLoaded = (name, globalParams = {}, globalFetchOptions = {
   const touched = useSelector(state => state[name].touched)
 
   const loadAction = useMemo(() => {
-    console.debug('useServiceLoaded', method, name, globalParams, globalFetchOptions)
+    console.debug('[useServiceLoaded] Load on mount:', method, name, globalParams, globalFetchOptions)
     return service[method]
   }, [service, method])
   const resetAction = useMemo(() => (
@@ -32,6 +46,8 @@ export const useServiceLoaded = (name, globalParams = {}, globalFetchOptions = {
   const globalParamsString = useMemo(() => JSON.stringify(globalParams), [globalParams])
   const globalFetchOptionsString = useMemo(() => JSON.stringify(globalFetchOptions), [globalFetchOptions])
   useEffect(() => {
+    if (doNotLoadOnMount) return
+
     // reset data sync to prevent persisting old data on eg. new routes 
     resetAction()
 
