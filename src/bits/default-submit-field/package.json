@@ -1,0 +1,19 @@
+{
+  "name": "@bit/amazingdesign.react-redux-mui-starter.default-submit-field",
+  "version": "1.0.2",
+  "homepage": "https://bit.dev/amazingdesign/react-redux-mui-starter/default-submit-field",
+  "main": "dist/index.js",
+  "dependencies": {
+    "@material-ui/core": "^4.6.1",
+    "prop-types": "^15.7.2",
+    "react": "^16.11.0"
+  },
+  "devDependencies": {},
+  "peerDependencies": {},
+  "license": "SEE LICENSE IN LICENSE",
+  "bit": {
+    "env": {
+      "compiler": "bit.envs/compilers/react@1.0.5"
+    }
+  }
+}

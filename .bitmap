@@ -115,7 +115,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "amazingdesign.react-redux-mui-starter/file-uploader-dropzone@0.0.2": {
+    "amazingdesign.react-redux-mui-starter/file-uploader-dropzone@0.0.3": {
         "files": [
             {
                 "relativePath": "src/bits/FileUploaderDropzone.js",
@@ -127,7 +127,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "amazingdesign.react-redux-mui-starter/files-editor@0.0.3": {
+    "amazingdesign.react-redux-mui-starter/files-editor@0.0.4": {
         "files": [
             {
                 "relativePath": "src/bits/FilesEditor.js",
@@ -247,6 +247,18 @@
         "origin": "AUTHORED",
         "exported": true
     },
+    "amazingdesign.redux-rest-services/get-service@0.0.1": {
+        "files": [
+            {
+                "relativePath": "src/bits/redux-rest-services/getService.js",
+                "test": false,
+                "name": "getService.js"
+            }
+        ],
+        "mainFile": "src/bits/redux-rest-services/getService.js",
+        "origin": "AUTHORED",
+        "exported": true
+    },
     "amazingdesign.redux-rest-services/rest-services-error-message@0.0.4": {
         "files": [
             {
@@ -283,7 +295,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "amazingdesign.redux-rest-services/use-service-loaded@0.0.2": {
+    "amazingdesign.redux-rest-services/use-service-loaded@0.0.3": {
         "files": [
             {
                 "relativePath": "src/bits/redux-rest-services/useServiceLoaded.js",
@@ -295,7 +307,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "amazingdesign.redux-rest-services/use-service@0.0.4": {
+    "amazingdesign.redux-rest-services/use-service@0.0.8": {
         "files": [
             {
                 "relativePath": "src/bits/redux-rest-services/useService.js",
@@ -319,7 +331,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "amazingdesign.uniforms/draft-editor-field@0.0.2": {
+    "amazingdesign.uniforms/draft-editor-field@0.0.3": {
         "files": [
             {
                 "relativePath": "src/bits/uniforms/DraftEditorField/DraftEditorField.js",
@@ -347,7 +359,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "amazingdesign.uniforms/file-field@0.0.3": {
+    "amazingdesign.uniforms/file-field@0.0.4": {
         "files": [
             {
                 "relativePath": "src/bits/uniforms/FileField.js",
@@ -399,7 +411,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "amazingdesign.uniforms/map-json-schema-to-uniforms-schema@0.0.8": {
+    "amazingdesign.uniforms/map-json-schema-to-uniforms-schema@0.0.9": {
         "files": [
             {
                 "relativePath": "src/bits/uniforms/mapJSONSchemaToUniformsSchema.js",
@@ -548,7 +560,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "amazingdesign.uniforms/uniform@0.0.10": {
+    "amazingdesign.uniforms/uniform@0.0.11": {
         "files": [
             {
                 "relativePath": "src/bits/uniforms/Uniform/Uniform.js",
@@ -611,5 +623,5 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "version": "14.7.2"
+    "version": "14.7.4"
 }

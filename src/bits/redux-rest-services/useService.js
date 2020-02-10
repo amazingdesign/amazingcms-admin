@@ -1,32 +1,14 @@
 import React, { useMemo } from 'react'
 
-import { mapValues } from 'lodash'
+import { useStore } from 'react-redux'
 
-import { useDispatch } from 'react-redux'
-
-import { instances } from 'redux-rest-services'
+import { getService } from './getService'
 import RestServicesLoader from './RestServicesLoader'
 import RestServicesErrorMessage from './RestServicesErrorMessage'
 
 export const useService = (serviceName, globalParams, globalFetchOptions) => {
-  if (!serviceName) throw Error('you must specify service name!')
-
-  const instance = instances[0]
-  if (!instance) throw Error('redux-rest-services main instance not found!')
-
-  const serviceActions = instance.actions[serviceName]
-  const syncActions = instance.syncActions[serviceName]
-  if (!serviceActions || !syncActions) throw Error(`service "${serviceName}" not found!`)
-
-  const dispatch = useDispatch()
-
-  const boundActions = useMemo(() => mapValues(
-    serviceActions,
-    (action) => (params, fetchOptions) => dispatch(
-      action({ ...globalParams, ...params }, { ...globalFetchOptions, ...fetchOptions })
-    )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  ), [serviceActions, JSON.stringify(globalParams), JSON.stringify(globalFetchOptions)])
+  const store = useStore()
+  const service = getService(store, serviceName, globalParams, globalFetchOptions)
 
   const Loader = useMemo(() => {
     const Loader = (props) => <RestServicesLoader serviceName={serviceName} {...props} />
@@ -38,9 +20,8 @@ export const useService = (serviceName, globalParams, globalFetchOptions) => {
   }, [serviceName])
 
   return useMemo(() => ({
-    ...boundActions,
+    ...service,
     Loader,
     ErrorMessage,
-    syncActions,
-  }), [boundActions, syncActions, Loader, ErrorMessage])
+  }), [service, Loader, ErrorMessage])
 }

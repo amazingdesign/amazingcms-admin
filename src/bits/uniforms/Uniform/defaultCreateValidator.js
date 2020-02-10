@@ -9,7 +9,6 @@ export const ajv = ajvErrors(
 )
 
 export const createValidator = (schema) => {
-  console.log(schema)
   const validator = ajv.compile(schema)
 
   return model => {
