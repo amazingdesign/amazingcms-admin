@@ -131,6 +131,12 @@ const servicesDeclarations = [
       }
     },
   },
+  {
+    name: 'system-collection-mux',
+    url: `${window._env_.REACT_APP_API_URL}/mux/:id`,
+    actionsDeclarations: crudActionsDeclarations,
+    onReceivesData: updateAllCollectionsOnRecordModify,
+  },
 ]
 
 const restServicesDeclarationsWithErrorHandlers = addErrorHandler(servicesDeclarations)

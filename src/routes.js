@@ -79,6 +79,13 @@ export const makeRoutes = (collectionsData, systemCollectionsData, userPrivilege
     ) ?
       [
         {
+          name: t('MUX'),
+          path: ['/mux'],
+          pathWithParams: '/mux',
+          component: React.lazy(() => import('./pages/mux')),
+          icon: 'fas fa-video',
+        },
+        {
           name: t('Files'),
           path: ['/files/:bucketName?'],
           pathWithParams: '/files',

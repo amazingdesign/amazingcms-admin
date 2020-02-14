@@ -92,7 +92,7 @@ function Dropzone({ acceptDesc, dropzoneProps, onSubmit, buttonProps }) {
           {t('Drag and drop some files here, or click to select files')}
         </p>
         {
-          dropzoneProps.accept &&
+          dropzoneProps && dropzoneProps.accept &&
           <em>
             {t('Only files listed here will be accepted')}:
             {
@@ -103,7 +103,7 @@ function Dropzone({ acceptDesc, dropzoneProps, onSubmit, buttonProps }) {
           </em>
         }
         {
-          dropzoneProps.maxSize &&
+          dropzoneProps && dropzoneProps.maxSize &&
           <em>
             {t('Max size of file is')}: {formatBytes(dropzoneProps.maxSize)}
           </em>
