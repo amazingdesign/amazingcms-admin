@@ -49,7 +49,7 @@
     "react-simplemde-editor": "^4.1.0",
     "redux": "^4.0.4",
     "redux-flash": "^2.0.2",
-    "redux-rest-services": "^0.2.0",
+    "redux-rest-services": "^0.2.7",
     "redux-thunk": "^2.3.0",
     "slugify": "^1.3.6",
     "tinycolor2": "^1.4.1"
