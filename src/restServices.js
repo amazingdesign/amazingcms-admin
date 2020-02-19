@@ -137,6 +137,12 @@ const servicesDeclarations = [
     actionsDeclarations: crudActionsDeclarations,
     onReceivesData: updateAllCollectionsOnRecordModify,
   },
+  {
+    name: 'system-collection-coupons',
+    url: `${window._env_.REACT_APP_API_URL}/coupons/:id`,
+    actionsDeclarations: crudActionsDeclarations,
+    onReceivesData: updateAllCollectionsOnRecordModify,
+  },
 ]
 
 const restServicesDeclarationsWithErrorHandlers = addErrorHandler(servicesDeclarations)
