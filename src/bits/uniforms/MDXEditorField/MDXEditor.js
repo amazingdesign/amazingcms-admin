@@ -21,9 +21,8 @@ import { saveTmpContent } from './mdxPreview'
 const editorComponents = [ReactMDEEditor, SimpleMDEEditor]
 
 const MDXEditorField = (props) => {
-
   const [tmpPreviewId, setTmpPreviewId] = useState('')
-  const [editorComponentIndex, setEditorComponentIndex] = useState(0)
+  const [editorComponentIndex, setEditorComponentIndex] = useState(Number(props.defaultEditor) || 0)
   const [isFullScreen, setIsFullScreen] = useState(false)
   const [isPreviewVisible, setIsPreviewVisible] = useState(false)
   const [isFetching, setIsFetching] = useState(true)
@@ -125,6 +124,7 @@ const MDXEditorField = (props) => {
 
 MDXEditorField.propTypes = {
   classes: PropTypes.object,
+  defaultEditor: PropTypes.number,
   name: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
 }
