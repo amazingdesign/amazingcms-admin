@@ -29,9 +29,12 @@ import ReactSelectField from './ReactSelectField'
 import MuiReactSelectField from './MuiReactSelectField'
 import MuiPickerField from './MuiPickerField'
 import UUIDField from './UUIDField'
+import MDEditorField from './MDEditorField'
 
 export const mapFieldNameToField = (fieldName) => {
   switch (fieldName) {
+    case 'MDEditorField':
+      return MDEditorField
     case 'UUIDField':
       return UUIDField
     case 'MuiPickerField':
