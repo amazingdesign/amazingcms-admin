@@ -38,7 +38,7 @@ export const makeRoutes = (collectionsData, systemCollectionsData, userPrivilege
     collectionsData
       .filter(filterByPrivileges(userPrivileges))
       .map(collectionData => {
-        const singletonPathAddon = collectionData.singleton ? '/singleton' : '' 
+        const singletonPathAddon = collectionData.singleton ? '/singleton' : ''
 
         return ({
           name: collectionData.displayName || collectionData.name,
@@ -71,37 +71,53 @@ export const makeRoutes = (collectionsData, systemCollectionsData, userPrivilege
     systemCollectionsData &&
     systemCollectionsData.find(collectionData => collectionData.name === 'uploader')
   )
+  const muxCollectionData = (
+    systemCollectionsData &&
+    systemCollectionsData.find(collectionData => collectionData.name === 'mux')
+  )
 
   const exoticCollectionsRoutes = (
+
     (
-      uploaderCollectionData &&
-      filterByPrivileges(userPrivileges)(uploaderCollectionData)
-    ) ?
-      [
-        {
-          name: t('MUX'),
-          path: ['/mux'],
-          pathWithParams: '/mux',
-          component: React.lazy(() => import('./pages/mux')),
-          icon: 'fas fa-video',
-        },
-        {
-          name: t('Files'),
-          path: ['/files/:bucketName?'],
-          pathWithParams: '/files',
-          component: React.lazy(() => import('./pages/files')),
-          icon: 'fas fa-cloud',
-        },
-        {
-          name: t('Photos'),
-          path: ['/photos/:bucketName?'],
-          pathWithParams: '/photos',
-          component: React.lazy(() => import('./pages/photos')),
-          icon: 'fas fa-image',
-        },
-      ]
-      :
-      []
+      (
+        uploaderCollectionData &&
+        filterByPrivileges(userPrivileges)(muxCollectionData)
+      ) ?
+        [
+          {
+            name: t('MUX'),
+            path: ['/mux'],
+            pathWithParams: '/mux',
+            component: React.lazy(() => import('./pages/mux')),
+            icon: 'fas fa-video',
+          },
+        ]
+        :
+        []
+    ).concat(
+      (
+        uploaderCollectionData &&
+        filterByPrivileges(userPrivileges)(uploaderCollectionData)
+      ) ?
+        [
+          {
+            name: t('Files'),
+            path: ['/files/:bucketName?'],
+            pathWithParams: '/files',
+            component: React.lazy(() => import('./pages/files')),
+            icon: 'fas fa-cloud',
+          },
+          {
+            name: t('Photos'),
+            path: ['/photos/:bucketName?'],
+            pathWithParams: '/photos',
+            component: React.lazy(() => import('./pages/photos')),
+            icon: 'fas fa-image',
+          },
+        ]
+        :
+        []
+    )
   )
 
   const exoticRoutesWithSeparatorAtEnd = addSeparatorAtLastRoute(exoticCollectionsRoutes)
